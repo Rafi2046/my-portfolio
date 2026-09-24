@@ -79,8 +79,14 @@ export function Hero() {
             View Projects
           </a>
           <a
-            href="#contact"
+            href={site.resumeHref}
             className="focus-ring inline-flex items-center justify-center rounded-lg border border-glass-border bg-glass px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-xl transition hover:border-accent/50 hover:text-accent-soft"
+          >
+            Download Resume
+          </a>
+          <a
+            href="#contact"
+            className="focus-ring inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-foreground-muted transition hover:text-accent-soft"
           >
             Contact
           </a>

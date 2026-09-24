@@ -3,6 +3,9 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/content";
 
 export function Projects() {
+  const featured = projects.filter((p) => p.kind === "featured");
+  const labs = projects.filter((p) => p.kind === "lab");
+
   return (
     <MotionSection
       id="projects"
@@ -16,22 +19,32 @@ export function Projects() {
         id="projects-heading"
         className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
       >
-        Technical case studies
+        Featured apps
       </h2>
       <p className="mt-4 max-w-xl text-foreground-muted">
-        Placeholder explorations spanning Flutter architecture, compiler
-        design, and mobile systems — swap these for production case studies
-        anytime via{" "}
-        <code className="rounded bg-white/5 px-1.5 py-0.5 text-accent-soft">
-          lib/content.ts
-        </code>
-        .
+        Production Flutter work on the stores — expand any card for challenge,
+        architecture, and outcome.
       </p>
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2">
-        {projects.map((project) => (
+      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
+      </div>
+
+      <div className="mt-20">
+        <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+          Architecture labs
+        </h3>
+        <p className="mt-3 max-w-xl text-sm text-foreground-muted">
+          Exploratory case studies for clean architecture and compiler design —
+          not store listings, but the engineering depth behind shipping well.
+        </p>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          {labs.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
       </div>
     </MotionSection>
   );

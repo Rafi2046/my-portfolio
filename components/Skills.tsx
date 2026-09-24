@@ -1,5 +1,5 @@
 import { MotionSection } from "@/components/MotionSection";
-import { skills } from "@/lib/content";
+import { skillGroups } from "@/lib/content";
 
 export function Skills() {
   return (
@@ -15,28 +15,35 @@ export function Skills() {
         id="skills-heading"
         className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
       >
-        Flutter craft &amp; core CS
+        How I build
       </h2>
       <p className="mt-4 max-w-xl text-foreground-muted">
-        Strong foundations in mobile frameworks, system architecture, and
-        compiler design — with the tooling that keeps releases reliable.
+        An architecture map — mobile delivery, systems thinking, and CS
+        foundations — not percentage bars.
       </p>
 
-      <ul className="mt-10 flex flex-wrap gap-3">
-        {skills.map((skill) => (
-          <li key={skill.name}>
-            <span
-              className={
-                skill.emphasis
-                  ? "inline-flex rounded-lg border border-accent/40 bg-accent-dim px-4 py-2 text-sm font-medium text-accent-soft"
-                  : "inline-flex rounded-lg border border-glass-border bg-glass px-4 py-2 text-sm text-foreground-muted backdrop-blur-xl"
-              }
-            >
-              {skill.name}
-            </span>
-          </li>
+      <div className="mt-12 grid gap-6 md:grid-cols-3">
+        {skillGroups.map((group) => (
+          <div key={group.id} className="glass rounded-2xl p-6">
+            <h3 className="font-display text-xl font-semibold text-foreground">
+              {group.title}
+            </h3>
+            <p className="mt-2 text-sm text-foreground-muted">
+              {group.description}
+            </p>
+            <ul className="mt-5 space-y-2">
+              {group.items.map((item) => (
+                <li
+                  key={item}
+                  className="border-l-2 border-accent/40 pl-3 text-sm text-foreground-muted"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+      </div>
     </MotionSection>
   );
 }

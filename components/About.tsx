@@ -17,6 +17,9 @@ export function About() {
       >
         Shipping Flutter products with CS depth
       </h2>
+      <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground-muted sm:text-lg">
+        {site.journey}
+      </p>
       <div className="mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-foreground-muted sm:text-lg">
         {site.about.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
