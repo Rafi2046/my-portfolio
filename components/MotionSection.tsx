@@ -23,10 +23,15 @@ export function MotionSection({
       id={id}
       aria-labelledby={ariaLabelledBy}
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 36 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      // Always reveal on view: the server renders the initial (hidden) state,
+      // so skipping whileInView would leave the section invisible. Reduced
+      // motion keeps the fade but drops the slide.
+      initial={{ opacity: 0, y: reduceMotion ? 0 : 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      // "some" + a margin, not a ratio: tall sections (Projects on phones)
+      // can never be 20% on screen at once.
+      viewport={{ once: true, amount: "some", margin: "0px 0px -80px 0px" }}
+      transition={{ duration: reduceMotion ? 0.2 : 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.section>
