@@ -18,35 +18,10 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Work" },
-  { href: "#experience", label: "Experience" },
-  { href: "#skills", label: "Stack" },
-  { href: "#contact", label: "Contact" },
-] as const;
-
-/** Figures from the April – October 2026 work report (own commits only). */
-export const proofPoints = [
-  {
-    value: "436",
-    label: "Commits in six months",
-    detail: "8 Apr – 8 Oct 2026, across four production apps",
-  },
-  {
-    value: "4",
-    label: "Apps live on the stores",
-    detail: "RUSHD, Al Quran Majeed, Budget Mint, FuelSync",
-  },
-  {
-    value: "10+",
-    label: "Feature modules added to RUSHD",
-    detail: "AI assistant, Word Battle, Hadith library, recitation check",
-  },
-  {
-    value: "EN · বাংলা",
-    label: "Fully localized",
-    detail: "Every app ships in English and Bangla",
-  },
+  { href: "/#about", label: "About" },
+  { href: "/#projects", label: "Work" },
+  { href: "/#skills", label: "Stack" },
+  { href: "/#experience", label: "Experience" },
 ] as const;
 
 export const stackMarquee = [
@@ -116,12 +91,6 @@ export const skillGroups = [
   },
 ] as const;
 
-export type ProjectMedia =
-  | { kind: "banner"; src: string; width: number; height: number }
-  | { kind: "phone"; src: string; width: number; height: number }
-  | { kind: "icon" }
-  | { kind: "collage"; srcs: string[] };
-
 export type Project = {
   id: string;
   title: string;
@@ -133,14 +102,22 @@ export type Project = {
   /** Short line about my part, shown on the card. */
   role: string;
   status: "live" | "building" | "prototype";
-  /** Spans both grid columns with media beside the copy. */
-  wide?: boolean;
-  /** Brand tint for the media panel, any CSS color. */
+  /** Brand tint used behind the case-study header, any CSS color. */
   tint: string;
   icon: string;
-  media: ProjectMedia;
+  /** Uniform 4:3 artwork (1600×1200) shown on the card and case study. */
+  cover: string;
+  /** Portrait app screenshots for the case-study gallery. */
+  gallery?: { src: string; width: number; height: number; alt: string }[];
+  platforms: string;
   android?: string;
   ios?: string;
+};
+
+export const statusCopy: Record<Project["status"], string> = {
+  live: "Live",
+  building: "In development",
+  prototype: "Prototype",
 };
 
 export const projects: Project[] = [
@@ -160,15 +137,14 @@ export const projects: Project[] = [
     ownership: "team",
     role: "Team project · 232 commits, 10+ modules",
     status: "live",
-    wide: true,
     tint: "#1f4d3c",
     icon: "/projects/rushd-icon.png",
-    media: {
-      kind: "phone",
-      src: "/projects/rushd-screen.jpg",
-      width: 600,
-      height: 1250,
-    },
+    cover: "/projects/cover-rushd.jpg",
+    gallery: [
+      { src: "/projects/rushd-screen.jpg", width: 600, height: 1250, alt: "RUSHD home with prayer times and Ask Noor" },
+      { src: "/projects/rushd-screen-quran.jpg", width: 609, height: 1250, alt: "RUSHD Quran reader with Bangla translation" },
+    ],
+    platforms: "Android · iOS · Tablet",
     android:
       "https://play.google.com/store/apps/details?id=com.onesttech.rushd&hl=en",
     ios: "https://apps.apple.com/us/app/rushd-quran-tafsir-guidance/id6758621105",
@@ -190,12 +166,8 @@ export const projects: Project[] = [
     status: "live",
     tint: "#0f3b2e",
     icon: "/projects/budget-mint-icon.png",
-    media: {
-      kind: "banner",
-      src: "/projects/budget-mint-1.png",
-      width: 1024,
-      height: 500,
-    },
+    cover: "/projects/cover-budget-mint.jpg",
+    platforms: "Android · iOS",
     android:
       "https://play.google.com/store/apps/details?id=com.onesttech.budgetmint",
     ios: "https://apps.apple.com/us/app/budget-mint-expense-tour-meal/id6797770841",
@@ -217,12 +189,13 @@ export const projects: Project[] = [
     status: "live",
     tint: "#3a1a0c",
     icon: "/projects/fuelsync-icon.png",
-    media: {
-      kind: "banner",
-      src: "/projects/fuelsync-feature.jpg",
-      width: 1024,
-      height: 499,
-    },
+    cover: "/projects/cover-fuelsync.jpg",
+    gallery: [
+      { src: "/projects/fuelsync-home-dark.jpg", width: 460, height: 1024, alt: "FuelSync efficiency dashboard" },
+      { src: "/projects/fuelsync-fuel-stats-dark.jpg", width: 460, height: 1024, alt: "FuelSync fuel statistics" },
+      { src: "/projects/fuelsync-trip-map.jpg", width: 460, height: 1024, alt: "FuelSync trip map" },
+    ],
+    platforms: "Android",
     android:
       "https://play.google.com/store/apps/details?id=com.onesttech.fuelsync",
   },
@@ -241,15 +214,10 @@ export const projects: Project[] = [
     ownership: "team",
     role: "Team project · 121 commits in six weeks",
     status: "live",
-    wide: true,
     tint: "#0d1b33",
     icon: "/projects/quran-icon.png",
-    media: {
-      kind: "banner",
-      src: "/projects/quran-feature.jpg",
-      width: 1024,
-      height: 500,
-    },
+    cover: "/projects/cover-quran-audio.jpg",
+    platforms: "Android · iOS",
     android:
       "https://play.google.com/store/apps/details?id=com.quranaudio.app&hl=en",
     ios: "https://apps.apple.com/us/app/quran-audio-mp3-tilawat/id6806233147",
@@ -271,12 +239,11 @@ export const projects: Project[] = [
     status: "building",
     tint: "#1d3a35",
     icon: "/projects/dosey-icon.png",
-    media: {
-      kind: "phone",
-      src: "/projects/dosey-screen.jpg",
-      width: 495,
-      height: 1100,
-    },
+    cover: "/projects/cover-dosey.jpg",
+    gallery: [
+      { src: "/projects/dosey-screen.jpg", width: 495, height: 1100, alt: "Dosey medicine reminders for today" },
+    ],
+    platforms: "Android · iOS",
   },
   {
     id: "docyra",
@@ -295,7 +262,8 @@ export const projects: Project[] = [
     status: "building",
     tint: "#0c1e3d",
     icon: "/projects/docyra-icon.png",
-    media: { kind: "icon" },
+    cover: "/projects/cover-docyra.jpg",
+    platforms: "Android · iOS",
   },
   {
     id: "ayurvision",
@@ -312,17 +280,10 @@ export const projects: Project[] = [
     ownership: "personal",
     role: "ML project",
     status: "prototype",
-    wide: true,
     tint: "#14361f",
     icon: "/projects/ayurvision-icon.png",
-    media: {
-      kind: "collage",
-      srcs: [
-        "/projects/herb-hibiscus.jpg",
-        "/projects/herb-arjun.jpg",
-        "/projects/herb-curry-leaf.jpg",
-      ],
-    },
+    cover: "/projects/cover-ayurvision.jpg",
+    platforms: "Android",
   },
 ];
 
@@ -380,4 +341,33 @@ export const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ishmakrafi/" },
   { label: "Instagram", href: "https://instagram.com/ishmak_rafi" },
   { label: "Facebook", href: "https://facebook.com/ishmakrafi" },
+] as const;
+
+/** How I work, shown as the Plan → Build → Ship sequence. */
+export const process = [
+  {
+    word: "Plan",
+    text: "I start from the people using the app: the flows they repeat every day, the data that must survive offline, and the languages they read in. Then I set the architecture before writing screens.",
+    image: "/projects/fuelsync-home-dark.jpg",
+  },
+  {
+    word: "Build",
+    text: "Feature by feature in Flutter, with Riverpod state, Drift or Firebase storage and tests next to the code. Every screen is checked on real phones and tablets, in English and Bangla.",
+    image: "/projects/rushd-screen.jpg",
+  },
+  {
+    word: "Ship",
+    text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four of my apps are live on Google Play and the App Store.",
+    image: "/projects/dosey-screen.jpg",
+  },
+] as const;
+
+/** Rows for the experience panel, newest first. */
+export const experienceRows = [
+  { org: "Onesttech Software Solutions", role: "Flutter Developer", period: "Present" },
+  { org: "ESDANA", role: "Alumni-network app · built from scratch", period: "Sep – Oct 2026" },
+  { org: "Al Quran Majeed", role: "Quran audio streaming · 121 commits", period: "Aug – Sep 2026" },
+  { org: "Website Monitor", role: "Uptime & domain monitoring · built from scratch", period: "Jun – Sep 2026" },
+  { org: "RUSHD", role: "Islamic lifestyle app · 232 commits, v3.6.0", period: "Apr – Sep 2026" },
+  { org: "Daffodil International University", role: "BSc in Computer Science & Engineering", period: "2022 – 2026" },
 ] as const;
