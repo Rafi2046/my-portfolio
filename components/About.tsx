@@ -1,33 +1,63 @@
-import { MotionSection } from "@/components/MotionSection";
+import { Panel, Reveal } from "@/components/Section";
 import { site } from "@/lib/content";
+
+const stats = [
+  { value: "436", label: "Commits, Apr – Oct 2026" },
+  { value: "78", label: "Days shipping code" },
+  { value: "4", label: "Apps live on the stores" },
+  { value: "EN·BN", label: "Every app localized" },
+];
 
 export function About() {
   return (
-    <MotionSection
-      id="about"
-      ariaLabelledBy="about-heading"
-      className="mx-auto grid max-w-6xl gap-10 px-5 py-28 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"
-    >
-      <div>
-        <p className="eyebrow mb-4">About</p>
-        <h2
-          id="about-heading"
-          className="text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-5xl"
-        >
-          Shipping Flutter products,{" "}
-          <span className="font-serif font-normal italic tracking-normal text-accent">
-            end to end.
-          </span>
+    <Panel id="about" tone="inverse" labelledBy="about-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
+      <div className="flex items-start justify-between">
+        <h2 id="about-heading" className="display text-[26vw] sm:text-[20vw] lg:text-[14rem]">
+          <Reveal>
+            <span className="inline-block -skew-x-12 text-on-inverse-muted">/</span>
+            About
+          </Reveal>
         </h2>
-        <p className="mt-6 max-w-md leading-relaxed text-foreground-muted">
-          {site.journey}
-        </p>
+        <p className="eyebrow pt-3 text-on-inverse-muted">01/05</p>
       </div>
-      <div className="space-y-5 text-lg leading-relaxed text-foreground/80">
-        {site.about.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+
+      <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+        <svg
+          viewBox="0 0 100 100"
+          aria-hidden
+          className="hidden h-40 w-40 text-on-inverse-muted lg:block"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="12"
+          strokeLinecap="square"
+        >
+          <path d="M14 86 84 16M30 16h54v54" />
+        </svg>
+        <div>
+          <p className="text-xl leading-relaxed sm:text-2xl">
+            &ldquo;{site.about[0]} {site.about[1]}&rdquo;
+          </p>
+          <p className="mt-6 max-w-2xl leading-relaxed text-on-inverse-muted">
+            {site.about[2]}
+          </p>
+          <p className="eyebrow mt-8">
+            Currently working with Onesttech Software Solutions as a Flutter developer
+          </p>
+        </div>
+      </div>
+
+      <dl className="mt-14 grid grid-cols-2 border-t border-inverse-line lg:grid-cols-4">
+        {stats.map((s, i) => (
+          <div
+            key={s.label}
+            className={`border-inverse-line py-6 ${i % 2 === 0 ? "pr-4" : "border-l pl-4"} lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0`}
+          >
+            <dt className="sr-only">{s.label}</dt>
+            <dd className="display text-5xl sm:text-6xl">{s.value}</dd>
+            <dd className="mt-2 text-sm text-on-inverse-muted">{s.label}</dd>
+          </div>
         ))}
-      </div>
-    </MotionSection>
+      </dl>
+    </Panel>
   );
 }

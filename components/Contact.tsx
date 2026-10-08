@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { MotionSection } from "@/components/MotionSection";
-import { submitContact } from "@/lib/contact";
+import { ArrowUpRight, Panel } from "@/components/Section";
 import { site } from "@/lib/content";
 
 type FieldErrors = {
@@ -11,20 +10,12 @@ type FieldErrors = {
   message?: string;
 };
 
-type Status = "idle" | "submitting" | "success" | "error";
-
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function fieldClass(hasError: boolean, isSuccess: boolean) {
+function fieldClass(hasError: boolean) {
   const base =
-    "w-full rounded-lg border bg-background/50 px-4 py-3 text-foreground outline-none transition placeholder:text-foreground-muted/60 focus-visible:ring-2 focus-visible:ring-accent";
-  if (hasError) {
-    return `${base} border-red-400/70 shadow-[0_0_0_1px_rgba(248,113,113,0.4),0_0_20px_var(--error-glow)]`;
-  }
-  if (isSuccess) {
-    return `${base} border-accent shadow-[0_0_0_1px_rgba(197,240,74,0.45),0_0_22px_var(--success-glow)]`;
-  }
-  return `${base} border-glass-border focus:border-accent/50`;
+    "w-full rounded-2xl border bg-panel px-4 py-3.5 text-ink outline-none transition placeholder:text-muted focus-visible:border-ink";
+  return hasError ? `${base} border-error` : `${base} border-line-strong`;
 }
 
 export function Contact() {
@@ -32,7 +23,7 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [status, setStatus] = useState<Status>("idle");
+  const [opened, setOpened] = useState(false);
 
   function validate(): FieldErrors {
     const next: FieldErrors = {};
@@ -44,166 +35,123 @@ export function Contact() {
     return next;
   }
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  // No backend yet: hand the message to the visitor's email app, addressed to me.
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      setStatus("idle");
-      return;
-    }
+    if (Object.keys(nextErrors).length > 0) return;
 
-    setStatus("submitting");
-    try {
-      await submitContact({
-        name: name.trim(),
-        email: email.trim(),
-        message: message.trim(),
-      });
-      setStatus("success");
-      setName("");
-      setEmail("");
-      setMessage("");
-    } catch {
-      setStatus("error");
-    }
+    const subject = `Project enquiry from ${name.trim()}`;
+    const body = `${message.trim()}\n\n— ${name.trim()} (${email.trim()})`;
+    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setOpened(true);
   }
 
-  const showSuccessGlow = status === "success";
-
   return (
-    <MotionSection
-      id="contact"
-      ariaLabelledBy="contact-heading"
-      className="mx-auto max-w-6xl px-5 py-24 sm:px-8"
-    >
-      <p className="eyebrow mb-4">
-        Contact
-      </p>
-      <h2
-        id="contact-heading"
-        className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
-      >
-        Let&apos;s build{" "}
-        <span className="font-serif font-normal italic tracking-normal text-accent">
-          something
-        </span>
-      </h2>
-      <p className="mt-4 max-w-xl text-foreground-muted">
-        Tell me about a Flutter project, architecture challenge, or
-        collaboration idea. Prefer email?{" "}
-        <a
-          href={`mailto:${site.email}`}
-          className="focus-ring text-accent-soft underline-offset-4 hover:underline"
-        >
-          {site.email}
-        </a>
-      </p>
+    <Panel id="contact" tone="light" labelledBy="contact-heading" className="mt-3 px-5 py-16 sm:px-10 sm:py-24">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1.5 text-xs font-medium">
+          <span className="h-2 w-2 rounded-full bg-live" aria-hidden />
+          Available for new projects
+        </p>
+        <h2 id="contact-heading" className="mt-6 text-4xl font-semibold uppercase tracking-tight sm:text-6xl">
+          Have a project in mind?
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">
+          A Flutter app to build, an existing one to rescue, or a role to fill.
+          Tell me about it and I&apos;ll reply within a day. Or email{" "}
+          <a href={`mailto:${site.email}`} className="focus-ring break-all text-ink underline underline-offset-4">
+            {site.email}
+          </a>
+          .
+        </p>
+      </div>
 
-      <form
-        onSubmit={onSubmit}
-        noValidate
-        className="glass mt-10 max-w-xl space-y-5 rounded-3xl p-6 sm:p-8"
-      >
-        <div>
-          <label
-            htmlFor="contact-name"
-            className="mb-2 block text-sm font-medium text-foreground"
-          >
-            Name
-          </label>
-          <input
-            id="contact-name"
-            name="name"
-            autoComplete="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "contact-name-error" : undefined}
-            className={fieldClass(Boolean(errors.name), showSuccessGlow)}
-            placeholder="Your name"
-          />
-          {errors.name ? (
-            <p id="contact-name-error" className="mt-2 text-sm text-red-300">
-              {errors.name}
-            </p>
-          ) : null}
+      <form onSubmit={onSubmit} noValidate className="mx-auto mt-12 max-w-3xl space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="contact-name" className="mb-2 block text-sm font-medium">
+              Name
+            </label>
+            <input
+              id="contact-name"
+              name="name"
+              autoComplete="name"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "contact-name-error" : undefined}
+              className={fieldClass(Boolean(errors.name))}
+            />
+            {errors.name ? (
+              <p id="contact-name-error" className="mt-2 text-sm text-error">
+                {errors.name}
+              </p>
+            ) : null}
+          </div>
+          <div>
+            <label htmlFor="contact-email" className="mb-2 block text-sm font-medium">
+              Email
+            </label>
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "contact-email-error" : undefined}
+              className={fieldClass(Boolean(errors.email))}
+            />
+            {errors.email ? (
+              <p id="contact-email-error" className="mt-2 text-sm text-error">
+                {errors.email}
+              </p>
+            ) : null}
+          </div>
         </div>
 
         <div>
-          <label
-            htmlFor="contact-email"
-            className="mb-2 block text-sm font-medium text-foreground"
-          >
-            Email
-          </label>
-          <input
-            id="contact-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "contact-email-error" : undefined}
-            className={fieldClass(Boolean(errors.email), showSuccessGlow)}
-            placeholder="you@example.com"
-          />
-          {errors.email ? (
-            <p id="contact-email-error" className="mt-2 text-sm text-red-300">
-              {errors.email}
-            </p>
-          ) : null}
-        </div>
-
-        <div>
-          <label
-            htmlFor="contact-message"
-            className="mb-2 block text-sm font-medium text-foreground"
-          >
+          <label htmlFor="contact-message" className="mb-2 block text-sm font-medium">
             Message
           </label>
           <textarea
             id="contact-message"
             name="message"
             rows={5}
+            placeholder="What are you building?"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-invalid={Boolean(errors.message)}
-            aria-describedby={
-              errors.message ? "contact-message-error" : undefined
-            }
-            className={`${fieldClass(Boolean(errors.message), showSuccessGlow)} resize-y`}
-            placeholder="What are you building?"
+            aria-describedby={errors.message ? "contact-message-error" : undefined}
+            className={`${fieldClass(Boolean(errors.message))} resize-y`}
           />
           {errors.message ? (
-            <p id="contact-message-error" className="mt-2 text-sm text-red-300">
+            <p id="contact-message-error" className="mt-2 text-sm text-error">
               {errors.message}
             </p>
           ) : null}
         </div>
 
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          className="focus-ring inline-flex w-full items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-background transition hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-        >
-          {status === "submitting" ? "Sending…" : "Send message"}
-        </button>
-
-        {status === "success" ? (
-          <p className="text-sm text-accent-soft" role="status">
-            Message queued locally — wire{" "}
-            <code className="rounded bg-white/5 px-1">submitContact</code> to
-            your API when ready.
-          </p>
-        ) : null}
-        {status === "error" ? (
-          <p className="text-sm text-red-300" role="alert">
-            Something went wrong. Please try again.
-          </p>
-        ) : null}
+        <div className="flex flex-col items-center gap-4 pt-2">
+          <button
+            type="submit"
+            className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 text-sm font-semibold text-panel transition hover:opacity-85"
+          >
+            Contact me <ArrowUpRight className="h-4 w-4" />
+          </button>
+          {opened ? (
+            <p className="text-center text-sm text-muted" role="status">
+              Your email app should open with the message ready to send. If it
+              didn&apos;t, email me at {site.email}.
+            </p>
+          ) : null}
+        </div>
       </form>
-    </MotionSection>
+    </Panel>
   );
 }
