@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Anton, Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { site } from "@/lib/content";
 import "./globals.css";
 
 const geist = Geist({
@@ -13,11 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
+const anton = Anton({
+  variable: "--font-anton",
   subsets: ["latin"],
   weight: "400",
-  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -26,13 +26,29 @@ export const metadata: Metadata = {
     "Portfolio of Ishmak Rahat Rafi, Flutter developer at Onesttech Software Solutions. RUSHD, Al Quran Majeed, Budget Mint, FuelSync, Dosey and more.",
 };
 
+/** Applies a saved theme choice before paint so there's no flash. */
+const themeScript = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geist.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="flex min-h-full flex-col bg-canvas text-ink">
+        {/* Intro curtain; slides away on its own via CSS. */}
+        <div
+          aria-hidden
+          className="intro-curtain pointer-events-none fixed inset-0 z-[100] flex items-center justify-center bg-[#0b0b0c]"
+        >
+          <p className="intro-curtain-text text-lg font-medium text-[#f2f2f0]">
+            Design &amp; code by {site.navBrand}
+          </p>
+        </div>
         <Navbar />
         {children}
       </body>
