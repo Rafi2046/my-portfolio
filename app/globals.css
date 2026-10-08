@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
-  --background-elevated: #0a1628;
-  --foreground: #e8f1ff;
-  --foreground-muted: #94a3b8;
-  --accent: #22d3ee;
-  --accent-soft: #67e8f9;
-  --accent-dim: rgba(34, 211, 238, 0.15);
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --error-glow: rgba(248, 113, 113, 0.55);
-  --success-glow: rgba(34, 211, 238, 0.65);
+  color-scheme: dark;
+  --background: #07080b;
+  --background-elevated: #0f1116;
+  --foreground: #ededf1;
+  --foreground-muted: #8d92a1;
+  --accent: #c5f04a;
+  --accent-soft: #dcfa8c;
+  --accent-dim: rgba(197, 240, 74, 0.12);
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --error-glow: rgba(248, 113, 113, 0.45);
+  --success-glow: rgba(197, 240, 74, 0.45);
 }
 
 @theme inline {
@@ -24,8 +25,10 @@
   --color-accent-dim: var(--accent-dim);
   --color-glass: var(--glass);
   --color-glass-border: var(--glass-border);
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-syne);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-geist);
+  --font-serif: var(--font-instrument-serif);
 }
 
 html {
@@ -41,12 +44,24 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
   min-height: 100%;
+  overflow-x: hidden;
+}
+
+/* Faint film grain over everything — keeps big dark areas from looking flat. */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
   color: var(--foreground);
 }
 
@@ -57,19 +72,51 @@ body {
   -webkit-backdrop-filter: blur(20px);
 }
 
-.neon-border {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent),
-    0 0 24px color-mix(in srgb, var(--accent) 25%, transparent),
-    0 12px 40px rgba(0, 0, 0, 0.35);
+.grid-backdrop {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
 }
 
 .glow-orb {
   pointer-events: none;
   position: absolute;
   border-radius: 9999px;
-  filter: blur(80px);
-  opacity: 0.45;
+  filter: blur(90px);
+  opacity: 0.35;
+}
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--foreground-muted);
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
 
 .focus-ring:focus-visible {
