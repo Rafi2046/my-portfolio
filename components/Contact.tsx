@@ -22,7 +22,7 @@ function fieldClass(hasError: boolean, isSuccess: boolean) {
     return `${base} border-red-400/70 shadow-[0_0_0_1px_rgba(248,113,113,0.4),0_0_20px_var(--error-glow)]`;
   }
   if (isSuccess) {
-    return `${base} border-accent shadow-[0_0_0_1px_rgba(34,211,238,0.45),0_0_22px_var(--success-glow)]`;
+    return `${base} border-accent shadow-[0_0_0_1px_rgba(197,240,74,0.45),0_0_22px_var(--success-glow)]`;
   }
   return `${base} border-glass-border focus:border-accent/50`;
 }
@@ -77,14 +77,17 @@ export function Contact() {
       ariaLabelledBy="contact-heading"
       className="mx-auto max-w-6xl px-5 py-24 sm:px-8"
     >
-      <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
+      <p className="eyebrow mb-4">
         Contact
       </p>
       <h2
         id="contact-heading"
-        className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+        className="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
       >
-        Let&apos;s build something
+        Let&apos;s build{" "}
+        <span className="font-serif font-normal italic tracking-normal text-accent">
+          something
+        </span>
       </h2>
       <p className="mt-4 max-w-xl text-foreground-muted">
         Tell me about a Flutter project, architecture challenge, or
@@ -100,7 +103,7 @@ export function Contact() {
       <form
         onSubmit={onSubmit}
         noValidate
-        className="glass mt-10 max-w-xl space-y-5 rounded-2xl p-6 sm:p-8"
+        className="glass mt-10 max-w-xl space-y-5 rounded-3xl p-6 sm:p-8"
       >
         <div>
           <label
@@ -183,7 +186,7 @@ export function Contact() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="focus-ring inline-flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-background transition hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          className="focus-ring inline-flex w-full items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-background transition hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
           {status === "submitting" ? "Sending…" : "Send message"}
         </button>

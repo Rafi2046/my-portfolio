@@ -5,6 +5,7 @@ import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
 import { ProofStrip } from "@/components/ProofStrip";
 import { Skills } from "@/components/Skills";
+import { StackMarquee } from "@/components/StackMarquee";
 import { Timeline } from "@/components/Timeline";
 
 export default function Home() {
@@ -12,10 +13,11 @@ export default function Home() {
     <>
       <main className="flex-1">
         <Hero />
+        <StackMarquee />
         <ProofStrip />
         <About />
-        <Timeline />
         <Projects />
+        <Timeline />
         <Skills />
         <Contact />
       </main>

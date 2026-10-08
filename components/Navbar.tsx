@@ -24,77 +24,89 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "glass" : "bg-transparent"
-      }`}
-    >
-      <nav
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
-        aria-label="Primary"
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
+      <div
+        className={`mx-auto max-w-5xl rounded-2xl border transition-[background,border-color,box-shadow] duration-300 ${
+          scrolled || open
+            ? "border-white/10 bg-[#0d0f14]/80 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
+            : "border-transparent bg-transparent"
+        }`}
       >
-        <a
-          href="#top"
-          className="focus-ring font-display text-lg font-semibold tracking-tight text-foreground"
+        <nav
+          className="flex h-14 items-center justify-between px-4 sm:px-5"
+          aria-label="Primary"
         >
-          {site.navBrand}
-          <span className="text-accent">.</span>
-        </a>
+          <a
+            href="#top"
+            className="focus-ring flex items-center gap-2 text-lg font-semibold tracking-tight text-foreground"
+          >
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-sm font-bold text-background">
+              R
+            </span>
+            {site.navBrand}
+          </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="focus-ring text-sm text-foreground-muted transition-colors hover:text-accent-soft"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <ul className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="focus-ring rounded-lg px-3 py-2 text-sm text-foreground/70 transition-colors hover:bg-white/5 hover:text-foreground"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        <button
-          type="button"
-          className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-md border border-glass-border text-foreground md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className="sr-only">Menu</span>
-          <span aria-hidden className="flex flex-col gap-1.5">
-            <span
-              className={`block h-0.5 w-5 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
-            />
-            <span
-              className={`block h-0.5 w-5 bg-current transition ${open ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`block h-0.5 w-5 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
-            />
-          </span>
-        </button>
-      </nav>
+          <a
+            href={`mailto:${site.email}`}
+            className="focus-ring hidden items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition hover:bg-accent md:inline-flex"
+          >
+            Let&apos;s talk
+          </a>
 
-      {open ? (
-        <ul
-          id="mobile-nav"
-          className="glass border-t border-glass-border px-5 py-4 md:hidden"
-        >
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="focus-ring block py-3 text-base text-foreground-muted hover:text-accent-soft"
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+          <button
+            type="button"
+            className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-foreground md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span aria-hidden className="flex flex-col gap-1.5">
+              <span
+                className={`block h-0.5 w-5 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
+              />
+              <span
+                className={`block h-0.5 w-5 bg-current transition ${open ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`block h-0.5 w-5 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
+              />
+            </span>
+          </button>
+        </nav>
+
+        {open ? (
+          <ul
+            id="mobile-nav"
+            className="border-t border-white/10 px-4 py-3 md:hidden"
+          >
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="focus-ring block py-3 text-lg font-medium text-foreground/85 hover:text-accent"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </header>
   );
 }

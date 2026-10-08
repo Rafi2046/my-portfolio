@@ -1,164 +1,220 @@
-"use client";
-
-import { useCallback, useId, useRef, useState, type MouseEvent } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import type { Project } from "@/lib/content";
 
 type ProjectCardProps = {
   project: Project;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
-  const reduceMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const panelId = useId();
-  const [transform, setTransform] = useState(
-    "perspective(900px) rotateX(0deg) rotateY(0deg)",
-  );
-  const [glowing, setGlowing] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+const statusCopy: Record<Project["status"], string> = {
+  live: "Live",
+  building: "In development",
+  prototype: "Prototype",
+};
 
-  const handleMove = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      if (reduceMotion || expanded || !ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const midX = rect.width / 2;
-      const midY = rect.height / 2;
-      const rotateY = ((x - midX) / midX) * 10;
-      const rotateX = ((midY - y) / midY) * 10;
-      setTransform(
-        `perspective(900px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`,
+function ProjectMedia({ project }: ProjectCardProps) {
+  const { media } = project;
+
+  switch (media.kind) {
+    case "banner":
+      return (
+        <>
+          {/* Blurred copy fills the panel so any aspect ratio sits cleanly. */}
+          <Image
+            src={media.src}
+            alt=""
+            fill
+            aria-hidden
+            className="scale-125 object-cover opacity-40 blur-2xl"
+            sizes="10vw"
+          />
+          <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-8">
+            <Image
+              src={media.src}
+              alt={`${project.title} store artwork`}
+              width={media.width}
+              height={media.height}
+              className="h-auto max-h-full w-auto max-w-full rounded-xl shadow-[0_24px_60px_rgba(0,0,0,0.55)] ring-1 ring-white/10 transition duration-500 group-hover:scale-[1.02]"
+              sizes="(max-width: 1024px) 90vw, 560px"
+            />
+          </div>
+        </>
       );
-    },
-    [reduceMotion, expanded],
-  );
+    case "phone":
+      return (
+        <div className="absolute inset-x-0 bottom-0 top-8 flex justify-center">
+          <div className="relative h-[115%] overflow-hidden rounded-[2rem] border-[6px] border-[#1b1e25] bg-black shadow-[0_30px_80px_rgba(0,0,0,0.6)] transition duration-500 group-hover:-translate-y-2">
+            <Image
+              src={media.src}
+              alt={`${project.title} app screen`}
+              width={media.width}
+              height={media.height}
+              className="h-full w-auto"
+              sizes="300px"
+            />
+          </div>
+        </div>
+      );
+    case "icon":
+      return (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="absolute h-48 w-48 rounded-full bg-sky-400/20 blur-3xl"
+            aria-hidden
+          />
+          <div className="relative">
+            <span className="absolute -inset-6 rounded-[2.25rem] border border-dashed border-white/15" aria-hidden />
+            <Image
+              src={project.icon}
+              alt={`${project.title} app icon`}
+              width={160}
+              height={160}
+              className="relative h-32 w-32 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition duration-500 group-hover:scale-105 sm:h-36 sm:w-36"
+            />
+          </div>
+        </div>
+      );
+    case "collage":
+      return (
+        <div className="absolute inset-0 flex items-center justify-center gap-3 px-6">
+          {media.srcs.map((src, i) => (
+            <div
+              key={src}
+              className={`relative aspect-[3/4] w-1/3 max-w-40 overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition duration-500 ${
+                i === 1
+                  ? "-translate-y-3 group-hover:-translate-y-5"
+                  : i === 0
+                    ? "-rotate-6 group-hover:-rotate-8"
+                    : "rotate-6 group-hover:rotate-8"
+              }`}
+            >
+              <Image
+                src={src}
+                alt={i === 1 ? `Herbs recognised by ${project.title}` : ""}
+                fill
+                className="object-cover"
+                sizes="160px"
+              />
+            </div>
+          ))}
+        </div>
+      );
+  }
+}
 
-  const reset = useCallback(() => {
-    setTransform("perspective(900px) rotateX(0deg) rotateY(0deg)");
-    setGlowing(false);
-  }, []);
+export function ProjectCard({ project }: ProjectCardProps) {
+  const wide = Boolean(project.wide);
 
   return (
-    <div
-      ref={ref}
-      role="article"
-      onMouseMove={handleMove}
-      onMouseEnter={() => setGlowing(true)}
-      onMouseLeave={reset}
-      style={{
-        transform: expanded
-          ? "perspective(900px) rotateX(0deg) rotateY(0deg)"
-          : transform,
-        transition: "transform 120ms ease-out",
-      }}
-      className={`glass group relative flex h-full flex-col rounded-2xl p-6 will-change-transform ${
-        glowing || expanded ? "neon-border border-accent/40" : ""
+    <article
+      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-background-elevated transition-colors duration-300 hover:border-white/[0.16] ${
+        wide ? "lg:grid lg:grid-cols-2" : ""
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-          {project.tagline}
+      <div
+        className={`relative overflow-hidden ${
+          wide ? "aspect-[16/10] lg:order-2 lg:aspect-auto lg:min-h-[26rem]" : "aspect-[16/10]"
+        }`}
+        style={{
+          background: `radial-gradient(ellipse at 50% 0%, color-mix(in srgb, ${project.tint} 90%, white 10%), ${project.tint} 45%, #0b0d11 100%)`,
+        }}
+      >
+        <ProjectMedia project={project} />
+      </div>
+
+      <div className={`flex flex-1 flex-col p-6 sm:p-8 ${wide ? "lg:justify-center" : ""}`}>
+        <div className="flex items-center gap-3">
+          <Image
+            src={project.icon}
+            alt=""
+            width={44}
+            height={44}
+            className="h-11 w-11 rounded-xl ring-1 ring-white/10"
+          />
+          <div className="min-w-0">
+            <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+              {project.title}
+            </h3>
+            <p className="truncate text-sm text-foreground-muted">
+              {project.tagline}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider ${
+              project.status === "live"
+                ? "bg-accent/15 text-accent"
+                : "bg-white/[0.06] text-foreground-muted"
+            }`}
+          >
+            <span
+              aria-hidden
+              className={`h-1.5 w-1.5 rounded-full ${
+                project.status === "live" ? "bg-accent" : "bg-foreground-muted"
+              }`}
+            />
+            {statusCopy[project.status]}
+          </span>
+          <span className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-foreground-muted">
+            {project.role}
+          </span>
+        </div>
+
+        <p className="mt-5 leading-relaxed text-foreground/80">
+          {project.description}
         </p>
-        {project.kind === "lab" ? (
-          <span className="shrink-0 rounded-md border border-glass-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-foreground-muted">
-            Lab
-          </span>
-        ) : (
-          <span className="shrink-0 rounded-md border border-accent/30 bg-accent-dim px-2 py-0.5 text-[10px] uppercase tracking-wider text-accent-soft">
-            Live
-          </span>
-        )}
+
+        <ul className="mt-5 space-y-2.5">
+          {project.highlights.map((h) => (
+            <li
+              key={h}
+              className="flex gap-3 text-sm leading-relaxed text-foreground-muted"
+            >
+              <span
+                aria-hidden
+                className="mt-[0.55rem] h-1 w-1 shrink-0 rounded-full bg-accent"
+              />
+              {h}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-7">
+          <ul className="flex flex-wrap gap-1.5">
+            {project.tags.map((tag) => (
+              <li
+                key={tag}
+                className="rounded-md bg-white/[0.04] px-2 py-1 text-xs text-foreground-muted"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+          <div className="flex gap-2">
+            {project.android ? (
+              <a
+                href={project.android}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring rounded-full border border-white/12 px-3.5 py-1.5 text-sm text-foreground transition hover:border-accent hover:text-accent"
+              >
+                Google Play ↗
+              </a>
+            ) : null}
+            {project.ios ? (
+              <a
+                href={project.ios}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring rounded-full border border-white/12 px-3.5 py-1.5 text-sm text-foreground transition hover:border-accent hover:text-accent"
+              >
+                App Store ↗
+              </a>
+            ) : null}
+          </div>
+        </div>
       </div>
-
-      <h3 className="mt-3 font-display text-xl font-semibold text-foreground sm:text-2xl">
-        {project.title}
-      </h3>
-      {project.role ? (
-        <p className="mt-1 text-sm text-accent-soft">{project.role}</p>
-      ) : null}
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground-muted sm:text-base">
-        {project.description}
-      </p>
-
-      <ul className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <li
-            key={tag}
-            className="rounded-md border border-glass-border bg-background/40 px-2.5 py-1 text-xs text-foreground-muted"
-          >
-            {tag}
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-5 flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          className="focus-ring text-sm font-medium text-accent-soft underline-offset-4 hover:underline"
-          aria-expanded={expanded}
-          aria-controls={panelId}
-          onClick={() => setExpanded((v) => !v)}
-        >
-          {expanded ? "Hide case study" : "Case study"}
-        </button>
-        {project.android ? (
-          <a
-            href={project.android}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus-ring text-sm text-foreground-muted underline-offset-4 hover:text-accent-soft hover:underline"
-          >
-            Android
-          </a>
-        ) : null}
-        {project.ios ? (
-          <a
-            href={project.ios}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus-ring text-sm text-foreground-muted underline-offset-4 hover:text-accent-soft hover:underline"
-          >
-            iOS
-          </a>
-        ) : null}
-      </div>
-
-      <AnimatePresence initial={false}>
-        {expanded ? (
-          <motion.div
-            id={panelId}
-            key="case-study"
-            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            <dl className="mt-5 space-y-4 border-t border-glass-border pt-5 text-sm">
-              <div>
-                <dt className="font-medium text-foreground">Challenge</dt>
-                <dd className="mt-1 text-foreground-muted">
-                  {project.caseStudy.challenge}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-foreground">Architecture</dt>
-                <dd className="mt-1 text-foreground-muted">
-                  {project.caseStudy.architecture}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-foreground">Outcome</dt>
-                <dd className="mt-1 text-foreground-muted">
-                  {project.caseStudy.outcome}
-                </dd>
-              </div>
-            </dl>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </div>
+    </article>
   );
 }

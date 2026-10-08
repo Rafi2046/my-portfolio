@@ -6,21 +6,24 @@ export function About() {
     <MotionSection
       id="about"
       ariaLabelledBy="about-heading"
-      className="mx-auto max-w-6xl px-5 py-24 sm:px-8"
+      className="mx-auto grid max-w-6xl gap-10 px-5 py-28 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"
     >
-      <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
-        About
-      </p>
-      <h2
-        id="about-heading"
-        className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
-      >
-        Shipping Flutter products with CS depth
-      </h2>
-      <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground-muted sm:text-lg">
-        {site.journey}
-      </p>
-      <div className="mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-foreground-muted sm:text-lg">
+      <div>
+        <p className="eyebrow mb-4">About</p>
+        <h2
+          id="about-heading"
+          className="text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-5xl"
+        >
+          Shipping Flutter products,{" "}
+          <span className="font-serif font-normal italic tracking-normal text-accent">
+            end to end.
+          </span>
+        </h2>
+        <p className="mt-6 max-w-md leading-relaxed text-foreground-muted">
+          {site.journey}
+        </p>
+      </div>
+      <div className="space-y-5 text-lg leading-relaxed text-foreground/80">
         {site.about.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

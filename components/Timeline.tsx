@@ -8,42 +8,57 @@ export function Timeline() {
       ariaLabelledBy="experience-heading"
       className="mx-auto max-w-6xl px-5 py-24 sm:px-8"
     >
-      <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
-        Career
-      </p>
+      <p className="eyebrow mb-4">Experience</p>
       <h2
         id="experience-heading"
-        className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+        className="text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-5xl"
       >
-        Experience &amp; education
+        Where I&apos;ve{" "}
+        <span className="font-serif font-normal italic tracking-normal text-accent">
+          been building
+        </span>
       </h2>
-      <p className="mt-4 max-w-xl text-foreground-muted">
-        A concise path — production Flutter work first, foundations always
-        underneath.
-      </p>
 
-      <ol className="relative mt-12 space-y-0 border-l border-glass-border pl-8">
+      <ol className="mt-12 space-y-5">
         {timeline.map((item) => (
-          <li key={item.id} className="relative pb-10 last:pb-0">
-            <span
-              className="absolute -left-[2.4rem] top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-accent/60 bg-background shadow-[0_0_12px_rgba(34,211,238,0.45)]"
-              aria-hidden
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-              {item.type === "experience" ? "Experience" : "Education"} ·{" "}
-              {item.period}
-            </p>
-            <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-              {item.title}
-            </h3>
-            <p className="mt-1 text-sm font-medium text-accent-soft">
-              {item.org}
-            </p>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground-muted sm:text-base">
-              {item.summary}
-            </p>
+          <li
+            key={item.id}
+            className="grid gap-6 rounded-3xl border border-white/[0.08] bg-background-elevated p-6 sm:p-8 md:grid-cols-[13rem_1fr]"
+          >
+            <div>
+              <p className="font-mono text-xs uppercase tracking-wider text-accent">
+                {item.period}
+              </p>
+              <p className="mt-2 text-sm text-foreground-muted">
+                {item.type === "experience" ? "Work" : "Education"}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-semibold tracking-tight text-foreground">
+                {item.title}
+              </h3>
+              <p className="mt-1 text-foreground/80">{item.org}</p>
+              <p className="mt-4 max-w-2xl leading-relaxed text-foreground-muted">
+                {item.summary}
+              </p>
+              {item.highlights ? (
+                <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {item.highlights.map((h) => (
+                    <li
+                      key={h.name}
+                      className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4"
+                    >
+                      <p className="text-sm font-medium text-foreground">
+                        {h.name}
+                      </p>
+                      <p className="mt-1 text-sm text-foreground-muted">
+                        {h.detail}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           </li>
         ))}
       </ol>
