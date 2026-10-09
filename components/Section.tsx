@@ -31,7 +31,7 @@ export function Panel({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`relative mx-2 overflow-hidden rounded-[1.75rem] sm:mx-3 sm:rounded-[2.25rem] ${toneClass[tone]} ${className}`}
+      className={`relative mx-2 overflow-clip rounded-[1.75rem] sm:mx-3 sm:rounded-[2.25rem] ${toneClass[tone]} ${className}`}
     >
       {children}
     </section>

@@ -1,4 +1,5 @@
 import { About } from "@/components/About";
+import { AppHub } from "@/components/AppHub";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
@@ -17,6 +18,7 @@ export default function Home() {
         <Process />
         <Skills />
         <Timeline />
+        <AppHub />
         <Contact />
       </main>
       <Footer />

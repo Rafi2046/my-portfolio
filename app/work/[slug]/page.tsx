@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
+import { ScreensMarquee } from "@/components/ScreensMarquee";
+import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel } from "@/components/Section";
 import { projects, site, statusCopy } from "@/lib/content";
 
@@ -125,16 +127,12 @@ export default async function CaseStudyPage({
             </dl>
           </div>
 
-          <div className="relative mt-12 aspect-[4/3] overflow-hidden rounded-[1.5rem] border border-line sm:mt-16 lg:aspect-[16/9]">
-            <Image
-              src={project.cover}
-              alt={`${project.title} artwork`}
-              fill
-              preload
-              sizes="(max-width: 1400px) 100vw, 1400px"
-              className="object-cover"
-            />
-          </div>
+          <ProjectStage
+            project={project}
+            interactive
+            priority
+            className="mx-auto mt-12 aspect-[4/3] max-w-6xl rounded-[1.5rem] sm:mt-16 sm:aspect-[16/10]"
+          />
         </Panel>
 
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
@@ -152,28 +150,16 @@ export default async function CaseStudyPage({
         </Panel>
 
         {project.gallery ? (
-          <Panel tone="gray" labelledBy="screens-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-            <h2 id="screens-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
-              /Screens
-            </h2>
-            <ul
-              className={`mt-10 grid grid-cols-2 gap-3 sm:gap-5 ${
-                project.gallery.length >= 3 ? "md:grid-cols-3" : "max-w-3xl"
-              }`}
-            >
-              {project.gallery.map((shot) => (
-                <li key={shot.src} className="overflow-hidden rounded-[1.75rem] bg-ink p-2">
-                  <Image
-                    src={shot.src}
-                    alt={shot.alt}
-                    width={shot.width}
-                    height={shot.height}
-                    sizes="(max-width: 768px) 50vw, 420px"
-                    className="h-auto w-full rounded-[1.35rem]"
-                  />
-                </li>
-              ))}
-            </ul>
+          <Panel tone="gray" labelledBy="screens-heading" className="mt-3 py-14 sm:py-20">
+            <div className="flex items-end justify-between px-5 sm:px-10">
+              <h2 id="screens-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
+                /Screens
+              </h2>
+              <p className="eyebrow pb-1 text-muted">{project.gallery.length} {project.gallery.length === 1 ? "screen" : "screens"}</p>
+            </div>
+            <div className="mt-6">
+              <ScreensMarquee shots={project.gallery} />
+            </div>
           </Panel>
         ) : null}
 

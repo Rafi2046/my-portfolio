@@ -1,15 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useState, type MouseEvent } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
 import { projects, statusCopy, type Project } from "@/lib/content";
 
@@ -21,22 +15,54 @@ const filters = [
 
 type Filter = (typeof filters)[number]["id"];
 
+/** Card that rises into place while its artwork zooms out from 1.3× as it scrolls in. */
+function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const scale = useTransform(scrollYProgress, [0, 1], [1.3, 1]);
+
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 56 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link ref={ref} href={`/work/${p.id}`} className="focus-ring group block rounded-[1.25rem]">
+        <div className="relative overflow-hidden rounded-[1.25rem] [transform:translateZ(0)]">
+          <motion.div style={reduce ? undefined : { scale }} className="transition-[filter] duration-500 group-hover:brightness-110">
+            <ProjectStage project={p} compact className="aspect-[4/3.4]" />
+          </motion.div>
+          <span className="absolute right-4 top-4 flex h-12 w-12 scale-75 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-lg transition duration-300 group-hover:scale-100 group-hover:opacity-100">
+            <ArrowUpRight className="h-5 w-5" />
+          </span>
+          <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md">
+            <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${p.status === "live" ? "bg-live" : "bg-white/60"}`} />
+            {statusCopy[p.status]}
+            {p.ownership === "team" ? " · Team" : ""}
+          </span>
+        </div>
+        <div className="mt-5 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="display text-4xl underline-offset-[0.12em] group-hover:underline sm:text-5xl">{p.title}</h3>
+            <p className="mt-2 line-clamp-2 max-w-lg leading-relaxed text-muted">{p.description}</p>
+          </div>
+        </div>
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {p.tags.map((tag) => (
+            <li key={tag} className="rounded-full bg-panel-2 px-3 py-1.5 text-xs font-medium">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </Link>
+    </motion.div>
+  );
+}
+
 export function Projects() {
   const reduce = useReducedMotion();
   const [filter, setFilter] = useState<Filter>("all");
-  const [hovered, setHovered] = useState<Project | null>(null);
-
-  // Cursor-following preview (pointer devices only, hidden on touch via CSS).
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 260, damping: 28 });
-  const sy = useSpring(y, { stiffness: 260, damping: 28 });
-
-  function onMove(e: MouseEvent<HTMLElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set(e.clientX - rect.left);
-    y.set(e.clientY - rect.top);
-  }
 
   const visible = projects.filter(
     (p) => filter === "all" || p.ownership === filter,
@@ -82,86 +108,17 @@ export function Projects() {
         ))}
       </div>
 
-      <div className="relative mt-4" onMouseMove={onMove} onMouseLeave={() => setHovered(null)}>
-        <ul className="border-t border-dashed border-line-strong">
-          <AnimatePresence initial={false} mode="popLayout">
-            {visible.map((p, i) => (
-              <motion.li
-                key={p.id}
-                layout={!reduce}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="border-b border-dashed border-line-strong"
-              >
-                <Link
-                  href={`/work/${p.id}`}
-                  onMouseEnter={() => setHovered(p)}
-                  onFocus={() => setHovered(null)}
-                  className="focus-ring group grid grid-cols-[auto_1fr_auto] items-center gap-4 py-5 sm:gap-6 sm:py-7"
-                >
-                  <span className="hidden w-8 font-mono text-xs text-muted sm:block">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <Image
-                    src={p.icon}
-                    alt=""
-                    width={48}
-                    height={48}
-                    className="h-11 w-11 rounded-xl border border-line sm:hidden"
-                  />
-                  <span className="min-w-0">
-                    <span className="display block break-words text-[2.6rem] leading-[0.9] sm:truncate sm:leading-[0.86] transition-transform duration-500 group-hover:translate-x-3 sm:text-7xl lg:text-8xl">
-                      {p.title}
-                    </span>
-                    <span className="mt-1 block truncate text-sm text-muted sm:hidden">
-                      {p.tagline}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-4">
-                    <span className="hidden text-right sm:block">
-                      <span className="block text-sm font-medium sm:text-base">{p.tagline}</span>
-                      <span className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted">
-                        <span
-                          aria-hidden
-                          className={`h-1.5 w-1.5 rounded-full ${p.status === "live" ? "bg-live" : "bg-muted"}`}
-                        />
-                        {statusCopy[p.status]}
-                        {p.ownership === "team" ? " · Team" : ""}
-                      </span>
-                    </span>
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line-strong transition group-hover:bg-ink group-hover:text-panel">
-                      <ArrowUpRight className="h-4 w-4" />
-                    </span>
-                  </span>
-                </Link>
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </ul>
-
-        {/* Floating cover preview that trails the cursor */}
-        <motion.div
-          aria-hidden
-          style={{ x: sx, y: sy }}
-          className="pointer-events-none absolute left-0 top-0 z-10 hidden [@media(hover:hover)]:lg:block"
-        >
-          <AnimatePresence>
-            {hovered ? (
-              <motion.div
-                key={hovered.id}
-                initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.25 }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border-4 border-panel shadow-2xl"
-              >
-                <Image src={hovered.cover} alt="" width={340} height={255} className="h-[255px] w-[340px] object-cover" />
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </motion.div>
+      {/* Two staggered columns; re-mounted on filter change so cards animate in again */}
+      <div key={filter} className="mt-10 grid gap-12 md:grid-cols-2 md:gap-10 lg:gap-14">
+        {[0, 1].map((col) => (
+          <div key={col} className={`flex flex-col gap-12 lg:gap-16 ${col === 1 ? "md:pt-40" : ""}`}>
+            {visible
+              .filter((_, i) => i % 2 === col)
+              .map((p) => (
+                <ProjectCard key={p.id} project={p} reduce={!!reduce} />
+              ))}
+          </div>
+        ))}
       </div>
     </Panel>
   );

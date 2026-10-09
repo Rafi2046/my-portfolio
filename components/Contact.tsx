@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { ResumeCard } from "@/components/ResumeCard";
 import { ArrowUpRight, Panel } from "@/components/Section";
 import { site } from "@/lib/content";
 
@@ -67,6 +68,8 @@ export function Contact() {
           .
         </p>
       </div>
+
+      <ResumeCard />
 
       <form onSubmit={onSubmit} noValidate className="mx-auto mt-12 max-w-3xl space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">

@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, type PointerEvent } from "react";
 import {
   motion,
+  useMotionTemplate,
+  useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
@@ -23,6 +26,26 @@ export function Hero() {
   });
   const nameY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
+  // Colour spotlight that follows the cursor over the portrait.
+  const spot = { stiffness: 260, damping: 30, mass: 0.6 };
+  const spotX = useSpring(useMotionValue(0), spot);
+  const spotY = useSpring(useMotionValue(0), spot);
+  const spotR = useSpring(0, { stiffness: 180, damping: 24 });
+  const colorMask = useMotionTemplate`radial-gradient(circle ${spotR}px at ${spotX}px ${spotY}px, #000 55%, transparent 100%)`;
+
+  const moveSpot = (e: PointerEvent<HTMLDivElement>) => {
+    const box = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    if (reduce || spotR.get() < 1) {
+      spotX.jump(x);
+      spotY.jump(y);
+    } else {
+      spotX.set(x);
+      spotY.set(y);
+    }
+  };
 
   return (
     <div ref={ref} className="pt-2 sm:pt-3">
@@ -73,6 +96,12 @@ export function Hero() {
               initial={reduce ? false : { opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, delay: reduce ? 0 : AFTER_CURTAIN + 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onPointerEnter={(e) => {
+                moveSpot(e);
+                spotR.set(170);
+              }}
+              onPointerMove={moveSpot}
+              onPointerLeave={() => spotR.set(0)}
             >
               <Image
                 src="/rafi-portrait.png"
@@ -83,6 +112,20 @@ export function Hero() {
                 sizes="(max-width: 768px) 80vw, 560px"
                 className="h-full w-auto object-contain object-bottom grayscale contrast-[1.05]"
               />
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{ maskImage: colorMask, WebkitMaskImage: colorMask }}
+              >
+                <Image
+                  src="/rafi-portrait.png"
+                  alt=""
+                  width={682}
+                  height={969}
+                  sizes="(max-width: 768px) 80vw, 560px"
+                  className="h-full w-full object-contain object-bottom saturate-[1.35] contrast-[1.08]"
+                />
+              </motion.div>
             </motion.div>
           </motion.div>
 

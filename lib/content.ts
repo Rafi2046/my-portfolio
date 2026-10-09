@@ -107,6 +107,12 @@ export type Project = {
   icon: string;
   /** Uniform 4:3 artwork (1600×1200) shown on the card and case study. */
   cover: string;
+  /** Photo of the app on a hand-held phone (transparent PNG/WebP), used as the stage centrepiece. */
+  hand?: string;
+  /** How the stage presents this app; defaults to fanned phones. */
+  stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "fan";
+  /** Cut-out UI pieces or documents floating in the stage. */
+  cards?: { src: string; w: number; h: number }[];
   /** Portrait app screenshots for the case-study gallery. */
   gallery?: { src: string; width: number; height: number; alt: string }[];
   platforms: string;
@@ -140,9 +146,13 @@ export const projects: Project[] = [
     tint: "#1f4d3c",
     icon: "/projects/rushd-icon.png",
     cover: "/projects/cover-rushd.jpg",
+    hand: "/projects/hands/rushd.webp",
+    stage: "hand",
     gallery: [
-      { src: "/projects/rushd-screen.jpg", width: 600, height: 1250, alt: "RUSHD home with prayer times and Ask Noor" },
-      { src: "/projects/rushd-screen-quran.jpg", width: 609, height: 1250, alt: "RUSHD Quran reader with Bangla translation" },
+      { src: "/projects/phones/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
+      { src: "/projects/phones/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
+      { src: "/projects/phones/rushd-quran.webp", width: 1144, height: 2392, alt: "All 114 surahs with Meccan and Medinan filters" },
+      { src: "/projects/phones/rushd-hajj.webp", width: 1144, height: 2392, alt: "Hajj & Umrah guide with progress tracking" },
     ],
     platforms: "Android · iOS · Tablet",
     android:
@@ -167,6 +177,18 @@ export const projects: Project[] = [
     tint: "#0f3b2e",
     icon: "/projects/budget-mint-icon.png",
     cover: "/projects/cover-budget-mint.jpg",
+    stage: "duo",
+    cards: [
+      { src: "/projects/stage/bm-income.webp", w: 475, h: 168 },
+      { src: "/projects/stage/bm-expense.webp", w: 475, h: 168 },
+      { src: "/projects/stage/bm-budget.webp", w: 990, h: 435 },
+    ],
+    gallery: [
+      { src: "/projects/phones/budget-mint-home.webp", width: 1144, height: 2392, alt: "Home with income, expenses, dues and monthly budget" },
+      { src: "/projects/phones/budget-mint-transactions.webp", width: 1144, height: 2392, alt: "Monthly transactions with net balance" },
+      { src: "/projects/phones/budget-mint-insights.webp", width: 1144, height: 2392, alt: "Top spending categories and budget status" },
+      { src: "/projects/phones/budget-mint-reports.webp", width: 1144, height: 2392, alt: "Financial reports and statements" },
+    ],
     platforms: "Android · iOS",
     android:
       "https://play.google.com/store/apps/details?id=com.onesttech.budgetmint",
@@ -190,10 +212,12 @@ export const projects: Project[] = [
     tint: "#3a1a0c",
     icon: "/projects/fuelsync-icon.png",
     cover: "/projects/cover-fuelsync.jpg",
+    stage: "isometric",
+    cards: [{ src: "/projects/stage/fs-gauge.webp", w: 540, h: 430 }],
     gallery: [
-      { src: "/projects/fuelsync-home-dark.jpg", width: 460, height: 1024, alt: "FuelSync efficiency dashboard" },
-      { src: "/projects/fuelsync-fuel-stats-dark.jpg", width: 460, height: 1024, alt: "FuelSync fuel statistics" },
-      { src: "/projects/fuelsync-trip-map.jpg", width: 460, height: 1024, alt: "FuelSync trip map" },
+      { src: "/projects/phones/fuelsync-home.webp", width: 1144, height: 2392, alt: "Efficiency gauge with mileage, fuel and cost per km" },
+      { src: "/projects/phones/fuelsync-fueling.webp", width: 1144, height: 2392, alt: "Last fill-up, savings and vehicle vitals" },
+      { src: "/projects/phones/fuelsync-stats.webp", width: 1144, height: 2392, alt: "Consumption trend and monthly spending" },
     ],
     platforms: "Android",
     android:
@@ -217,6 +241,13 @@ export const projects: Project[] = [
     tint: "#0d1b33",
     icon: "/projects/quran-icon.png",
     cover: "/projects/cover-quran-audio.jpg",
+    stage: "waves",
+    cards: [{ src: "/projects/stage/quran-continue.webp", w: 995, h: 260 }],
+    gallery: [
+      { src: "/projects/phones/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
+      { src: "/projects/phones/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
+      { src: "/projects/phones/quran-library.webp", width: 1144, height: 2392, alt: "Library with favourites and collections" },
+    ],
     platforms: "Android · iOS",
     android:
       "https://play.google.com/store/apps/details?id=com.quranaudio.app&hl=en",
@@ -240,8 +271,16 @@ export const projects: Project[] = [
     tint: "#1d3a35",
     icon: "/projects/dosey-icon.png",
     cover: "/projects/cover-dosey.jpg",
+    stage: "float",
+    cards: [
+      { src: "/projects/stage/dosey-next.webp", w: 970, h: 294 },
+      { src: "/projects/stage/dosey-vit.webp", w: 970, h: 373 },
+    ],
     gallery: [
-      { src: "/projects/dosey-screen.jpg", width: 495, height: 1100, alt: "Dosey medicine reminders for today" },
+      { src: "/projects/phones/dosey-home.webp", width: 1144, height: 2392, alt: "Today's medicine reminders" },
+      { src: "/projects/phones/dosey-medicines.webp", width: 1144, height: 2392, alt: "Medicines with stock left and monthly cost" },
+      { src: "/projects/phones/dosey-reminders.webp", width: 1144, height: 2392, alt: "All reminders with on/off toggles" },
+      { src: "/projects/phones/dosey-cost.webp", width: 1144, height: 2392, alt: "Projected monthly medicine cost" },
     ],
     platforms: "Android · iOS",
   },
@@ -263,6 +302,20 @@ export const projects: Project[] = [
     tint: "#0c1e3d",
     icon: "/projects/docyra-icon.png",
     cover: "/projects/cover-docyra.jpg",
+    stage: "scan",
+    cards: [
+      { src: "/projects/stage/doc-invoice.webp", w: 636, h: 900 },
+      { src: "/projects/stage/doc-receipt.webp", w: 636, h: 900 },
+      { src: "/projects/stage/doc-idcard.webp", w: 636, h: 900 },
+    ],
+    gallery: [
+      { src: "/projects/phones/docyra-home.webp", width: 1144, height: 2392, alt: "Home with quick tools and recent files" },
+      { src: "/projects/phones/docyra-files.webp", width: 1144, height: 2392, alt: "Library with folders and filters" },
+      { src: "/projects/phones/docyra-tools.webp", width: 1144, height: 2392, alt: "Offline toolkit: scan, OCR, ID cards, PDF edit" },
+      { src: "/projects/phones/docyra-document.webp", width: 1144, height: 2392, alt: "Document pages with edit, PDF and OCR actions" },
+      { src: "/projects/phones/docyra-preview.webp", width: 1144, height: 2392, alt: "Full-page preview of a scanned invoice" },
+      { src: "/projects/phones/docyra-account.webp", width: 1144, height: 2392, alt: "Account with storage stats and scanner settings" },
+    ],
     platforms: "Android · iOS",
   },
   {
@@ -283,6 +336,9 @@ export const projects: Project[] = [
     tint: "#14361f",
     icon: "/projects/ayurvision-icon.png",
     cover: "/projects/cover-ayurvision.jpg",
+    gallery: [
+      { src: "/projects/phones/ayurvision-home.webp", width: 560, height: 1143, alt: "Home with scan, upload and herb of the day" },
+    ],
     platforms: "Android",
   },
 ];
@@ -348,17 +404,17 @@ export const process = [
   {
     word: "Plan",
     text: "I start from the people using the app: the flows they repeat every day, the data that must survive offline, and the languages they read in. Then I set the architecture before writing screens.",
-    image: "/projects/fuelsync-home-dark.jpg",
+    image: "/projects/phones/fuelsync-home.webp",
   },
   {
     word: "Build",
     text: "Feature by feature in Flutter, with Riverpod state, Drift or Firebase storage and tests next to the code. Every screen is checked on real phones and tablets, in English and Bangla.",
-    image: "/projects/rushd-screen.jpg",
+    image: "/projects/phones/rushd-home.webp",
   },
   {
     word: "Ship",
     text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four of my apps are live on Google Play and the App Store.",
-    image: "/projects/dosey-screen.jpg",
+    image: "/projects/phones/dosey-home.webp",
   },
 ] as const;
 

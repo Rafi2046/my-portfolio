@@ -28,6 +28,61 @@ function Words({ active }: { active: number }) {
   );
 }
 
+/** Three phones fanned out; the active step's phone sits in front. */
+function PhoneStage({ active }: { active: number }) {
+  const n = process.length;
+  return (
+    <div className="relative mx-auto hidden h-[min(72svh,620px)] w-full max-w-xl lg:block">
+      {/* Soft spotlight and floor shadow */}
+      <div aria-hidden className="absolute inset-x-[8%] top-[6%] bottom-[10%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--on-inverse)_14%,transparent),transparent)] blur-2xl" />
+      <div aria-hidden className="absolute bottom-[3%] left-1/2 h-6 w-[46%] -translate-x-1/2 rounded-[50%] bg-black/45 blur-xl" />
+
+      {process.map((s, i) => {
+        // -1 left, 0 front, 1 right — wraps so there is always one each side.
+        const offset = ((i - active + 1 + n) % n) - 1;
+        const front = offset === 0;
+        return (
+          <motion.div
+            key={s.word}
+            className="absolute bottom-[5%] left-1/2 h-[90%] origin-bottom -translate-x-1/2"
+            style={{ aspectRatio: "560 / 1143", zIndex: front ? 3 : 1 }}
+            initial={false}
+            animate={{
+              x: `${offset * 62}%`,
+              rotate: offset * 7,
+              scale: front ? 1 : 0.8,
+              opacity: front ? 1 : 0.45,
+              filter: front ? "blur(0px) brightness(1)" : "blur(1.5px) brightness(0.7)",
+            }}
+            transition={{ type: "spring", stiffness: 140, damping: 22 }}
+          >
+            <Image
+              src={s.image}
+              alt=""
+              fill
+              quality={90}
+              sizes="360px"
+              className="object-contain drop-shadow-[0_40px_50px_rgba(0,0,0,0.45)]"
+            />
+          </motion.div>
+        );
+      })}
+
+      <div className="absolute -bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-3">
+        <span className="eyebrow tabular-nums text-on-inverse-muted">0{active + 1} / 0{n}</span>
+        <span className="flex gap-1.5">
+          {process.map((s, i) => (
+            <span
+              key={s.word}
+              className={`h-1 rounded-full transition-all duration-500 ${i === active ? "w-8 bg-on-inverse" : "w-3 bg-on-inverse/30"}`}
+            />
+          ))}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export function Process() {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -80,28 +135,7 @@ export function Process() {
                 </motion.p>
               </AnimatePresence>
             </div>
-            <div className="relative mx-auto hidden aspect-[4/5] w-full max-w-md overflow-hidden rounded-3xl bg-panel-2 lg:block">
-              <AnimatePresence mode="popLayout">
-                <motion.div
-                  key={step.image}
-                  initial={{ opacity: 0, scale: 1.06 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
-                >
-                  <Image src={step.image} alt="" fill sizes="448px" className="object-cover object-top" />
-                </motion.div>
-              </AnimatePresence>
-              <div className="absolute bottom-4 left-4 flex gap-1.5">
-                {process.map((s, i) => (
-                  <span
-                    key={s.word}
-                    className={`h-1 rounded-full transition-all duration-500 ${i === active ? "w-8 bg-white" : "w-3 bg-white/40"}`}
-                  />
-                ))}
-              </div>
-            </div>
+            <PhoneStage active={active} />
           </div>
         </div>
       </div>
