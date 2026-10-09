@@ -135,6 +135,33 @@ export default async function CaseStudyPage({
           />
         </Panel>
 
+        <Panel tone="gray" labelledBy="story-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
+          <h2 id="story-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
+            /The story
+          </h2>
+          <ol className="mt-10 grid gap-4 lg:grid-cols-3">
+            <li className="rounded-[1.5rem] border border-line-strong bg-panel p-6 sm:p-8">
+              <p className="eyebrow text-muted">01 · Problem</p>
+              <p className="mt-4 text-lg leading-relaxed sm:text-xl">{project.story.problem}</p>
+            </li>
+            <li className="rounded-[1.5rem] border border-line-strong bg-panel p-6 sm:p-8">
+              <p className="eyebrow text-muted">02 · Approach</p>
+              <p className="mt-4 leading-relaxed text-muted sm:text-lg">{project.story.approach}</p>
+            </li>
+            <li className="rounded-[1.5rem] bg-inverse p-6 text-on-inverse sm:p-8">
+              <p className="eyebrow text-on-inverse-muted">03 · Result</p>
+              <ul className="mt-4 space-y-3">
+                {project.story.results.map((r) => (
+                  <li key={r} className="flex gap-3 text-lg leading-snug">
+                    <span aria-hidden className="mt-2 h-2 w-2 shrink-0 rounded-full bg-live" />
+                    {r}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ol>
+        </Panel>
+
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
           <h2 id="built-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
             /What I built

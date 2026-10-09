@@ -97,6 +97,8 @@ export type Project = {
   tagline: string;
   description: string;
   highlights: string[];
+  /** Problem → approach → result, told at the top of the case study. */
+  story: { problem: string; approach: string; results: string[] };
   tags: string[];
   ownership: "personal" | "team";
   /** Short line about my part, shown on the card. */
@@ -139,6 +141,17 @@ export const projects: Project[] = [
       "Recitation checking that records the user and compares it with the ayah",
       "Hadith library, Islamic Quiz, 99 Names, six Arabic learning games, tablet layouts",
     ],
+    story: {
+      problem:
+        "One app had to cover the Quran, prayer times, Hajj & Umrah, an AI assistant and learning games — in English and Bangla, on phones and tablets — without feeling like five apps stitched together.",
+      approach:
+        "I built each area as its own feature: the Ask Noor assistant with history and voice playback, a live two-player word game, recitation checking and the Hadith library, all sharing one design system, tablet layouts and full EN/BN localization.",
+      results: [
+        "232 commits between April and September 2026",
+        "Shipped through version 3.6.0",
+        "Live on Google Play and the App Store",
+      ],
+    },
     tags: ["Flutter", "AI", "Realtime", "Audio", "EN / BN"],
     ownership: "team",
     role: "Team project · 232 commits, 10+ modules",
@@ -170,6 +183,17 @@ export const projects: Project[] = [
       "PDF & Excel reports with correct Bangla rendering",
       "Firebase sync, Google & Apple sign-in, biometric lock, home widgets",
     ],
+    story: {
+      problem:
+        "Expense apps stop at personal spending, but the messy part is shared money — splitting a trip with friends or running a mess meal budget usually ends up in a notebook or a group chat.",
+      approach:
+        "I put trips, mess meals, savings goals and recurring bills next to everyday expenses, synced through Firebase, with PDF and Excel reports that render Bangla correctly.",
+      results: [
+        "Built end to end, from design to store release",
+        "Live on Google Play and the App Store",
+        "Google & Apple sign-in, biometric lock and home-screen widgets",
+      ],
+    },
     tags: ["Flutter", "Firebase", "Finance"],
     ownership: "personal",
     role: "Built end to end",
@@ -205,6 +229,17 @@ export const projects: Project[] = [
       "Trip maps, service reminders and a document vault per vehicle",
       "Receipt OCR with ML Kit and weather-aware ride advice",
     ],
+    story: {
+      problem:
+        "Most riders and drivers don't know their real mileage or cost per kilometre — fill-ups, services and trips live on paper receipts and memory.",
+      approach:
+        "An offline-first Drift database logs every fill-up; the app works out efficiency from consecutive full tanks, reads receipts with ML Kit OCR, and keeps trips, service reminders and documents per vehicle.",
+      results: [
+        "Mileage and cost per km calculated automatically from each full tank",
+        "Works fully offline",
+        "Live on Google Play",
+      ],
+    },
     tags: ["Flutter", "Drift", "Maps", "ML Kit"],
     ownership: "personal",
     role: "Built end to end",
@@ -234,6 +269,17 @@ export const projects: Project[] = [
       "Stream caching and a fallback audio source so playback survives weak networks",
       "Podcasts, stories, devotions hub, offline downloads and multiple languages",
     ],
+    story: {
+      problem:
+        "Listening on the go means weak mobile networks, long recitations and screens that switch off — playback had to survive all three.",
+      approach:
+        "Background playback with a sleep timer, stream caching and a fallback audio source for weak networks, offline downloads, Khatam tracking and listening stats, in several languages.",
+      results: [
+        "From first commit to the store-growth phase in six weeks",
+        "121 commits",
+        "260+ reciters, live on Google Play and the App Store",
+      ],
+    },
     tags: ["Flutter", "just_audio", "Streaming", "i18n"],
     ownership: "team",
     role: "Team project · 121 commits in six weeks",
@@ -264,6 +310,17 @@ export const projects: Project[] = [
       "Family Sharing on Supabase with row-level security and Realtime",
       "Offline-first Drift database, BP & sugar logs, stock and cost tracking",
     ],
+    story: {
+      problem:
+        "A notification is easy to swipe away. For medicine that means a missed dose — and family members can't see whether a parent took theirs.",
+      approach:
+        "Alarms ring full-screen even with the app closed. Family Sharing runs on Supabase with row-level security and Realtime, prescriptions are scanned into medicines, and an offline-first Drift database tracks stock, cost and BP & sugar logs.",
+      results: [
+        "Full-screen alarms that ring even when the app is closed",
+        "Days of stock left and monthly cost for every medicine",
+        "Caregiver view secured with row-level security",
+      ],
+    },
     tags: ["Flutter", "Supabase", "Drift", "Alarms"],
     ownership: "personal",
     role: "Built end to end",
@@ -295,6 +352,17 @@ export const projects: Project[] = [
       "OCR and passport MRZ parsing on device",
       "PDF tools: merge, compress, sign, watermark, page numbers — behind an app lock",
     ],
+    story: {
+      problem:
+        "Popular scanner apps upload your documents to their servers — a real risk for ID cards, prescriptions and contracts.",
+      approach:
+        "Everything runs on the phone: live edge detection with ML Kit and OpenCV, OCR and passport MRZ parsing, and PDF tools — merge, compress, sign, watermark, page numbers — behind an app lock.",
+      results: [
+        "Nothing leaves the device",
+        "Scan to PDF, OCR, sign and lock — fully offline",
+        "ID cards laid out front and back on A4",
+      ],
+    },
     tags: ["Flutter", "OpenCV", "ML Kit", "PDF"],
     ownership: "personal",
     role: "Built end to end",
@@ -329,6 +397,17 @@ export const projects: Project[] = [
       "Herb library with detailed medicinal properties",
       "Scan history and favourites stored locally with Hive",
     ],
+    story: {
+      problem:
+        "Recognising a medicinal herb takes an expert, and in the field there is often no internet.",
+      approach:
+        "A TensorFlow Lite model classifies the leaf on the device and shows a confidence score; a local herb library explains its uses, and Hive keeps scan history and favourites.",
+      results: [
+        "Identifies herbs fully offline",
+        "Confidence score on every result",
+        "Prototype, built as an on-device ML project",
+      ],
+    },
     tags: ["Flutter", "TensorFlow Lite", "Hive"],
     ownership: "personal",
     role: "ML project",
