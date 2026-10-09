@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { ScreensMarquee } from "@/components/ScreensMarquee";
+import { PageTransition, StageMorph } from "@/components/PageTransition";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
 import { projects, site, statusCopy } from "@/lib/content";
@@ -43,11 +44,13 @@ export default async function CaseStudyPage({
 
   return (
     <>
+      <PageTransition>
       <main className="flex-1 pt-2 sm:pt-3">
         <Panel tone="light" labelledBy="case-title" className="px-5 pb-10 pt-24 sm:px-10 sm:pb-14 sm:pt-28">
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/#projects"
+              transitionTypes={["nav-back"]}
               className="focus-ring inline-flex items-center gap-2 rounded-full border border-line-strong px-4 py-2 text-sm transition hover:bg-ink hover:text-panel"
             >
               <span aria-hidden>←</span> Back
@@ -127,12 +130,14 @@ export default async function CaseStudyPage({
             </dl>
           </div>
 
-          <ProjectStage
-            project={project}
-            interactive
-            priority
-            className="mx-auto mt-12 aspect-[4/3] max-w-6xl rounded-[1.5rem] sm:mt-16 sm:aspect-[16/10]"
-          />
+          <StageMorph id={project.id}>
+            <ProjectStage
+              project={project}
+              interactive
+              priority
+              className="mx-auto mt-12 aspect-[4/3] max-w-6xl rounded-[1.5rem] sm:mt-16 sm:aspect-[16/10]"
+            />
+          </StageMorph>
         </Panel>
 
         <Panel tone="gray" labelledBy="story-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
@@ -192,6 +197,7 @@ export default async function CaseStudyPage({
         <Panel tone="light" className="mt-3">
           <Link
             href={`/work/${next.id}`}
+            transitionTypes={["nav-forward"]}
             className="focus-ring group flex items-center justify-between gap-6 px-5 py-10 sm:px-10 sm:py-14"
           >
             <div className="min-w-0">
@@ -206,6 +212,7 @@ export default async function CaseStudyPage({
           </Link>
         </Panel>
       </main>
+      </PageTransition>
       <Footer />
     </>
   );

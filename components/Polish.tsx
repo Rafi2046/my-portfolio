@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 /** Weighted smooth scrolling on wheel/trackpad; touch keeps native scrolling. */
@@ -29,13 +30,16 @@ function SmoothScroll() {
 function Cursor() {
   const reduce = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
-  const [label, setLabel] = useState<string | null>(null);
+  // The label remembers which page it was set on, so it clears itself after a navigation.
+  const [hover, setHover] = useState<{ path: string; label: string | null }>({ path: "", label: null });
   const [hidden, setHidden] = useState(true);
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.5 });
   const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.5 });
   const last = useRef<string | null>(null);
+  const pathname = usePathname();
+  const label = hover.path === pathname ? hover.label : null;
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -53,9 +57,11 @@ function Cursor() {
       setHidden(false);
       const target = (e.target as Element | null)?.closest<HTMLElement>("[data-cursor]");
       const next = target?.dataset.cursor ?? null;
-      if (next !== last.current) {
-        last.current = next;
-        setLabel(next);
+      const path = window.location.pathname;
+      const key = `${path}|${next}`;
+      if (key !== last.current) {
+        last.current = key;
+        setHover({ path, label: next });
       }
     };
     const leave = () => setHidden(true);

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { StageMorph } from "@/components/PageTransition";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
 import { projects, statusCopy, type Project } from "@/lib/content";
@@ -28,10 +29,12 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
       viewport={{ once: true, margin: "0px 0px -80px 0px" }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link ref={ref} href={`/work/${p.id}`} data-cursor="View" className="focus-ring group block rounded-[1.25rem]">
+      <Link ref={ref} href={`/work/${p.id}`} transitionTypes={["nav-forward"]} data-cursor="View" className="focus-ring group block rounded-[1.25rem]">
         <div className="relative overflow-hidden rounded-[1.25rem] [transform:translateZ(0)]">
           <motion.div style={reduce ? undefined : { scale }} className="transition-[filter] duration-500 group-hover:brightness-110">
-            <ProjectStage project={p} compact className="aspect-[4/3.4]" />
+            <StageMorph id={p.id}>
+              <ProjectStage project={p} compact className="aspect-[4/3.4]" />
+            </StageMorph>
           </motion.div>
           <span className="absolute right-4 top-4 flex h-12 w-12 scale-75 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-lg transition duration-300 group-hover:scale-100 group-hover:opacity-100">
             <ArrowUpRight className="h-5 w-5" />
