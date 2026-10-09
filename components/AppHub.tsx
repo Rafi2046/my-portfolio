@@ -91,7 +91,7 @@ export function AppHub() {
           >
             <Link
               href={`/work/${p.id}`}
-              className="focus-ring group flex w-24 flex-col items-center gap-2 rounded-2xl border border-line-strong bg-panel p-3 text-center shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition duration-300 hover:-translate-y-1 hover:border-ink/50"
+              data-cursor="Open" className="focus-ring group flex w-24 flex-col items-center gap-2 rounded-2xl border border-line-strong bg-panel p-3 text-center shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition duration-300 hover:-translate-y-1 hover:border-ink/50"
             >
               <Image src={p.icon} alt="" width={44} height={44} className="h-11 w-11 rounded-xl" />
               <span className="w-full truncate text-xs font-semibold">{p.title}</span>

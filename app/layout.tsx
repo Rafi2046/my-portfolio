@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Anton, Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { Polish } from "@/components/Polish";
+import "lenis/dist/lenis.css";
 import { site } from "@/lib/content";
 import "./globals.css";
 
@@ -49,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             Design &amp; code by {site.navBrand}
           </p>
         </div>
+        <Polish />
         <Navbar />
         {children}
       </body>

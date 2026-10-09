@@ -28,7 +28,7 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
       viewport={{ once: true, margin: "0px 0px -80px 0px" }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link ref={ref} href={`/work/${p.id}`} className="focus-ring group block rounded-[1.25rem]">
+      <Link ref={ref} href={`/work/${p.id}`} data-cursor="View" className="focus-ring group block rounded-[1.25rem]">
         <div className="relative overflow-hidden rounded-[1.25rem] [transform:translateZ(0)]">
           <motion.div style={reduce ? undefined : { scale }} className="transition-[filter] duration-500 group-hover:brightness-110">
             <ProjectStage project={p} compact className="aspect-[4/3.4]" />
@@ -88,7 +88,7 @@ export function Projects() {
       </div>
 
       <div className="mt-16">
-        <SectionTitle id="work-heading" title="Selected work" watermark="Portfolio" counter="02/05" />
+        <SectionTitle id="work-heading" title="Selected work" counter="02" kicker="Seven apps · four live on the stores" />
       </div>
 
       <div role="tablist" aria-label="Filter projects" className="no-scrollbar -mx-5 mt-8 flex gap-1 overflow-x-auto px-5 sm:mx-0 sm:px-0">

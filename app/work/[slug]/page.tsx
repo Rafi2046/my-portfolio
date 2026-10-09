@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { ScreensMarquee } from "@/components/ScreensMarquee";
 import { ProjectStage } from "@/components/ProjectStage";
-import { ArrowUpRight, Panel } from "@/components/Section";
+import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
 import { projects, site, statusCopy } from "@/lib/content";
 
 export const dynamicParams = false;
@@ -136,9 +136,7 @@ export default async function CaseStudyPage({
         </Panel>
 
         <Panel tone="gray" labelledBy="story-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-          <h2 id="story-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
-            /The story
-          </h2>
+          <SectionTitle id="story-heading" title="The story" counter="01" kicker="Problem · approach · result" />
           <ol className="mt-10 grid gap-4 lg:grid-cols-3">
             <li className="rounded-[1.5rem] border border-line-strong bg-panel p-6 sm:p-8">
               <p className="eyebrow text-muted">01 · Problem</p>
@@ -163,9 +161,7 @@ export default async function CaseStudyPage({
         </Panel>
 
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-          <h2 id="built-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
-            /What I built
-          </h2>
+          <SectionTitle id="built-heading" title="What I built" counter="02" kicker="Highlights" />
           <ol className="mt-10 border-t border-inverse-line">
             {project.highlights.map((h, i) => (
               <li key={h} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-inverse-line py-6 sm:grid-cols-[6rem_1fr] sm:py-8">
@@ -178,11 +174,14 @@ export default async function CaseStudyPage({
 
         {project.gallery ? (
           <Panel tone="gray" labelledBy="screens-heading" className="mt-3 py-14 sm:py-20">
-            <div className="flex items-end justify-between px-5 sm:px-10">
-              <h2 id="screens-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
-                /Screens
-              </h2>
-              <p className="eyebrow pb-1 text-muted">{project.gallery.length} {project.gallery.length === 1 ? "screen" : "screens"}</p>
+            <div className="px-5 sm:px-10">
+              <SectionTitle
+                id="screens-heading"
+                title="Screens"
+                counter="03"
+                kicker="From the app"
+                aside={`${project.gallery.length} ${project.gallery.length === 1 ? "screen" : "screens"}`}
+              />
             </div>
             <div className="mt-6">
               <ScreensMarquee shots={project.gallery} />

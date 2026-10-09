@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { Panel, Reveal } from "@/components/Section";
+import { Panel, SectionTitle } from "@/components/Section";
 import { process } from "@/lib/content";
 
 function Words({ active }: { active: number }) {
@@ -98,11 +98,8 @@ export function Process() {
 
   return (
     <Panel tone="inverse" labelledBy="process-heading" className="mt-3">
-      <div className="flex items-end justify-between px-5 pt-14 sm:px-10 sm:pt-20">
-        <h2 id="process-heading" className="text-4xl font-semibold uppercase tracking-tight sm:text-5xl">
-          <Reveal>/How I work</Reveal>
-        </h2>
-        <p className="eyebrow pb-1 text-on-inverse-muted">03/05</p>
+      <div className="px-5 pt-14 sm:px-10 sm:pt-20">
+        <SectionTitle id="process-heading" title="How I work" counter="03" kicker="Plan · Build · Ship" />
       </div>
 
       {/* Phones: a plain sequence */}

@@ -1,4 +1,4 @@
-import { Panel, Reveal } from "@/components/Section";
+import { CountUp, Panel, Reveal, ScrollWords } from "@/components/Section";
 import { site } from "@/lib/content";
 
 const stats = [
@@ -34,9 +34,10 @@ export function About() {
           <path d="M14 86 84 16M30 16h54v54" />
         </svg>
         <div>
-          <p className="text-xl leading-relaxed sm:text-2xl">
-            &ldquo;{site.about[0]} {site.about[1]}&rdquo;
-          </p>
+          <ScrollWords
+            text={`“${site.about[0]} ${site.about[1]}”`}
+            className="text-2xl font-medium leading-snug tracking-tight sm:text-[2.1rem] sm:leading-[1.25]"
+          />
           <p className="mt-6 max-w-2xl leading-relaxed text-on-inverse-muted">
             {site.about[2]}
           </p>
@@ -53,7 +54,7 @@ export function About() {
             className={`border-inverse-line py-6 ${i % 2 === 0 ? "pr-4" : "border-l pl-4"} lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0`}
           >
             <dt className="sr-only">{s.label}</dt>
-            <dd className="display text-5xl sm:text-6xl">{s.value}</dd>
+            <dd className="display text-5xl sm:text-7xl"><CountUp value={s.value} /></dd>
             <dd className="mt-2 text-sm text-on-inverse-muted">{s.label}</dd>
           </div>
         ))}

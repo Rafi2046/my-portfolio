@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ResumeCard } from "@/components/ResumeCard";
-import { ArrowUpRight, Panel } from "@/components/Section";
+import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
 import { site } from "@/lib/content";
 
 type FieldErrors = {
@@ -51,13 +51,16 @@ export function Contact() {
 
   return (
     <Panel id="contact" tone="light" labelledBy="contact-heading" className="mt-3 px-5 py-16 sm:px-10 sm:py-24">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-5xl text-center">
         <p className="inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1.5 text-xs font-medium">
           <span className="h-2 w-2 rounded-full bg-live" aria-hidden />
           Available for new projects
         </p>
-        <h2 id="contact-heading" className="mt-6 text-4xl font-semibold uppercase tracking-tight sm:text-6xl">
-          Have a project in mind?
+        <h2 id="contact-heading" className="display mt-8 text-[15vw] sm:text-[10vw] lg:text-[8rem]">
+          <Reveal>Have a project</Reveal>
+          <Reveal delay={0.08}>
+            <span className="text-muted">in mind?</span>
+          </Reveal>
         </h2>
         <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">
           A Flutter app to build, an existing one to rescue, or a role to fill.
