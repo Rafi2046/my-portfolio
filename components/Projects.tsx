@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { StageMorph } from "@/components/PageTransition";
+import { PhoneVideo } from "@/components/PhoneVideo";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
 import { projects, statusCopy, type Project } from "@/lib/content";
@@ -21,6 +22,9 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
   const ref = useRef<HTMLAnchorElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
   const scale = useTransform(scrollYProgress, [0, 1], [1.3, 1]);
+  // Hover preview: mounted on first hover (desktop pointers only), so the video never loads otherwise.
+  const [preview, setPreview] = useState(false);
+  const canPreview = Boolean(p.video) && !reduce;
 
   return (
     <motion.div
@@ -29,13 +33,46 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
       viewport={{ once: true, margin: "0px 0px -80px 0px" }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link ref={ref} href={`/work/${p.id}`} transitionTypes={["nav-forward"]} data-cursor="View" className="focus-ring group block rounded-[1.25rem]">
+      <Link
+        ref={ref}
+        href={`/work/${p.id}`}
+        transitionTypes={["nav-forward"]}
+        data-cursor="View"
+        onPointerEnter={(e) => {
+          if (canPreview && e.pointerType === "mouse") setPreview(true);
+        }}
+        onPointerLeave={() => setPreview(false)}
+        className="focus-ring group block rounded-[1.25rem]"
+      >
         <div className="relative overflow-hidden rounded-[1.25rem] [transform:translateZ(0)]">
           <motion.div style={reduce ? undefined : { scale }} className="transition-[filter] duration-500 group-hover:brightness-110">
             <StageMorph id={p.id}>
               <ProjectStage project={p} compact className="aspect-[4/3.4]" />
             </StageMorph>
           </motion.div>
+          <AnimatePresence>
+            {preview && p.video ? (
+              <motion.div
+                key="preview"
+                aria-hidden
+                className="absolute inset-0 flex items-end justify-center bg-black/35 backdrop-blur-[2px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="h-[92%]"
+                  initial={{ y: "40%" }}
+                  animate={{ y: "6%" }}
+                  exit={{ y: "40%" }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <PhoneVideo video={p.video} title={p.title} bare className="h-full" />
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
           <span className="absolute right-4 top-4 flex h-12 w-12 scale-75 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-lg transition duration-300 group-hover:scale-100 group-hover:opacity-100">
             <ArrowUpRight className="h-5 w-5" />
           </span>

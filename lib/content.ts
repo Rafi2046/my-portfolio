@@ -115,6 +115,8 @@ export type Project = {
   stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "fan";
   /** Cut-out UI pieces or documents floating in the stage. */
   cards?: { src: string; w: number; h: number }[];
+  /** Screen recording of the app, with chapter marks in seconds. */
+  video?: { src: string; poster: string; chapters: { t: number; label: string }[] };
   /** Portrait app screenshots for the case-study gallery. */
   gallery?: { src: string; width: number; height: number; alt: string }[];
   platforms: string;
@@ -161,6 +163,11 @@ export const projects: Project[] = [
     cover: "/projects/cover-rushd.jpg",
     hand: "/projects/hands/rushd.webp",
     stage: "hand",
+    video: {
+      src: "/projects/videos/rushd",
+      poster: "/projects/videos/rushd-poster.webp",
+      chapters: [{ t: 0, label: "Prayer times" }, { t: 2, label: "Quick actions" }, { t: 11, label: "All 114 surahs" }, { t: 16, label: "Word-by-word reader" }],
+    },
     gallery: [
       { src: "/projects/phones/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
       { src: "/projects/phones/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
@@ -207,6 +214,11 @@ export const projects: Project[] = [
       { src: "/projects/stage/bm-expense.webp", w: 475, h: 168 },
       { src: "/projects/stage/bm-budget.webp", w: 990, h: 435 },
     ],
+    video: {
+      src: "/projects/videos/budget-mint",
+      poster: "/projects/videos/budget-mint-poster.webp",
+      chapters: [{ t: 0, label: "Monthly budget" }, { t: 5, label: "Spending insights" }, { t: 10, label: "Transactions" }, { t: 16, label: "Reports" }],
+    },
     gallery: [
       { src: "/projects/phones/budget-mint-home.webp", width: 1144, height: 2392, alt: "Home with income, expenses, dues and monthly budget" },
       { src: "/projects/phones/budget-mint-transactions.webp", width: 1144, height: 2392, alt: "Monthly transactions with net balance" },
@@ -249,6 +261,11 @@ export const projects: Project[] = [
     cover: "/projects/cover-fuelsync.jpg",
     stage: "isometric",
     cards: [{ src: "/projects/stage/fs-gauge.webp", w: 540, h: 430 }],
+    video: {
+      src: "/projects/videos/fuelsync",
+      poster: "/projects/videos/fuelsync-poster.webp",
+      chapters: [{ t: 0, label: "Efficiency" }, { t: 3, label: "Last fill-up" }, { t: 8, label: "Consumption trend" }],
+    },
     gallery: [
       { src: "/projects/phones/fuelsync-home.webp", width: 1144, height: 2392, alt: "Efficiency gauge with mileage, fuel and cost per km" },
       { src: "/projects/phones/fuelsync-fueling.webp", width: 1144, height: 2392, alt: "Last fill-up, savings and vehicle vitals" },
@@ -289,6 +306,11 @@ export const projects: Project[] = [
     cover: "/projects/cover-quran-audio.jpg",
     stage: "waves",
     cards: [{ src: "/projects/stage/quran-continue.webp", w: 995, h: 260 }],
+    video: {
+      src: "/projects/videos/quran-audio",
+      poster: "/projects/videos/quran-audio-poster.webp",
+      chapters: [{ t: 0, label: "Home & moments" }, { t: 8, label: "Reciters by region" }, { t: 15, label: "Library" }],
+    },
     gallery: [
       { src: "/projects/phones/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
       { src: "/projects/phones/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
@@ -333,6 +355,11 @@ export const projects: Project[] = [
       { src: "/projects/stage/dosey-next.webp", w: 970, h: 294 },
       { src: "/projects/stage/dosey-vit.webp", w: 970, h: 373 },
     ],
+    video: {
+      src: "/projects/videos/dosey",
+      poster: "/projects/videos/dosey-poster.webp",
+      chapters: [{ t: 0, label: "Today's doses" }, { t: 6, label: "Reminders" }, { t: 11, label: "Medicines & stock" }, { t: 13, label: "Medicine details" }],
+    },
     gallery: [
       { src: "/projects/phones/dosey-home.webp", width: 1144, height: 2392, alt: "Today's medicine reminders" },
       { src: "/projects/phones/dosey-medicines.webp", width: 1144, height: 2392, alt: "Medicines with stock left and monthly cost" },
@@ -376,6 +403,11 @@ export const projects: Project[] = [
       { src: "/projects/stage/doc-receipt.webp", w: 636, h: 900 },
       { src: "/projects/stage/doc-idcard.webp", w: 636, h: 900 },
     ],
+    video: {
+      src: "/projects/videos/docyra",
+      poster: "/projects/videos/docyra-poster.webp",
+      chapters: [{ t: 0, label: "Recent files" }, { t: 5, label: "Document pages" }, { t: 7, label: "Page preview" }, { t: 13, label: "Library" }, { t: 15, label: "Offline toolkit" }],
+    },
     gallery: [
       { src: "/projects/phones/docyra-home.webp", width: 1144, height: 2392, alt: "Home with quick tools and recent files" },
       { src: "/projects/phones/docyra-files.webp", width: 1144, height: 2392, alt: "Library with folders and filters" },

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { ScreensMarquee } from "@/components/ScreensMarquee";
+import { Walkthrough } from "@/components/Walkthrough";
 import { PageTransition, StageMorph } from "@/components/PageTransition";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
@@ -165,8 +166,15 @@ export default async function CaseStudyPage({
           </ol>
         </Panel>
 
+        {project.video ? (
+          <Panel tone="light" labelledBy="motion-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
+            <SectionTitle id="motion-heading" title="In motion" counter="02" kicker="Walkthrough" aside={`${project.video.chapters.length} chapters`} />
+            <Walkthrough video={project.video} title={project.title} tint={project.tint} />
+          </Panel>
+        ) : null}
+
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-          <SectionTitle id="built-heading" title="What I built" counter="02" kicker="Highlights" />
+          <SectionTitle id="built-heading" title="What I built" counter="03" kicker="Highlights" />
           <ol className="mt-10 border-t border-inverse-line">
             {project.highlights.map((h, i) => (
               <li key={h} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-inverse-line py-6 sm:grid-cols-[6rem_1fr] sm:py-8">
@@ -183,7 +191,7 @@ export default async function CaseStudyPage({
               <SectionTitle
                 id="screens-heading"
                 title="Screens"
-                counter="03"
+                counter="04"
                 kicker="From the app"
                 aside={`${project.gallery.length} ${project.gallery.length === 1 ? "screen" : "screens"}`}
               />
