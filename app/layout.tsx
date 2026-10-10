@@ -43,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       {/* Browser extensions (e.g. ColorZilla) add attributes to body before hydration. */}
       <body suppressHydrationWarning className="flex min-h-full flex-col bg-canvas text-ink">
+        <span id="top" aria-hidden />
         {/* Intro curtain; slides away on its own via CSS. */}
         <div
           aria-hidden

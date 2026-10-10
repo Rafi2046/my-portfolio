@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Panel } from "@/components/Section";
+import { ArrowUpRight, Panel, Magnetic } from "@/components/Section";
 import { projects as allProjects } from "@/lib/content";
 
 // The hub is about apps, so web projects stay out of it.
@@ -174,7 +174,7 @@ export function AppHub() {
             <li key={p.id}>
               <Link href={`/work/${p.id}`} className="focus-ring flex flex-col items-center gap-1.5 rounded-2xl border border-white/12 bg-white/[0.04] p-2.5">
                 <Image src={p.icon} alt="" width={40} height={40} className="h-10 w-10 rounded-xl" />
-                <span className="w-full truncate text-[11px] font-semibold">{p.title}</span>
+                <span className="line-clamp-2 w-full text-[11px] font-semibold leading-tight tracking-tight">{p.title}</span>
               </Link>
             </li>
           ))}
@@ -211,7 +211,7 @@ function HubCopy() {
     <>
       <p className="inline-flex items-center gap-2 rounded-full border border-live/30 bg-live/10 px-3.5 py-1.5 text-xs font-medium text-white/90">
         <span className="h-2 w-2 rounded-full bg-live shadow-[0_0_8px_var(--live)]" aria-hidden />
-        {projects.length} apps, one developer
+        {projects.length} apps · {projects.filter((p) => p.status === "live").length} live on the stores
       </p>
       <h2
         id="hub-heading"
@@ -225,6 +225,7 @@ function HubCopy() {
 
 function HubCta() {
   return (
+    <Magnetic>
     <a
       href="#contact"
       className="focus-ring pointer-events-auto inline-flex h-14 items-center gap-4 rounded-full bg-live pl-7 pr-2 text-sm font-semibold uppercase tracking-wide text-black shadow-[0_10px_40px_rgb(34_197_94/0.35)] transition hover:brightness-110"
@@ -234,5 +235,6 @@ function HubCta() {
         <ArrowUpRight className="h-4 w-4" />
       </span>
     </a>
+    </Magnetic>
   );
 }

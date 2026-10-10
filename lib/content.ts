@@ -8,8 +8,9 @@ export const site = {
   email: "ishmakrahat02@gmail.com",
   phone: "+880 1521-392046",
   phoneHref: "tel:+8801521392046",
-  /** Place a PDF at public/resume.pdf or update this path. */
-  resumeHref: "/resume.pdf",
+  /** The CV, built from docs/resume/resume.html. Bump `?v=` and the preview's file name on every update so no cache serves the old one. */
+  resumeHref: "/resume.pdf?v=2026-10-11",
+  resumePreview: "/resume-preview-2026-10-11.webp",
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Quran Audio, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
@@ -74,7 +75,6 @@ export const skillGroups = [
       "Image classification via a model API",
       "OpenCV edge detection",
       "Passport MRZ parsing",
-      "Speech & recitation checking",
     ],
   },
   {
@@ -147,55 +147,6 @@ export const statusCopy: Record<Project["status"], string> = {
 };
 
 export const projects: Project[] = [
-  {
-    id: "rushd",
-    title: "RUSHD",
-    tagline: "Islamic lifestyle app",
-    summary: "Quran, prayer times, a Hajj guide, an AI assistant and learning games — one app, in English and Bangla.",
-    description:
-      "Quran reader, prayer times, Hajj & Umrah guide, an AI assistant and learning games in one app. Our team's largest project of 2026 — I contributed 232 commits through version 3.6.0.",
-    highlights: [
-      "Ask Noor AI assistant with conversation history, usage limits and voice playback",
-      "Word Battle — a live two-player vocabulary game with lobbies, room codes and ranks",
-      "Recitation checking that records the user and compares it with the ayah",
-      "Hadith library, Islamic Quiz, 99 Names, six Arabic learning games, tablet layouts",
-    ],
-    story: {
-      problem:
-        "One app had to cover the Quran, prayer times, Hajj & Umrah, an AI assistant and learning games — in English and Bangla, on phones and tablets — without feeling like five apps stitched together.",
-      approach:
-        "Working in the team, I built these areas as separate features: the Ask Noor assistant with history and voice playback, a live two-player word game, recitation checking and the Hadith library, all sharing one design system, tablet layouts and full EN/BN localization.",
-      results: [
-        "232 commits between April and September 2026",
-        "Shipped through version 3.6.0",
-        "Live on Google Play and the App Store",
-      ],
-    },
-    tags: ["Flutter", "AI", "Realtime", "Audio", "EN / BN"],
-    ownership: "team",
-    role: "Team project · my part: 232 commits",
-    status: "live",
-    tint: "#1f4d3c",
-    icon: "/projects/rushd-icon.png",
-    cover: "/projects/cover-rushd.jpg",
-    hand: "/projects/hands/rushd.webp",
-    stage: "hand",
-    video: {
-      src: "/projects/videos/rushd",
-      poster: "/projects/videos/rushd-poster.webp",
-      chapters: [{ t: 0, label: "Prayer times" }, { t: 2, label: "Quick actions" }, { t: 11, label: "All 114 surahs" }, { t: 16, label: "Word-by-word reader" }],
-    },
-    gallery: [
-      { src: "/projects/phones/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
-      { src: "/projects/phones/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
-      { src: "/projects/phones/rushd-quran.webp", width: 1144, height: 2392, alt: "All 114 surahs with Meccan and Medinan filters" },
-      { src: "/projects/phones/rushd-hajj.webp", width: 1144, height: 2392, alt: "Hajj & Umrah guide with progress tracking" },
-    ],
-    platforms: "Android · iOS · Tablet",
-    android:
-      "https://play.google.com/store/apps/details?id=com.onesttech.rushd&hl=en",
-    ios: "https://apps.apple.com/us/app/rushd-quran-tafsir-guidance/id6758621105",
-  },
   {
     id: "budget-mint",
     title: "Budget Mint",
@@ -295,53 +246,6 @@ export const projects: Project[] = [
       "https://play.google.com/store/apps/details?id=com.onesttech.fuelsync",
   },
   {
-    id: "quran-audio",
-    title: "Quran Audio",
-    tagline: "Quran audio & tilawat",
-    summary: "Quran streaming with 260+ reciters that keeps playing on weak networks.",
-    description:
-      "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Our team took it from the first commit to its store-growth phase in six weeks; I contributed 121 commits.",
-    highlights: [
-      "Background playback, sleep timer, Khatam tracking and listening stats",
-      "Stream caching and a fallback audio source so playback survives weak networks",
-      "Podcasts, stories, devotions hub, offline downloads and multiple languages",
-    ],
-    story: {
-      problem:
-        "Listening on the go means weak mobile networks, long recitations and screens that switch off — playback had to survive all three.",
-      approach:
-        "Background playback with a sleep timer, stream caching and a fallback audio source for weak networks, offline downloads, Khatam tracking and listening stats, in several languages.",
-      results: [
-        "From first commit to the store-growth phase in six weeks",
-        "121 commits",
-        "260+ reciters, live on Google Play and the App Store",
-      ],
-    },
-    tags: ["Flutter", "just_audio", "Streaming", "i18n"],
-    ownership: "team",
-    role: "Team project · my part: 121 commits",
-    status: "live",
-    tint: "#0d1b33",
-    icon: "/projects/quran-audio-icon.png",
-    cover: "/projects/cover-quran-audio.jpg",
-    stage: "waves",
-    cards: [{ src: "/projects/stage/quran-continue.webp", w: 995, h: 260 }],
-    video: {
-      src: "/projects/videos/quran-audio",
-      poster: "/projects/videos/quran-audio-poster.webp",
-      chapters: [{ t: 0, label: "Home & moments" }, { t: 8, label: "Reciters by region" }, { t: 15, label: "Library" }],
-    },
-    gallery: [
-      { src: "/projects/phones/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
-      { src: "/projects/phones/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
-      { src: "/projects/phones/quran-library.webp", width: 1144, height: 2392, alt: "Library with favourites and collections" },
-    ],
-    platforms: "Android · iOS",
-    android:
-      "https://play.google.com/store/apps/details?id=com.quranaudio.app&hl=en",
-    ios: "https://apps.apple.com/us/app/quran-audio-mp3-tilawat/id6806233147",
-  },
-  {
     id: "dosey",
     title: "Dosey",
     tagline: "Medicine reminder · family care",
@@ -388,6 +292,103 @@ export const projects: Project[] = [
       { src: "/projects/phones/dosey-cost.webp", width: 1144, height: 2392, alt: "Projected monthly medicine cost" },
     ],
     platforms: "Android · iOS",
+  },
+  {
+    id: "rushd",
+    title: "RUSHD",
+    tagline: "Islamic lifestyle app",
+    summary: "Quran, prayer times, a Hajj guide, an AI assistant and learning games — one app, in English and Bangla.",
+    description:
+      "Quran reader, prayer times, Hajj & Umrah guide, an AI assistant and learning games in one app, built by the Onesttech team. My 127 commits went into the design system, prayer times, Quran downloads and releases.",
+    highlights: [
+      "The shared design system: spacing and radius scales, buttons, selection cards and page indicators used across the app",
+      "Redesigned prayer-times screen with a live prayer-status card, a Qibla card and Hijri and Bangla calendar dates",
+      "Downloadable Quran audio packs, surah-name calligraphy in the surah list and a What's New page",
+      "Offline indicator, settings and licences pages, and Play Store release updates",
+    ],
+    story: {
+      problem:
+        "One app had to cover the Quran, prayer times, Hajj & Umrah, an AI assistant and learning games — in English and Bangla, on phones and tablets — without feeling like five apps stitched together.",
+      approach:
+        "I built the shared design system the screens are drawn from, then used it to redesign prayer times and the Quran hub, added downloadable audio packs, and prepared Play Store updates.",
+      results: [
+        "127 commits on the team's codebase",
+        "One design system shared by every screen",
+        "Live on Google Play and the App Store",
+      ],
+    },
+    tags: ["Flutter", "Design system", "Prayer times", "EN / BN"],
+    ownership: "team",
+    role: "Team project · my part: 127 commits",
+    status: "live",
+    tint: "#1f4d3c",
+    icon: "/projects/rushd-icon.png",
+    cover: "/projects/cover-rushd.jpg",
+    hand: "/projects/hands/rushd.webp",
+    stage: "hand",
+    video: {
+      src: "/projects/videos/rushd",
+      poster: "/projects/videos/rushd-poster.webp",
+      chapters: [{ t: 0, label: "Prayer times" }, { t: 2, label: "Quick actions" }, { t: 11, label: "All 114 surahs" }, { t: 16, label: "Word-by-word reader" }],
+    },
+    gallery: [
+      { src: "/projects/phones/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
+      { src: "/projects/phones/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
+      { src: "/projects/phones/rushd-quran.webp", width: 1144, height: 2392, alt: "All 114 surahs with Meccan and Medinan filters" },
+      { src: "/projects/phones/rushd-hajj.webp", width: 1144, height: 2392, alt: "Hajj & Umrah guide with progress tracking" },
+    ],
+    platforms: "Android · iOS · Tablet",
+    android:
+      "https://play.google.com/store/apps/details?id=com.onesttech.rushd&hl=en",
+    ios: "https://apps.apple.com/us/app/rushd-quran-tafsir-guidance/id6758621105",
+  },
+  {
+    id: "quran-audio",
+    title: "Quran Audio",
+    tagline: "Quran audio & tilawat",
+    summary: "Quran streaming with 260+ reciters that keeps playing on weak networks.",
+    description:
+      "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Our team took it from the first commit to its store-growth phase in six weeks; my 119 commits went into streaming, reciters, stories and sharing.",
+    highlights: [
+      "A streaming source that skips oversized ID3 cover art, so stories start playing on slow links instead of buffering for a minute",
+      "Reciter pages and shelves, favourite reciters on the home screen and new reciters, including Bangladeshi voices",
+      "Stories shelf, the queue sheet and mini player, radio and podcast fixes",
+      "Share cards with deep links that open the same recitation, plus the Firebase setup",
+    ],
+    story: {
+      problem:
+        "Stories hosted on archive.org often carry a full cover image at the start of the MP3 — on a slow mobile link the play button could spin at 0:00 for over a minute.",
+      approach:
+        "I wrote an audio source that reads the ID3 header once and rewrites every range request so the player starts at the first audio frame, and built the reciter, stories and sharing screens around it.",
+      results: [
+        "From first commit to the store-growth phase in six weeks",
+        "119 commits on the team's codebase",
+        "260+ reciters, live on Google Play and the App Store",
+      ],
+    },
+    tags: ["Flutter", "just_audio", "Streaming", "Deep links"],
+    ownership: "team",
+    role: "Team project · my part: 119 commits",
+    status: "live",
+    tint: "#0d1b33",
+    icon: "/projects/quran-audio-icon.png",
+    cover: "/projects/cover-quran-audio.jpg",
+    stage: "waves",
+    cards: [{ src: "/projects/stage/quran-continue.webp", w: 995, h: 260 }],
+    video: {
+      src: "/projects/videos/quran-audio",
+      poster: "/projects/videos/quran-audio-poster.webp",
+      chapters: [{ t: 0, label: "Home & moments" }, { t: 8, label: "Reciters by region" }, { t: 15, label: "Library" }],
+    },
+    gallery: [
+      { src: "/projects/phones/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
+      { src: "/projects/phones/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
+      { src: "/projects/phones/quran-library.webp", width: 1144, height: 2392, alt: "Library with favourites and collections" },
+    ],
+    platforms: "Android · iOS",
+    android:
+      "https://play.google.com/store/apps/details?id=com.quranaudio.app&hl=en",
+    ios: "https://apps.apple.com/us/app/quran-audio-mp3-tilawat/id6806233147",
   },
   {
     id: "docyra",
@@ -529,11 +530,9 @@ export const projects: Project[] = [
 export const socials = [
   { label: "GitHub", href: "https://github.com/Rafi2046" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ishmakrafi/" },
-  { label: "Instagram", href: "https://instagram.com/ishmak_rafi" },
-  { label: "Facebook", href: "https://facebook.com/ishmakrafi" },
   { label: "X", href: "https://x.com/ishmak_rafi47" },
-  { label: "Unsplash", href: "https://unsplash.com/@ishmak_rafi" },
-  { label: "Pinterest", href: "https://www.pinterest.com/ishmakrahat/" },
+  { label: "WhatsApp", href: `https://wa.me/${site.phoneHref.replace(/\D/g, "")}?text=${encodeURIComponent("Hi Rafi, I found your portfolio.")}` },
+  { label: "Email", href: `mailto:${site.email}` },
 ] as const;
 
 /** How I work, shown as the Plan → Build → Ship sequence. */
@@ -573,13 +572,13 @@ export const experience = [
     title: "Flutter Developer",
     org: "Onesttech Software Solutions",
     summary:
-      "Building and shipping cross-platform Flutter apps for iOS and Android: 436 commits over 78 working days across four apps, three of them started from scratch.",
+      "Building and shipping cross-platform Flutter apps for iOS and Android: 1,541 commits over 105 active days across five apps, three of them built solo from scratch.",
     apps: [
-      { name: "RUSHD", detail: "Team · 232 commits · v3.6.0" },
-      { name: "Quran Audio", detail: "Team · 121 commits" },
-      { name: "Budget Mint", detail: "Solo · 679 commits" },
-      { name: "FuelSync", detail: "Solo · 216 commits" },
-      { name: "Dosey", detail: "Solo · 158 commits" },
+      { name: "Budget Mint", detail: "Solo · 734 commits" },
+      { name: "FuelSync", detail: "Solo · 392 commits" },
+      { name: "Dosey", detail: "Solo · 169 commits" },
+      { name: "RUSHD", detail: "Team · 127 commits" },
+      { name: "Quran Audio", detail: "Team · 119 commits" },
     ],
   },
 ] as const;

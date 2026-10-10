@@ -2,8 +2,8 @@ import { CountUp, Panel, Reveal, ScrollWords } from "@/components/Section";
 import { site } from "@/lib/content";
 
 const stats = [
-  { value: "436", label: "Commits, Apr – Oct 2026" },
-  { value: "78", label: "Days shipping code" },
+  { value: "1,541", label: "Commits at Onesttech" },
+  { value: "105", label: "Active days at Onesttech" },
   { value: "4", label: "Apps live on the stores" },
   { value: "EN·BN", label: "Every app localized" },
 ];

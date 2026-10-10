@@ -77,7 +77,7 @@ export function ResumePreview({ open, onClose }: { open: boolean; onClose: () =>
             {/* A sharp image of the page fills the width; browsers' PDF viewers open zoomed out with a sidebar. */}
             <div className="min-h-0 flex-1 overflow-y-auto bg-[#2a2a2e] p-3 sm:p-6">
               <Image
-                src="/resume-preview.webp"
+                src={site.resumePreview}
                 alt={`${site.fullName} — CV`}
                 width={1588}
                 height={2246}

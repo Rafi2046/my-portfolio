@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { ContributionDay, ContributionRange } from "@/lib/github";
 
@@ -48,7 +48,7 @@ function layout(days: ContributionDay[]) {
  * stretching, the stats follow the selected year, and weeks sweep in left to
  * right whenever the year changes.
  */
-export function ContributionGraph({ ranges, note }: { ranges: ContributionRange[]; note?: ReactNode }) {
+export function ContributionGraph({ ranges, note }: { ranges: ContributionRange[]; note?: string }) {
   const [id, setId] = useState(ranges[0].id);
   const range = ranges.find((r) => r.id === id) ?? ranges[0];
   const { weeks, months } = useMemo(() => layout(range.days), [range]);
@@ -185,7 +185,7 @@ export function ContributionGraph({ ranges, note }: { ranges: ContributionRange[
             </div>
           ))}
         </dl>
-        {note}
+        {note ? <p className="text-sm leading-relaxed text-muted">{note}</p> : null}
       </div>
     </div>
   );

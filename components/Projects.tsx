@@ -11,8 +11,8 @@ import { ownershipCopy, projects, statusCopy, type Project } from "@/lib/content
 
 const filters = [
   { id: "all", label: "All" },
-  { id: "team", label: "Team projects" },
   { id: "solo", label: "Built solo at Onesttech" },
+  { id: "team", label: "Team projects" },
   { id: "personal", label: "Personal" },
   { id: "university", label: "University" },
 ] as const;
@@ -115,7 +115,7 @@ export function Projects() {
       <p className="mt-8 max-w-3xl text-2xl font-medium leading-snug sm:text-3xl">
         Seven apps across Quran, finance, fuel, health and on-device AI. Four are live on the stores and used every day.
         <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
-          Two as part of the Onesttech team, three I built solo for Onesttech, two personal projects, and a
+          Three I built solo for Onesttech, two as part of the Onesttech team, two personal projects, and a
           Bangla code-learning platform from my university team.
         </span>
       </p>

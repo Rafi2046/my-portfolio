@@ -28,8 +28,8 @@ export async function Proof() {
     { value: "5.0", label: "App Store rating", note: "RUSHD and Quran Audio" },
     { value: "4.7", label: "Google Play rating", note: "Quran Audio" },
     lastYear
-      ? { value: String(lastYear.total), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
-      : { value: "436", label: "Commits at Onesttech", note: "April – October 2026" },
+      ? { value: lastYear.total.toLocaleString("en-US"), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
+      : { value: "1,541", label: "Commits at Onesttech", note: "Five apps, three built solo" },
   ];
 
   return (
@@ -55,7 +55,7 @@ export async function Proof() {
           {live.map(({ project: p, play, ...rest }) => {
             const app = "appStore" in rest ? rest.appStore : undefined;
             return (
-              <li key={p.id} className="grid grid-cols-[52px_1fr] content-start items-start gap-x-4 gap-y-3 bg-panel-2 p-5 sm:p-6">
+              <li key={p.id} data-spotlight className="grid grid-cols-[52px_1fr] content-start items-start gap-x-4 gap-y-3 bg-panel-2 p-5 sm:p-6">
                 <Image src={p.icon} alt="" width={52} height={52} className="h-13 w-13 rounded-2xl" />
                 <div className="min-w-0">
                   <p className="text-lg font-semibold leading-tight">{p.title}</p>
@@ -111,12 +111,7 @@ export async function Proof() {
             {contributions ? (
               <ContributionGraph
                 ranges={contributions}
-                note={
-                  <p key="note" className="text-sm leading-relaxed text-muted">
-                    Public contributions only. Most of my day-to-day work is in Onesttech&apos;s private repositories —
-                    436 commits between April and October 2026.
-                  </p>
-                }
+                note="Public contributions only. Most of my day-to-day work is in Onesttech’s private repositories — 1,500+ commits on five apps in 2026."
               />
             ) : (
               <p className="text-sm text-muted">GitHub is unreachable right now — see the profile for live activity.</p>

@@ -95,11 +95,29 @@ function Cursor() {
   );
 }
 
-/** Site-wide finishing: smooth scroll, film grain and the custom cursor. */
+/** Feeds the pointer position to the [data-spotlight] card under it, for the soft glow in globals.css. */
+function Spotlight() {
+  useEffect(() => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const move = (e: PointerEvent) => {
+      const card = (e.target as Element | null)?.closest<HTMLElement>("[data-spotlight]");
+      if (!card) return;
+      const box = card.getBoundingClientRect();
+      card.style.setProperty("--spot-x", `${e.clientX - box.left}px`);
+      card.style.setProperty("--spot-y", `${e.clientY - box.top}px`);
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+  return null;
+}
+
+/** Site-wide finishing: smooth scroll, film grain, card spotlight and the custom cursor. */
 export function Polish() {
   return (
     <>
       <SmoothScroll />
+      <Spotlight />
       <div aria-hidden className="grain pointer-events-none fixed inset-0 z-[80]" />
       <Cursor />
     </>

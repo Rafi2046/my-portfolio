@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { ResumePreview } from "@/components/ResumePreview";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { navLinks, projects, site } from "@/lib/content";
@@ -43,6 +43,8 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [cvOpen, setCvOpen] = useState(false);
   const closeCv = useCallback(() => setCvOpen(false), []);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
   const scrolled = useScrolled();
   const active = useActiveSection();
 
@@ -59,12 +61,18 @@ export function Navbar() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-5">
       <div
-        className={`mx-auto rounded-2xl border border-line bg-panel/90 text-ink backdrop-blur-xl transition-[max-width,border-radius,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`relative mx-auto rounded-2xl border border-line bg-panel/90 text-ink backdrop-blur-xl transition-[max-width,border-radius,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           scrolled
             ? "max-w-[88rem] shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:max-w-[60rem] lg:rounded-[1.75rem]"
             : "max-w-[88rem] shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
         }`}
       >
+        {/* Reading progress along the bottom edge of the bar */}
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-5 bottom-0 h-px origin-left bg-live"
+          style={{ scaleX: progress }}
+        />
         <nav
           className="flex h-14 items-center justify-between gap-3 pl-2 pr-2 sm:pl-2.5"
           aria-label="Primary"
@@ -157,6 +165,18 @@ export function Navbar() {
                 </a>
               </li>
             ))}
+            <li className="sm:hidden">
+              <button
+                type="button"
+                className="display focus-ring block py-2 text-4xl"
+                onClick={() => {
+                  setOpen(false);
+                  setCvOpen(true);
+                }}
+              >
+                CV
+              </button>
+            </li>
           </ul>
         ) : null}
       </div>

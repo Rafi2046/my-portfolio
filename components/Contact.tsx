@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ResumeCard } from "@/components/ResumeCard";
-import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
+import { ArrowUpRight, Panel, Reveal, Magnetic } from "@/components/Section";
 import { site } from "@/lib/content";
 
 type FieldErrors = {
@@ -65,7 +65,7 @@ export function Contact() {
         <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">
           A Flutter app to build, an existing one to rescue, or a role to fill.
           Tell me about it and I&apos;ll reply within a day. Or email{" "}
-          <a href={`mailto:${site.email}`} className="focus-ring break-all text-ink underline underline-offset-4">
+          <a href={`mailto:${site.email}`} className="focus-ring whitespace-nowrap text-ink underline underline-offset-4">
             {site.email}
           </a>
           , or call{" "}
@@ -148,12 +148,14 @@ export function Contact() {
         </div>
 
         <div className="flex flex-col items-center gap-4 pt-2">
+          <Magnetic>
           <button
             type="submit"
             className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 text-sm font-semibold text-panel transition hover:opacity-85"
           >
             Contact me <ArrowUpRight className="h-4 w-4" />
           </button>
+          </Magnetic>
           {opened ? (
             <p className="text-center text-sm text-muted" role="status">
               Your email app should open with the message ready to send. If it

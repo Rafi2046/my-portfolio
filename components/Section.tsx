@@ -6,6 +6,7 @@ import {
   useInView,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
@@ -159,12 +160,13 @@ function Word({ children, progress, range }: { children: string; progress: Motio
   );
 }
 
-/** Counts up to a number the first time it scrolls into view; non-numeric values render as-is. */
+/** Counts up to a number the first time it scrolls into view; "1,103" keeps its commas, non-numeric values render as-is. */
 export function CountUp({ value, className = "" }: { value: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
   const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
-  const target = /^\d+$/.test(value) ? Number(value) : null;
+  const target = /^\d[\d,]*$/.test(value) ? Number(value.replace(/,/g, "")) : null;
+  const grouped = value.includes(",");
   const [n, setN] = useState(0);
 
   useEffect(() => {
@@ -175,7 +177,36 @@ export function CountUp({ value, className = "" }: { value: string; className?: 
 
   return (
     <span ref={ref} className={`tabular-nums ${className}`}>
-      {target === null || reduce ? value : n}
+      {target === null || reduce ? value : grouped ? n.toLocaleString("en-US") : n}
     </span>
+  );
+}
+
+/**
+ * Pulls its child a little towards the pointer and springs back on leave.
+ * Mouse only, and off for reduced motion.
+ */
+export function Magnetic({ children, className = "", strength = 0.3 }: { children: ReactNode; className?: string; strength?: number }) {
+  const reduce = useReducedMotion();
+  const x = useSpring(0, { stiffness: 220, damping: 16, mass: 0.4 });
+  const y = useSpring(0, { stiffness: 220, damping: 16, mass: 0.4 });
+
+  return (
+    <motion.span
+      className={`inline-block ${className}`}
+      style={{ x, y }}
+      onPointerMove={(e) => {
+        if (reduce || e.pointerType !== "mouse") return;
+        const box = e.currentTarget.getBoundingClientRect();
+        x.set((e.clientX - box.left - box.width / 2) * strength);
+        y.set((e.clientY - box.top - box.height / 2) * strength);
+      }}
+      onPointerLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+    >
+      {children}
+    </motion.span>
   );
 }

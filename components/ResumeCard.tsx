@@ -20,7 +20,7 @@ export function ResumeCard() {
           aria-label="Preview resume"
           className="focus-ring relative mx-auto block w-40 rotate-[-4deg] overflow-hidden rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition duration-500 group-hover:rotate-0 group-hover:scale-105 sm:w-full"
         >
-          <Image src="/resume-preview.webp" alt="First page of the resume" width={1588} height={2246} sizes="180px" className="h-auto w-full" />
+          <Image src={site.resumePreview} alt="First page of the resume" width={1588} height={2246} sizes="180px" className="h-auto w-full" />
         </button>
         <div className="text-center sm:text-left">
           <p className="eyebrow text-muted">Resume · 1 page · PDF</p>

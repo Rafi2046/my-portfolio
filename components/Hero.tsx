@@ -11,7 +11,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
+import { ArrowUpRight, Panel, Reveal, Magnetic } from "@/components/Section";
 import { BrandIcon } from "@/components/BrandIcon";
 import { site, socials } from "@/lib/content";
 
@@ -137,12 +137,14 @@ export function Hero() {
               <p className="text-2xl font-semibold leading-tight">
                 I build mobile apps people open every day.
               </p>
+              <Magnetic className="mt-5">
               <a
                 href="#projects"
-                className="focus-ring mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-panel transition hover:opacity-85"
+                className="focus-ring inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-panel transition hover:opacity-85"
               >
                 See my work <ArrowUpRight className="h-4 w-4" />
               </a>
+              </Magnetic>
             </div>
             <div className="flex flex-col items-end gap-2">
               <SocialRow />
@@ -196,8 +198,7 @@ function SocialRow({ className = "" }: { className?: string }) {
         <li key={s.label}>
           <a
             href={s.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(s.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             aria-label={s.label}
             title={s.label}
             className="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-line-strong bg-panel/70 backdrop-blur transition hover:-translate-y-0.5 hover:bg-ink hover:text-panel"

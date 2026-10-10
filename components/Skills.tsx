@@ -25,6 +25,7 @@ export function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -60px 0px" }}
               transition={{ duration: 0.8, delay: (i % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              data-spotlight
               className={`group relative overflow-hidden rounded-[1.5rem] border border-line-strong bg-panel-2 p-6 transition-colors duration-500 hover:bg-ink hover:text-panel sm:p-8 ${SPAN[i]}`}
             >
               <p className="eyebrow opacity-60">0{i + 1}</p>

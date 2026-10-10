@@ -15,7 +15,7 @@ function Group({ label, children }: { label: string; children: ReactNode }) {
 export function Timeline() {
   return (
     <Panel id="experience" tone="inverse" labelledBy="experience-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="experience-heading" title="Experience" counter="07" kicker="Work & education" aside="436 commits in 2026" />
+      <SectionTitle id="experience-heading" title="Experience" counter="07" kicker="Work & education" aside="1,500+ commits in 2026" />
 
       <div className="mt-12 flex flex-col gap-14">
         <Group label="Work">
@@ -49,7 +49,7 @@ export function Timeline() {
                 <p className="text-xl font-semibold tracking-tight sm:text-2xl">{e.title}</p>
                 <p className="mt-1 text-on-inverse-muted">
                   {e.org}
-                  {e.period ? <span className="font-mono text-sm"> · {e.period}</span> : null}
+                  {e.period ? <span className="whitespace-nowrap font-mono text-sm"> · {e.period}</span> : null}
                 </p>
                 {e.note ? <p className="mt-2 text-sm text-on-inverse-muted">{e.note}</p> : null}
               </div>
