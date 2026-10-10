@@ -22,10 +22,37 @@ const anton = Anton({
   weight: "400",
 });
 
+const description =
+  "Portfolio of Ishmak Rahat Rafi, Flutter developer at Onesttech Software Solutions. Budget Mint, FuelSync, Dosey, RUSHD, Quran Audio and more.";
+
 export const metadata: Metadata = {
-  title: "Ishmak Rahat Rafi — Flutter Developer",
-  description:
-    "Portfolio of Ishmak Rahat Rafi, Flutter developer at Onesttech Software Solutions. RUSHD, Quran Audio, Budget Mint, FuelSync, Dosey and more.",
+  // Lets the preview image and canonical links resolve to the live address.
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Ishmak Rahat Rafi — Flutter Developer",
+    template: "%s",
+  },
+  description,
+  applicationName: site.fullName,
+  authors: [{ name: site.fullName, url: site.url }],
+  creator: site.fullName,
+  keywords: ["Ishmak Rahat Rafi", "Flutter developer", "Dart", "iOS", "Android", "Bangladesh", "Dhaka", "Portfolio"],
+  alternates: { canonical: "/" },
+  // Link previews on LinkedIn, WhatsApp, Facebook, X and Slack; the image comes from app/opengraph-image.tsx.
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: site.fullName,
+    title: "Ishmak Rahat Rafi — Flutter Developer",
+    description,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ishmak Rahat Rafi — Flutter Developer",
+    description,
+    creator: "@ishmak_rafi47",
+  },
 };
 
 /** Applies a saved theme choice before paint so there's no flash. */

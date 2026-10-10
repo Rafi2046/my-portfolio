@@ -1,6 +1,8 @@
 export const site = {
   navBrand: "Rafi",
   fullName: "Ishmak Rahat Rafi",
+  /** Live address; used for metadata, link previews and canonical URLs. */
+  url: "https://ishmakrafi.vercel.app",
   role: "Flutter Developer at Onesttech Software Solutions",
   headline: "I build mobile apps people open every day.",
   supporting:
@@ -9,8 +11,8 @@ export const site = {
   phone: "+880 1521-392046",
   phoneHref: "tel:+8801521392046",
   /** The CV, built from docs/resume/resume.html. Bump `?v=` and the preview's file name on every update so no cache serves the old one. */
-  resumeHref: "/resume.pdf?v=2026-10-11",
-  resumePreview: "/resume-preview-2026-10-11.webp",
+  resumeHref: "/resume.pdf?v=2026-10-11-2",
+  resumePreview: "/resume-preview-2026-10-11-2.webp",
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Quran Audio, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",

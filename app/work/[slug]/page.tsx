@@ -22,9 +22,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = projects.find((p) => p.id === slug);
   if (!project) return {};
+  const title = `${project.title} — ${site.fullName}`;
+  // The project's cover makes the link preview; WebP covers fall back to the site card, since not every app shows WebP previews.
+  const image = project.cover.endsWith(".jpg")
+    ? { url: project.cover, width: 1600, height: 1200, alt: `${project.title} — ${project.tagline}` }
+    : { url: "/opengraph-image", width: 1200, height: 630, alt: title };
   return {
-    title: `${project.title} — ${site.fullName}`,
+    title,
     description: project.description,
+    alternates: { canonical: `/work/${project.id}` },
+    openGraph: { type: "article", url: `/work/${project.id}`, title, description: project.description, images: [image] },
+    twitter: { card: "summary_large_image", title, description: project.description, images: [image] },
   };
 }
 
