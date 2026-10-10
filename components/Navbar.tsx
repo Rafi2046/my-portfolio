@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { ResumePreview } from "@/components/ResumePreview";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { navLinks, projects, site } from "@/lib/content";
 
@@ -40,6 +41,8 @@ function useActiveSection() {
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [cvOpen, setCvOpen] = useState(false);
+  const closeCv = useCallback(() => setCvOpen(false), []);
   const scrolled = useScrolled();
   const active = useActiveSection();
 
@@ -117,12 +120,13 @@ export function Navbar() {
               Available for new projects
             </span>
             <ThemeToggle />
-            <Link
-              href="/#contact"
+            <button
+              type="button"
+              onClick={() => setCvOpen(true)}
               className="focus-ring hidden h-10 items-center rounded-full bg-ink px-5 text-xs font-semibold uppercase tracking-wider text-panel transition hover:opacity-85 sm:inline-flex"
             >
-              Hire me
-            </Link>
+              CV
+            </button>
             <button
               type="button"
               className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full border border-line-strong lg:hidden"
@@ -157,6 +161,7 @@ export function Navbar() {
         ) : null}
       </div>
       </header>
+      <ResumePreview open={cvOpen} onClose={closeCv} />
     </>
   );
 }

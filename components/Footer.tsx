@@ -6,26 +6,18 @@ export function Footer() {
 
   return (
     <footer className="py-3">
-      <Panel tone="gray" className="px-5 pb-6 pt-14 sm:px-10 sm:pt-20">
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <ArrowUpRight className="h-14 w-14 shrink-0 text-muted sm:h-24 sm:w-24" />
-            <p className="text-3xl font-semibold uppercase leading-[1.05] tracking-tight text-ink/80 sm:text-5xl">
-              Let&apos;s work
-              <br />
-              together
-            </p>
-          </div>
-          <a
-            href={`mailto:${site.email}`}
-            className="focus-ring inline-flex h-12 items-center justify-center self-start rounded-xl border border-line-strong px-6 text-sm font-semibold uppercase tracking-wider transition hover:bg-ink hover:text-panel sm:self-auto"
-          >
-            Send me a message
+      <Panel tone="gray" className="px-5 pb-6 pt-10 sm:px-10 sm:pt-12">
+        <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between">
+          <a href={`mailto:${site.email}`} className="focus-ring inline-flex items-center gap-1.5 font-medium transition hover:opacity-70">
+            {site.email} <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+          <a href={site.phoneHref} className="focus-ring font-mono text-muted transition hover:text-ink">
+            {site.phone}
           </a>
         </div>
 
-        <div className="mt-12 border-t border-line-strong pt-6 sm:mt-16">
-          <p aria-hidden className="display select-none text-center text-[19.5vw] leading-[0.82] text-ink/80 2xl:text-[18rem]">
+        <div className="mt-8 border-t border-line-strong pt-6">
+          <p aria-hidden className="display select-none text-center text-[19.5vw] leading-[0.82] text-ink 2xl:text-[18rem]">
             Ishmak Rafi
           </p>
         </div>

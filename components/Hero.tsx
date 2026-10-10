@@ -12,7 +12,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
-import { SocialIcon } from "@/components/SocialIcon";
+import { BrandIcon } from "@/components/BrandIcon";
 import { site, socials } from "@/lib/content";
 
 /** Starts after the intro curtain lifts (see globals.css). */
@@ -202,7 +202,7 @@ function SocialRow({ className = "" }: { className?: string }) {
             title={s.label}
             className="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-line-strong bg-panel/70 backdrop-blur transition hover:-translate-y-0.5 hover:bg-ink hover:text-panel"
           >
-            <SocialIcon label={s.label} className="h-4 w-4" />
+            <BrandIcon name={s.label} className="h-4 w-4" />
           </a>
         </li>
       ))}

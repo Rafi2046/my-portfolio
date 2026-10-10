@@ -5,7 +5,10 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Panel } from "@/components/Section";
-import { projects } from "@/lib/content";
+import { projects as allProjects } from "@/lib/content";
+
+// The hub is about apps, so web projects stay out of it.
+const projects = allProjects.filter((p) => !p.web);
 
 // Positions are fractions of the stage, which spans the panel's full width.
 // The SVG is sized to the stage in real pixels so strokes and dashes never stretch.

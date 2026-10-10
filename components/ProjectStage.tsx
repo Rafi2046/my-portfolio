@@ -48,6 +48,28 @@ function Card({ card, className = "", style, delay = 0 }: { card: StageCard; cla
   );
 }
 
+type Screen = NonNullable<Project["screens"]>[number];
+
+/** A desktop browser window around a website screenshot, sized by width and positioned by the caller. */
+function Browser({ screen, url, className = "", style, priority }: { screen: Screen; url: string; className?: string; style?: CSSProperties; priority?: boolean }) {
+  return (
+    <div
+      className={`absolute overflow-hidden rounded-[1cqw] border border-white/15 bg-[#0d1117] shadow-[0_3cqw_5cqw_rgba(0,0,0,0.55)] ${className}`}
+      style={style}
+    >
+      <div className="flex h-[3.2cqw] items-center gap-[0.7cqw] border-b border-white/10 px-[1.2cqw]">
+        {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+          <span key={c} className="h-[0.9cqw] w-[0.9cqw] rounded-full" style={{ background: c }} />
+        ))}
+        <span className="mx-auto w-[45%] truncate rounded-full bg-white/[0.07] px-[1cqw] text-center text-[1.2cqw] leading-[1.9cqw] text-white/55">{url}</span>
+      </div>
+      <div className="relative" style={{ aspectRatio: `${screen.width} / ${screen.height}` }}>
+        <Image src={screen.src} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 90vw, 900px" className="object-cover object-top" />
+      </div>
+    </div>
+  );
+}
+
 const SCAN_SPOTS = [
   "left-[9%] top-[16%] w-[25%] -rotate-[10deg]",
   "right-[8%] top-[10%] w-[23%] rotate-[8deg]",
@@ -155,6 +177,18 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
           {cards[0] ? <Card card={cards[0]} className="bottom-[12%] left-1/2 w-[40%] -translate-x-[10%]" delay={0.5} /> : null}
         </>
       );
+
+    // A website: the Bangla page behind, the English page in front.
+    case "browser": {
+      const [front, back] = project.screens ?? [];
+      const url = project.web ? new URL(project.web).host : "";
+      return (
+        <>
+          {back ? <Browser screen={back} url={url} className="right-[3%] top-[10%] w-[58%]" style={{ transform: "rotate(3deg)", filter: "brightness(.7)" }} /> : null}
+          {front ? <Browser screen={front} url={url} priority={priority} className="bottom-[8%] left-[5%] w-[68%]" style={{ transform: "rotate(-2deg)" }} /> : null}
+        </>
+      );
+    }
 
     case "fan":
       return (

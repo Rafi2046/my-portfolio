@@ -68,6 +68,10 @@ export function Contact() {
           <a href={`mailto:${site.email}`} className="focus-ring break-all text-ink underline underline-offset-4">
             {site.email}
           </a>
+          , or call{" "}
+          <a href={site.phoneHref} className="focus-ring whitespace-nowrap text-ink underline underline-offset-4">
+            {site.phone}
+          </a>
           .
         </p>
       </div>

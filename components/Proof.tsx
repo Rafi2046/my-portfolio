@@ -21,35 +21,20 @@ export async function Proof() {
   const live = storeProof.apps.map((s) => ({ ...s, project: projects.find((p) => p.id === s.id)! }));
   const platforms = live.filter((a) => "appStore" in a).length;
 
-  let stats: { label: string; value: string }[] | null = null;
-  if (contributions) {
-    const days = contributions.days;
-    let longest = 0;
-    let run = 0;
-    for (const d of days) {
-      run = d.count > 0 ? run + 1 : 0;
-      longest = Math.max(longest, run);
-    }
-    const busiest = Math.max(...days.map((d) => d.count));
-    stats = [
-      { label: "Active days", value: String(days.filter((d) => d.count > 0).length) },
-      { label: "Longest streak", value: `${longest}d` },
-      { label: "Busiest day", value: String(busiest) },
-    ];
-  }
+  const lastYear = contributions?.[0];
 
   const tiles = [
     { value: String(live.length), label: "Apps live on the stores", note: `${platforms} on both Google Play and the App Store` },
     { value: "5.0", label: "App Store rating", note: "RUSHD and Quran Audio" },
     { value: "4.7", label: "Google Play rating", note: "Quran Audio" },
-    contributions
-      ? { value: String(contributions.total), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
+    lastYear
+      ? { value: String(lastYear.total), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
       : { value: "436", label: "Commits at Onesttech", note: "April – October 2026" },
   ];
 
   return (
     <Panel id="proof" tone="gray" labelledBy="proof-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="proof-heading" title="Proof" counter="03" kicker="Shipped, rated, still committing" aside={`Store data · ${storeProof.checked}`} />
+      <SectionTitle id="proof-heading" title="Proof" counter="04" kicker="Shipped, rated, still committing" aside={`Store data · ${storeProof.checked}`} />
 
       <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-[1.5rem] border border-line-strong bg-line-strong lg:grid-cols-4">
         {tiles.map((t) => (
@@ -109,7 +94,7 @@ export async function Proof() {
         </ul>
 
         {/* GitHub activity */}
-        <div className="grid min-w-0 gap-6 rounded-[1.5rem] border border-line-strong p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-10">
+        <div className="grid min-w-0 gap-6 rounded-[1.5rem] border border-line-strong p-5 sm:p-6 lg:gap-8">
           <div className="min-w-0">
           <div className="flex items-center justify-between gap-4">
             <p className="font-semibold">GitHub activity</p>
@@ -124,27 +109,19 @@ export async function Proof() {
           </div>
           <div className="mt-6 min-w-0">
             {contributions ? (
-              <ContributionGraph days={contributions.days} />
+              <ContributionGraph
+                ranges={contributions}
+                note={
+                  <p key="note" className="text-sm leading-relaxed text-muted">
+                    Public contributions only. Most of my day-to-day work is in Onesttech&apos;s private repositories —
+                    436 commits between April and October 2026.
+                  </p>
+                }
+              />
             ) : (
               <p className="text-sm text-muted">GitHub is unreachable right now — see the profile for live activity.</p>
             )}
           </div>
-          </div>
-          <div className="flex flex-col">
-          {stats ? (
-            <dl className="grid grid-cols-3 lg:grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line-strong bg-line-strong">
-              {stats.map((x) => (
-                <div key={x.label} className="bg-panel-2 p-4">
-                  <dt className="text-xs text-muted">{x.label}</dt>
-                  <dd className="display mt-1 text-3xl sm:text-4xl">{x.value}</dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
-          <p className="mt-6 text-sm leading-relaxed text-muted lg:mt-auto lg:pt-6">
-            Public contributions only. Most of my day-to-day work is in Onesttech&apos;s private repositories —
-            436 commits between April and October 2026.
-          </p>
           </div>
         </div>
       </div>

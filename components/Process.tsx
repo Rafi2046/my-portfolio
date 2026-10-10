@@ -77,8 +77,10 @@ const EDGES = [
 function PlanNode({ n, p }: { n: (typeof NODES)[number] | (typeof NODES_V)[number]; p: MotionValue<number> }) {
   const t = useStage(p, n.at, n.at + 0.12);
   const y = useTransform(t, [0, 1], [14, 0]);
+  // Never fully hidden: the diagram rests as a faint outline until its turn.
+  const opacity = useTransform(t, [0, 1], [0.16, 1]);
   return (
-    <motion.g style={{ opacity: t, y }}>
+    <motion.g style={{ opacity, y }}>
       <rect x={n.x} y={n.y} width={n.w} height={60} rx={14} fill="#161a21" stroke="rgba(255,255,255,0.18)" />
       <text x={n.x + 16} y={n.y + 26} fill="#f2f3f5" fontSize="16" fontWeight="600">
         {n.label}
@@ -92,7 +94,12 @@ function PlanNode({ n, p }: { n: (typeof NODES)[number] | (typeof NODES_V)[numbe
 
 function PlanEdge({ d, p, at }: { d: string; p: MotionValue<number>; at: number }) {
   const len = useStage(p, at, at + 0.12);
-  return <motion.path d={d} fill="none" stroke="#22c55e" strokeWidth={2.5} strokeLinecap="round" style={{ pathLength: len, opacity: len }} />;
+  return (
+    <>
+      <path d={d} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={1.5} strokeDasharray="4 5" />
+      <motion.path d={d} fill="none" stroke="#22c55e" strokeWidth={2.5} strokeLinecap="round" style={{ pathLength: len, opacity: len }} />
+    </>
+  );
 }
 
 function Note({ p, at, className, children }: { p: MotionValue<number>; at: number; className: string; children: ReactNode }) {
@@ -268,9 +275,10 @@ function PipelineStep({ p, i, label, last }: { p: MotionValue<number>; i: number
 
 function LiveApp({ p, i, app }: { p: MotionValue<number>; i: number; app: (typeof projects)[number] }) {
   const t = useStage(p, 0.58 + i * 0.07, 0.68 + i * 0.07);
-  const scale = useTransform(t, [0, 1], [0.6, 1]);
+  const scale = useTransform(t, [0, 1], [0.92, 1]);
+  const opacity = useTransform(t, [0, 1], [0.22, 1]);
   return (
-    <motion.li style={{ opacity: t, scale }} className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-[#161a21] p-2 text-center sm:gap-2 sm:rounded-2xl sm:p-3 xl:p-4">
+    <motion.li style={{ opacity, scale }} className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-[#161a21] p-2 text-center sm:gap-2 sm:rounded-2xl sm:p-3 xl:p-4">
       <Image src={app.icon} alt="" width={56} height={56} className="h-9 w-9 rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl xl:h-14 xl:w-14" />
       <span className="line-clamp-1 text-[11px] font-semibold sm:text-sm">{app.title}</span>
       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#22c55e]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#4ade80]">
@@ -280,7 +288,7 @@ function LiveApp({ p, i, app }: { p: MotionValue<number>; i: number; app: (typeo
   );
 }
 
-const LIVE = projects.filter((x) => x.status === "live");
+const LIVE = projects.filter((x) => x.status === "live" && !x.web);
 
 function ShipScene({ p }: { p: MotionValue<number> }) {
   const outro = useStage(p, 0.88, 0.98);
@@ -354,7 +362,7 @@ export function Process() {
   return (
     <Panel tone="inverse" labelledBy="process-heading" className="mt-3">
       <div className="px-5 pt-14 sm:px-10 sm:pt-20">
-        <SectionTitle id="process-heading" title="How I work" counter="04" kicker="Plan · Build · Ship" />
+        <SectionTitle id="process-heading" title="How I work" counter="05" kicker="Plan · Build · Ship" />
       </div>
 
       <ol className="space-y-16 px-5 pb-14 pt-10 sm:px-10 lg:hidden">

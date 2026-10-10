@@ -6,6 +6,8 @@ export const site = {
   supporting:
     "Flutter developer shipping production iOS and Android apps — from Quran audio streaming and AI-assisted learning to offline-first finance, fuel and health tools.",
   email: "ishmakrahat02@gmail.com",
+  phone: "+880 1521-392046",
+  phoneHref: "tel:+8801521392046",
   /** Place a PDF at public/resume.pdf or update this path. */
   resumeHref: "/resume.pdf",
   about: [
@@ -13,12 +15,11 @@ export const site = {
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
     "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification.",
   ],
-  journey:
-    "Curiosity about how apps are built turned into shipping Flutter products in production, with a lasting interest in clean architecture and the computer-science ideas underneath mobile systems.",
 } as const;
 
 export const navLinks = [
   { href: "/#about", label: "About" },
+  { href: "/#journey", label: "Journey" },
   { href: "/#projects", label: "Work" },
   { href: "/#skills", label: "Stack" },
   { href: "/#experience", label: "Experience" },
@@ -94,13 +95,15 @@ export type Project = {
   id: string;
   title: string;
   tagline: string;
+  /** One line for the project card; must read whole, never truncated. */
+  summary: string;
   description: string;
   highlights: string[];
   /** Problem → approach → result, told at the top of the case study. */
   story: { problem: string; approach: string; results: string[] };
   tags: string[];
-  /** team = office team project, solo = I built it alone for the office, personal = my own project. */
-  ownership: "team" | "solo" | "personal";
+  /** team = office team project, solo = I built it alone for the office, personal = my own project, university = university team project. */
+  ownership: "team" | "solo" | "personal" | "university";
   /** Short line about my part, shown on the card. */
   role: string;
   status: "live" | "building" | "prototype";
@@ -112,22 +115,29 @@ export type Project = {
   /** Photo of the app on a hand-held phone (transparent PNG/WebP), used as the stage centrepiece. */
   hand?: string;
   /** How the stage presents this app; defaults to fanned phones. */
-  stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "fan";
+  stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "fan" | "browser";
   /** Cut-out UI pieces or documents floating in the stage. */
   cards?: { src: string; w: number; h: number }[];
   /** Screen recording of the app, with chapter marks in seconds. */
   video?: { src: string; poster: string; chapters: { t: number; label: string }[] };
+  /** Desktop screenshots of a website, shown in browser windows on the stage. */
+  screens?: { src: string; width: number; height: number; alt: string }[];
   /** Portrait app screenshots for the case-study gallery. */
   gallery?: { src: string; width: number; height: number; alt: string }[];
   platforms: string;
   android?: string;
   ios?: string;
+  /** Live website, for web projects. */
+  web?: string;
+  /** Source code, when it lives outside my own GitHub. */
+  repo?: string;
 };
 
 export const ownershipCopy: Record<Project["ownership"], { short: string; long: string }> = {
   team: { short: "Team project", long: "Team project at Onesttech" },
   solo: { short: "Solo build", long: "Built solo for Onesttech" },
   personal: { short: "Personal", long: "Personal project" },
+  university: { short: "University", long: "University team project" },
 };
 
 export const statusCopy: Record<Project["status"], string> = {
@@ -141,6 +151,7 @@ export const projects: Project[] = [
     id: "rushd",
     title: "RUSHD",
     tagline: "Islamic lifestyle app",
+    summary: "Quran, prayer times, a Hajj guide, an AI assistant and learning games — one app, in English and Bangla.",
     description:
       "Quran reader, prayer times, Hajj & Umrah guide, an AI assistant and learning games in one app. Our team's largest project of 2026 — I contributed 232 commits through version 3.6.0.",
     highlights: [
@@ -189,6 +200,7 @@ export const projects: Project[] = [
     id: "budget-mint",
     title: "Budget Mint",
     tagline: "Expenses · trips · mess meals",
+    summary: "Personal finance plus the messy shared parts: splitting trips and running a mess meal budget.",
     description:
       "Personal finance that also handles the messy shared parts — split trip costs with friends and run a shared mess meal budget.",
     highlights: [
@@ -240,6 +252,7 @@ export const projects: Project[] = [
     id: "fuelsync",
     title: "FuelSync",
     tagline: "Mileage · trips · service",
+    summary: "An offline-first fuel log that works out real mileage and cost per kilometre.",
     description:
       "An offline-first fuel log and mileage tracker that keeps every vehicle's running costs, trips and service history in one place.",
     highlights: [
@@ -285,6 +298,7 @@ export const projects: Project[] = [
     id: "quran-audio",
     title: "Quran Audio",
     tagline: "Quran audio & tilawat",
+    summary: "Quran streaming with 260+ reciters that keeps playing on weak networks.",
     description:
       "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Our team took it from the first commit to its store-growth phase in six weeks; I contributed 121 commits.",
     highlights: [
@@ -331,6 +345,7 @@ export const projects: Project[] = [
     id: "dosey",
     title: "Dosey",
     tagline: "Medicine reminder · family care",
+    summary: "Medicine reminders that ring full-screen, with a caregiver mode for family.",
     description:
       "A medicine reminder whose alarms really ring — full-screen, even with the app closed — with a caregiver mode so family can follow your doses.",
     highlights: [
@@ -378,6 +393,7 @@ export const projects: Project[] = [
     id: "docyra",
     title: "Docyra",
     tagline: "Offline document & ID scanner",
+    summary: "A document scanner that never uploads — scan, OCR and edit PDFs on the phone.",
     description:
       "A CamScanner-style scanner that never uploads your documents. Scan, clean up, OCR and edit PDFs entirely on the phone.",
     highlights: [
@@ -428,6 +444,7 @@ export const projects: Project[] = [
     id: "ayurvision",
     title: "AyurVision",
     tagline: "AI herb identifier · BSc thesis",
+    summary: "My BSc thesis: photograph a leaf, get the herb, a confidence score and its uses.",
     description:
       "My BSc thesis project at Daffodil International University: point the camera at a leaf and get the herb, a confidence score and its medicinal uses — with a 24-herb library of uses and precautions that works offline.",
     highlights: [
@@ -467,58 +484,45 @@ export const projects: Project[] = [
     ],
     platforms: "Android",
   },
-];
-
-export type TimelineItem = {
-  id: string;
-  type: "experience" | "education";
-  period: string;
-  title: string;
-  org: string;
-  summary: string;
-  highlights?: { name: string; detail: string }[];
-};
-
-export const timeline: TimelineItem[] = [
   {
-    id: "onesttech",
-    type: "experience",
-    period: "Present",
-    title: "Flutter Developer",
-    org: "Onesttech Software Solutions",
-    summary:
-      "Building and shipping cross-platform Flutter apps for iOS and Android. Between April and October 2026: 436 commits over 78 working days across four apps, three of them started from scratch.",
+    id: "ekushey-coding",
+    title: "Ekushey Coding",
+    tagline: "Learn to code in Bangla",
+    summary: "A code-learning platform in Bangla and English, built with a five-person university team.",
+    description:
+      "Tutorials, exercises, a blog and certificates for learning to code — in Bangla as well as English, for students who find English-only material hard to follow. Built by a five-person team at Daffodil International University.",
     highlights: [
-      {
-        name: "RUSHD",
-        detail: "232 commits · AI assistant, games, Hadith library, v3.6.0",
-      },
-      {
-        name: "Quran Audio",
-        detail: "121 commits · first commit to store growth in six weeks",
-      },
-      {
-        name: "Budget Mint",
-        detail: "679 commits · built solo, live on both stores",
-      },
-      {
-        name: "FuelSync",
-        detail: "216 commits · built solo, live on Google Play",
-      },
-      {
-        name: "Dosey",
-        detail: "158 commits · built solo, in development",
-      },
+      "Programming-languages pages with a responsive grid and dynamic routing per language",
+      "Bilingual exercises page, with the full exercise set in Bangla and English",
+      "Admin tutorial editor: create, edit, publish and delete tutorials through the Laravel API",
+      "Light, dark and system themes that remember the visitor's choice",
     ],
-  },
-  {
-    id: "diu-cse",
-    type: "education",
-    period: "2022 – 2026",
-    title: "BSc in Computer Science & Engineering",
-    org: "Daffodil International University",
-    summary:
-      "Software engineering fundamentals — data structures, algorithms, system design and compiler concepts. Thesis: AyurVision, an AI medicinal-herb identifier.",
+    story: {
+      problem:
+        "Most coding tutorials are English-only, which slows down Bangla-speaking students who are still getting comfortable with technical English.",
+      approach:
+        "Our team rebuilt our earlier HTML tutorial site, W3University, as a Next.js app with a Laravel and MySQL backend. Every page and lesson exists in both languages, and admins upload content through their own dashboard.",
+      results: [
+        "Live on Vercel in English and Bangla",
+        "Five contributors, with front end and back end in separate repositories",
+        "Grew out of W3University, our 2024 version in plain HTML, CSS and JavaScript",
+      ],
+    },
+    tags: ["Next.js", "TypeScript", "Laravel", "EN / BN"],
+    ownership: "university",
+    role: "University team project · front end and admin",
+    status: "live",
+    tint: "#0c3b27",
+    icon: "/projects/ekushey-icon.png",
+    cover: "/projects/stage/ekushey-home.webp",
+    stage: "browser",
+    screens: [
+      { src: "/projects/stage/ekushey-home.webp", width: 2160, height: 1350, alt: "Home page in English" },
+      { src: "/projects/stage/ekushey-home-bn.webp", width: 2160, height: 1350, alt: "Home page in Bangla" },
+    ],
+    platforms: "Web",
+    web: "https://ekusheycoding.vercel.app/en",
+    repo: "https://github.com/protik0939/w3university-frontend",
   },
 ];
 
@@ -562,14 +566,116 @@ export const storeProof = {
   ],
 } as const;
 
-/** Rows for the experience panel, newest first. */
-export const experienceRows = [
-  { org: "Onesttech Software Solutions", role: "Flutter Developer", period: "Present" },
-  { org: "Dosey", role: "Medicine reminder · built solo for Onesttech · 158 commits", period: "Oct 2026" },
-  { org: "Docyra", role: "Offline document scanner · personal project · 174 commits", period: "Sep – Oct 2026" },
-  { org: "FuelSync", role: "Fuel & mileage tracker · built solo for Onesttech · 216 commits", period: "Aug – Sep 2026" },
-  { org: "Quran Audio", role: "Quran audio streaming · team project · 121 commits", period: "Aug – Sep 2026" },
-  { org: "Budget Mint", role: "Personal finance · built solo for Onesttech · 679 commits", period: "Jun – Oct 2026" },
-  { org: "RUSHD", role: "Islamic lifestyle app · team project · 232 commits, v3.6.0", period: "Apr – Sep 2026" },
-  { org: "Daffodil International University", role: "BSc in CSE · thesis: AyurVision", period: "2022 – 2026" },
+/** Work history, newest first. */
+export const experience = [
+  {
+    period: "Apr 2026 – Present",
+    title: "Flutter Developer",
+    org: "Onesttech Software Solutions",
+    summary:
+      "Building and shipping cross-platform Flutter apps for iOS and Android: 436 commits over 78 working days across four apps, three of them started from scratch.",
+    apps: [
+      { name: "RUSHD", detail: "Team · 232 commits · v3.6.0" },
+      { name: "Quran Audio", detail: "Team · 121 commits" },
+      { name: "Budget Mint", detail: "Solo · 679 commits" },
+      { name: "FuelSync", detail: "Solo · 216 commits" },
+      { name: "Dosey", detail: "Solo · 158 commits" },
+    ],
+  },
 ] as const;
+
+/** Education, newest first. */
+export const education = [
+  {
+    period: "2022 – 2026",
+    title: "BSc in Computer Science & Engineering",
+    org: "Daffodil International University",
+    grade: "SGPA 3.33",
+    note: "Thesis: AyurVision, an AI medicinal-herb identifier",
+  },
+  {
+    title: "HSC · Science",
+    org: "Ideal College, Dhanmondi",
+    grade: "GPA 4.58",
+  },
+  {
+    title: "SSC · Science",
+    org: "BAF Shaheen Hazi Ashraf Ali College",
+    grade: "GPA 4.00",
+  },
+] as { period?: string; title: string; org: string; grade: string; note?: string }[];
+
+/** The road from coursework to the stores, told from my GitHub history. */
+export const journey = {
+  story: [
+    "I started Computer Science & Engineering at Daffodil International University in 2022. My first commits were C exercises; then came web pages in HTML and CSS, object-oriented Python and Linux shell scripting — coursework, pushed to GitHub as I went.",
+    "In 2025 I picked up Dart and Flutter and kept going: small apps first, then state management and REST APIs. In April 2026 it became my job — I joined Onesttech Software Solutions as a Flutter developer, and four apps I worked on are now live on Google Play and the App Store.",
+  ],
+  stats: [
+    { value: "2022", label: "Started CSE", count: false },
+    { value: "42", label: "Public repositories", count: true },
+    { value: "10", label: "Flutter apps built", count: true },
+    { value: "8", label: "Languages written", count: true },
+  ],
+  milestones: [
+    { year: "2022", title: "Started CSE", text: "BSc in Computer Science & Engineering at Daffodil International University." },
+    { year: "2023", title: "First commits", text: "C programming exercises — the first code on my GitHub." },
+    { year: "2024", title: "Web & OOP", text: "Hotel and fashion-store sites in HTML & CSS, object-oriented Python labs." },
+    { year: "2025", title: "Found Flutter", text: "Shell scripting in spring; by summer, Dart and Flutter with Provider and REST APIs." },
+    { year: "Apr 2026", title: "Onesttech", text: "Joined as a Flutter developer — RUSHD and Quran Audio with the team, three apps solo." },
+    { year: "2026", title: "Thesis & stores", text: "AyurVision for my thesis; four apps I worked on live on the stores." },
+  ],
+} as const;
+
+/** Side projects and coursework from GitHub, newest first. */
+/** Languages and tools, each backed by code on my GitHub or the apps above. `icon` is a BrandIcon key. */
+export const toolGroups = [
+  {
+    title: "Languages",
+    items: [
+      { name: "Dart", icon: "Dart" },
+      { name: "Python", icon: "Python" },
+      { name: "C", icon: "C" },
+      { name: "C++", icon: "C++" },
+      { name: "JavaScript", icon: "JavaScript" },
+      { name: "TypeScript", icon: "TypeScript" },
+      { name: "PHP", icon: "PHP" },
+      { name: "Bash", icon: "Bash" },
+    ],
+  },
+  {
+    title: "Frameworks & ML",
+    items: [
+      { name: "Flutter", icon: "Flutter" },
+      { name: "Riverpod · Provider" },
+      { name: "FastAPI", icon: "FastAPI" },
+      { name: "TensorFlow", icon: "TensorFlow" },
+      { name: "OpenCV", icon: "OpenCV" },
+      { name: "Google ML Kit" },
+      { name: "Tailwind CSS", icon: "Tailwind CSS" },
+      { name: "HTML & CSS", icon: "HTML" },
+    ],
+  },
+  {
+    title: "Backend & data",
+    items: [
+      { name: "Firebase", icon: "Firebase" },
+      { name: "Supabase", icon: "Supabase" },
+      { name: "PostgreSQL", icon: "PostgreSQL" },
+      { name: "SQLite · Drift", icon: "SQLite" },
+      { name: "Hive" },
+      { name: "REST APIs · Dio" },
+    ],
+  },
+  {
+    title: "Tools",
+    items: [
+      { name: "Git", icon: "Git" },
+      { name: "GitHub", icon: "GitHub" },
+      { name: "Android Studio", icon: "Android Studio" },
+      { name: "VS Code", icon: "VS Code" },
+      { name: "Xcode", icon: "Xcode" },
+      { name: "Jupyter", icon: "Jupyter" },
+    ],
+  },
+] as { title: string; items: { name: string; icon?: string }[] }[];

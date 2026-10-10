@@ -1,46 +1,107 @@
 <!doctype html>
 <!--
-  Source for public/resume.pdf and public/resume-preview.png.
-  To update: edit this file, open it in Chrome, Print → Save as PDF (A4, margins: none, background graphics on).
+  Source for public/resume.pdf and public/resume-preview.webp.
+  To update: edit this file, then print it to A4 PDF with no margins and backgrounds on,
+  e.g. Chrome → Print → Save as PDF, or headless:
+    chrome --headless=new --no-pdf-header-footer --print-to-pdf=public/resume.pdf docs/resume/resume.html
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Ishmak Rahat Rafi — Flutter Developer — Resume</title>
+<title>Ishmak Rahat Rafi — Flutter Developer — CV</title>
 <style>
+  /* Static (non-variable) Inter: keeps text in the printed PDF copyable as whole words. */
+  @font-face { font-family: "Inter"; font-weight: 400; font-style: normal; src: url("https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/files/inter-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; font-style: normal; src: url("https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/files/inter-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 700; font-style: normal; src: url("https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/files/inter-latin-700-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; font-style: normal; src: url("https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.18/files/inter-latin-800-normal.woff2") format("woff2"); }
   @page { size: A4; margin: 0; }
+  :root {
+    --ink: #111418;
+    --body: #2b3038;
+    --muted: #646b78;
+    --line: #e3e6ea;
+    --accent: #0d7a5f;
+    --accent-soft: #e8f4ef;
+  }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
   body {
     font-family: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
-    color: #16181d;
-    font-size: 9.3pt;
+    color: var(--body);
+    font-size: 8.2pt;
     line-height: 1.4;
+    font-variant-ligatures: none;
+    font-kerning: none;
+    font-feature-settings: "calt" 0, "liga" 0;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .page { width: 210mm; min-height: 297mm; padding: 11mm 14mm 9mm; }
-  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #16181d; padding-bottom: 9pt; }
-  h1 { font-size: 24pt; letter-spacing: -0.02em; margin: 0; line-height: 1; }
-  .role { font-size: 11pt; font-weight: 600; color: #0f766e; margin-top: 5pt; }
-  .contact { text-align: right; font-size: 8.8pt; line-height: 1.55; color: #3b3f48; }
-  .contact a { color: inherit; text-decoration: none; }
-  h2 { font-size: 9pt; letter-spacing: 0.14em; text-transform: uppercase; color: #0f766e; margin: 11pt 0 4pt; padding-bottom: 3pt; border-bottom: 1px solid #d9dce1; }
+  a { color: inherit; text-decoration: none; }
   p { margin: 0; }
-  ul { margin: 3pt 0 0; padding-left: 12pt; }
-  li { margin: 1.6pt 0; }
-  li::marker { color: #0f766e; }
-  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
-  .row b { font-size: 10.3pt; }
-  .muted { color: #5b616e; }
-  .date { font-size: 8.8pt; color: #5b616e; white-space: nowrap; }
-  .skills { display: grid; grid-template-columns: 26mm 1fr; gap: 2.5pt 8pt; }
-  .skills dt { font-weight: 700; }
-  .skills dd { margin: 0; }
-  .proj { margin-top: 6pt; }
-  .proj .tag { font-size: 7.6pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #0f766e; border: 1px solid #99d5cd; border-radius: 3pt; padding: 0 4pt; margin-left: 4pt; }
-  .sub { font-weight: 700; font-size: 8.6pt; letter-spacing: 0.04em; color: #3b3f48; margin: 6pt 0 0; }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14pt; }
+  b, strong { color: var(--ink); font-weight: 600; }
+
+  .page { width: 210mm; height: 297mm; padding: 11mm 13mm 9mm; display: flex; flex-direction: column; overflow: hidden; }
+  .page > * { flex-shrink: 0; }
+
+  /* Header */
+  header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 8mm; }
+  h1 { margin: 0; font-size: 25pt; font-weight: 800; letter-spacing: -0.025em; line-height: 1; color: var(--ink); }
+  .title { margin-top: 5pt; font-size: 10.5pt; font-weight: 600; color: var(--accent); }
+  .contact { display: grid; grid-template-columns: auto auto; gap: 3pt 14pt; font-size: 8pt; color: var(--body); }
+  .contact span { display: flex; align-items: center; gap: 5pt; white-space: nowrap; }
+  .contact svg { width: 9pt; height: 9pt; flex: none; color: var(--accent); }
+
+  .summary { margin-top: 8pt; padding-top: 8pt; border-top: 1.5pt solid var(--ink); font-size: 8.5pt; line-height: 1.48; color: var(--body); }
+
+  /* Key numbers */
+  .stats { font-feature-settings: "tnum", "calt" 0, "liga" 0; display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 9pt; border: 0.75pt solid var(--line); border-radius: 5pt; overflow: hidden; }
+  .stats div { padding: 5pt 9pt; border-left: 0.75pt solid var(--line); }
+  .stats div:first-child { border-left: 0; }
+  .stats b { display: block; font-size: 14pt; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+  .stats span { display: block; margin-top: 1pt; font-size: 7.4pt; color: var(--muted); }
+
+  /* Body columns */
+  .cols { display: grid; grid-template-columns: 1fr 57mm; gap: 6mm; margin-top: 2pt; flex: 1 1 auto; min-height: 0; }
+  aside { border-left: 0.75pt solid var(--line); padding-left: 5mm; }
+
+  h2 {
+    margin: 9pt 0 4pt; font-size: 8.4pt; font-weight: 700; letter-spacing: 0; text-transform: uppercase;
+    color: var(--accent); display: flex; align-items: center; gap: 6pt;
+  }
+  h2::after { content: ""; flex: 1; height: 0.75pt; background: var(--line); }
+
+  /* Experience & projects */
+  .job-head { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 8pt; }
+  .job-head b { font-size: 9.6pt; }
+  .date { font-feature-settings: "tnum", "calt" 0, "liga" 0; font-size: 7.8pt; color: var(--muted); white-space: nowrap; }
+  .lede { margin-top: 2pt; color: var(--body); }
+  .group { margin: 6pt 0 1pt; font-size: 7.6pt; font-weight: 700; letter-spacing: 0; text-transform: uppercase; color: var(--muted); }
+
+  .item { margin-top: 4pt; break-inside: avoid; }
+  .item-head { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 6pt; }
+  .item-head b { font-size: 8.9pt; }
+  .item-head .what { color: var(--muted); font-weight: 400; }
+  .badge { font-size: 6.8pt; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 3pt; padding: 1pt 4pt; white-space: nowrap; }
+  .badge.dim { color: var(--muted); background: #f0f1f3; }
+  .stack { margin-top: 1pt; font-size: 7.5pt; color: var(--muted); }
+  ul { margin: 2pt 0 0; padding-left: 9pt; }
+  li { margin: 1pt 0; padding-left: 1pt; }
+  li::marker { color: var(--accent); font-size: 7pt; }
+
+  /* Sidebar */
+  .skill { margin-bottom: 5pt; }
+  .skill p:first-child { font-weight: 600; color: var(--ink); margin-bottom: 2pt; }
+  .chips { display: flex; flex-wrap: wrap; gap: 2pt; }
+  .chips span { font-size: 7pt; padding: 0.5pt 4pt; border: 0.75pt solid var(--line); border-radius: 3pt; color: var(--body); white-space: nowrap; }
+  .edu { margin-bottom: 5pt; }
+  .edu b { display: block; font-size: 8.4pt; }
+  .edu p { color: var(--muted); font-size: 7.8pt; }
+  .side-list p { margin-bottom: 2pt; font-size: 7.6pt; white-space: nowrap; }
+  .side-list .k { display: block; font-size: 7.2pt; color: var(--muted); }
+
+  .muted-i { color: var(--muted); }
+  footer { margin-top: auto; padding-top: 6pt; border-top: 0.75pt solid var(--line); font-size: 7.2pt; color: var(--muted); display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
@@ -48,70 +109,154 @@
   <header>
     <div>
       <h1>Ishmak Rahat Rafi</h1>
-      <div class="role">Flutter Developer · iOS &amp; Android</div>
+      <p class="title">Flutter Developer · iOS &amp; Android</p>
     </div>
     <div class="contact">
-      Dhaka, Bangladesh<br>
-      <a href="mailto:ishmakrahat02@gmail.com">ishmakrahat02@gmail.com</a><br>
-      <a href="https://github.com/Rafi2046">github.com/Rafi2046</a><br>
-      <a href="https://www.linkedin.com/in/ishmakrafi/">linkedin.com/in/ishmakrafi</a>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg><a href="mailto:ishmakrahat02@gmail.com">ishmakrahat02@gmail.com</a></span>
+      <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg><a href="https://github.com/Rafi2046">github.com/Rafi2046</a></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><a href="tel:+8801521392046">+880 1521-392046</a></span>
+      <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.5h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2 2 0 1 1 0-4.1 2 2 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5z"/></svg><a href="https://www.linkedin.com/in/ishmakrafi/">linkedin.com/in/ishmakrafi</a></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Dhaka, Bangladesh</span>
     </div>
   </header>
 
-  <h2>Summary</h2>
-  <p>Flutter developer who ships and maintains production apps used every day. Four apps live on Google Play and the App Store — two as part of a product team and two I built solo, from design to release. Comfortable owning an app end to end: architecture, offline-first storage, background audio and alarms, English/Bangla localization, testing and store release.</p>
+  <p class="summary">
+    Flutter developer who ships and maintains production apps people use every day. At Onesttech I built three apps solo from design to
+    store release and contribute to two team products; four of them are live on Google Play and the App Store. I own apps end to end:
+    architecture, offline-first storage, background audio and alarms, AI and on-device ML features, English/Bangla localization,
+    testing and release.
+  </p>
 
-  <h2>Skills</h2>
-  <dl class="skills">
-    <dt>Mobile</dt><dd>Flutter, Dart, Riverpod, Provider, responsive phone &amp; tablet UI, background audio (just_audio), alarms &amp; notifications, home-screen widgets</dd>
-    <dt>Data &amp; backend</dt><dd>Firebase (Auth, Firestore, FCM, Crashlytics, Analytics), Supabase (RLS, Realtime, Edge Functions), Drift / SQLite, Hive, REST APIs with Dio</dd>
-    <dt>ML &amp; vision</dt><dd>Google ML Kit (OCR, document scanning), OpenCV edge detection, passport MRZ parsing, image classification via model APIs</dd>
-    <dt>Engineering</dt><dd>Clean architecture, unit / widget / integration tests, Git, CI builds, Play Console &amp; App Store Connect releases, i18n (EN / BN)</dd>
-  </dl>
-
-  <h2>Experience</h2>
-  <div class="row"><b>Flutter Developer — Onesttech Software Solutions</b><span class="date">Apr 2026 – Present · Dhaka</span></div>
-  <ul>
-    <li>Delivered <b>436 commits over 78 working days</b> across team products and three apps I built solo for the company.</li>
-  </ul>
-  <p class="sub">Team projects — my contribution</p>
-  <ul>
-    <li><b>RUSHD</b> (232 commits, live on both stores): built the Ask Noor AI assistant with conversation history and voice playback, a live two-player vocabulary game, recitation checking, the Hadith library and tablet layouts; shipped through v3.6.0.</li>
-    <li><b>Al Quran Majeed</b> (121 commits): part of the team that took it from first commit to store growth in <b>six weeks</b> — background playback, sleep timer, stream caching and a fallback source for weak networks.</li>
-  </ul>
-  <p class="sub">Built solo for Onesttech — design to store release</p>
-  <ul>
-    <li><b>Budget Mint</b> (679 commits, live on Android &amp; iOS): expenses, trip splitting and shared mess-meal budgets; PDF &amp; Excel reports with correct Bangla rendering; Firebase sync, Google &amp; Apple sign-in, biometric lock.</li>
-    <li><b>FuelSync</b> (216 commits, live on Android): offline-first fuel log with automatic mileage and cost-per-km, receipt OCR with ML Kit, trip maps and service reminders.</li>
-    <li><b>Dosey</b> (158 commits, in development): medicine reminders with full-screen alarms that ring even when the app is closed; family sharing on Supabase with row-level security and Realtime.</li>
-  </ul>
-
-  <h2>Personal projects</h2>
-  <div class="two">
-    <div class="proj">
-      <div class="row"><b>Docyra</b><span class="tag">In development</span></div>
-      <p class="muted">Flutter · OpenCV · ML Kit · PDF · 174 commits</p>
-      <ul>
-        <li>Offline document &amp; ID scanner — nothing is uploaded.</li>
-        <li>Live edge detection, OCR, passport MRZ parsing; merge, sign, watermark and lock PDFs.</li>
-      </ul>
-    </div>
-    <div class="proj">
-      <div class="row"><b>AyurVision</b><span class="tag">BSc thesis</span></div>
-      <p class="muted">Flutter · ML model API · Dio</p>
-      <ul>
-        <li>Identifies medicinal herbs from a leaf photo with a confidence score.</li>
-        <li>Image-classification model behind a /predict API; offline 24-herb library.</li>
-      </ul>
-    </div>
+  <div class="stats">
+    <div><b>4</b><span>apps live on Play &amp; App Store</span></div>
+    <div><b>1,500+</b><span>commits on 5 company apps</span></div>
+    <div><b>5.0 ★</b><span>App Store rating</span></div>
+    <div><b>1,100+</b><span>GitHub contributions / year</span></div>
   </div>
 
-  <h2>Education</h2>
-  <div class="row"><b>BSc in Computer Science &amp; Engineering — Daffodil International University</b><span class="date">2022 – 2026</span></div>
-  <p class="muted">Thesis: AyurVision, an AI medicinal-herb identifier (Flutter app + image-classification model).</p>
+  <div class="cols">
+    <main>
+      <h2>Experience</h2>
+      <div class="job-head"><b>Flutter Developer · Onesttech Software Solutions</b><span class="date">Apr 2026 – Present · Dhaka</span></div>
 
-  <h2>Languages</h2>
-  <p>Bangla (native) · English (professional working proficiency)</p>
+      <p class="group">Built solo — design to store release</p>
+      <div class="item">
+        <div class="item-head"><b>Budget Mint <span class="what">· personal &amp; shared finance</span></b><span class="badge">Live · Play &amp; App Store</span></div>
+        <p class="stack">734 commits · Flutter, Provider, Firebase, Supabase, Syncfusion charts</p>
+        <ul>
+          <li>Expenses, trip splitting with invites, mess-meal budgets, savings goals and recurring bills.</li>
+          <li>PDF &amp; Excel reports with correct Bangla rendering; Google &amp; Apple sign-in, biometric lock, home widgets, Crashlytics.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head"><b>FuelSync <span class="what">· offline-first fuel log</span></b><span class="badge">Live · Google Play</span></div>
+        <p class="stack">392 commits · Flutter, Riverpod, Drift, flutter_map, ML Kit</p>
+        <ul>
+          <li>Real mileage and cost per km from each full tank, stored offline in Drift; spend charts and PDF vehicle reports.</li>
+          <li>Receipt OCR with ML Kit, GPS trip maps, service reminders and an app lock.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head"><b>Dosey <span class="what">· medicine reminders &amp; family care</span></b><span class="badge dim">In development</span></div>
+        <p class="stack">169 commits · Flutter, Riverpod, Drift, Supabase, Firebase</p>
+        <ul>
+          <li>Full-screen alarms that ring even when the app is closed; family sharing on Supabase with row-level security.</li>
+          <li>BP &amp; sugar logs, doctors and records, medicine stock and expense tracking, push notifications.</li>
+        </ul>
+      </div>
+
+      <p class="group">Team products — my contribution</p>
+      <div class="item">
+        <div class="item-head"><b>RUSHD <span class="what">· Islamic lifestyle app</span></b><span class="badge">Live · Play &amp; App Store</span></div>
+        <p class="stack">127 commits · Flutter, EN/BN</p>
+        <ul>
+          <li>Built the shared design system (spacing, radii, buttons, cards) and redesigned the prayer-times screen with a live status card, Qibla card and Hijri/Bangla calendar.</li>
+          <li>Built downloadable Quran audio packs, surah-name calligraphy and a What&rsquo;s New page; prepared Play Store releases.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head"><b>Quran Audio <span class="what">· Quran streaming, 260+ reciters</span></b><span class="badge">Live · Play &amp; App Store</span></div>
+        <p class="stack">119 commits · Flutter, just_audio, Firebase</p>
+        <ul>
+          <li>Wrote a streaming source that skips oversized ID3 cover art, so stories start playing on slow links instead of buffering for a minute.</li>
+          <li>Built reciter pages, stories, the queue and mini player, share cards with deep links, and set up Firebase.</li>
+        </ul>
+      </div>
+
+      <h2>Projects</h2>
+      <div class="item">
+        <div class="item-head"><b>Docyra <span class="what">· offline document &amp; ID scanner</span></b><span class="badge dim">Personal · in development</span></div>
+        <p class="stack">342 commits · Flutter, Riverpod, OpenCV, ML Kit, Syncfusion PDF</p>
+        <ul>
+          <li>Live edge detection, on-device OCR and passport MRZ parsing; merge, sign and lock PDFs without uploading anything.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head"><b>AyurVision <span class="what">· AI medicinal-herb identifier</span></b><span class="badge dim">BSc thesis</span></div>
+        <p class="stack">253 commits · Flutter, Provider, Hive, Dio · Python, FastAPI, TensorFlow</p>
+        <ul>
+          <li>Leaf photo → TensorFlow classifier behind a FastAPI <b>/predict</b> service; confidence score and an offline 24-herb library.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head"><b>Ekushey Coding <span class="what">· Bangla–English code-learning platform</span></b><span class="badge dim">University team · live</span></div>
+        <p class="stack">Next.js, TypeScript, Tailwind CSS, Laravel · ekusheycoding.vercel.app</p>
+        <ul>
+          <li>Five-person team; I built the languages pages, bilingual exercises, the admin tutorial editor and theming.</li>
+        </ul>
+      </div>
+    </main>
+
+    <aside>
+      <h2>Skills</h2>
+      <div class="skill">
+        <p>Mobile</p>
+        <div class="chips"><span>Flutter</span><span>Dart</span><span>Riverpod</span><span>Provider</span><span>Responsive &amp; tablet UI</span><span>just_audio</span><span>Alarms &amp; notifications</span><span>Home widgets</span></div>
+      </div>
+      <div class="skill">
+        <p>Data &amp; backend</p>
+        <div class="chips"><span>Firebase</span><span>Firestore</span><span>FCM</span><span>Supabase</span><span>RLS &amp; Realtime</span><span>Edge Functions</span><span>Drift / SQLite</span><span>Hive</span><span>REST · Dio</span></div>
+      </div>
+      <div class="skill">
+        <p>AI &amp; ML</p>
+        <div class="chips"><span>Google ML Kit</span><span>OCR</span><span>OpenCV</span><span>TensorFlow</span><span>FastAPI</span><span>AI assistant integration</span></div>
+      </div>
+      <div class="skill">
+        <p>Shipping</p>
+        <div class="chips"><span>Clean architecture</span><span>Unit, widget &amp; integration tests</span><span>Crashlytics</span><span>Analytics</span><span>Play Console</span><span>App Store Connect</span><span>i18n EN/BN</span></div>
+      </div>
+      <div class="skill">
+        <p>Also</p>
+        <div class="chips"><span>Python</span><span>TypeScript</span><span>Next.js</span><span>C / C++</span><span>PHP</span><span>Git</span><span>Android Studio</span><span>Xcode</span></div>
+      </div>
+
+      <h2>Education</h2>
+      <div class="edu">
+        <b>BSc in Computer Science &amp; Engineering</b>
+        <p>Daffodil International University</p>
+        <p>2022 – 2026 · SGPA 3.33 · Thesis: AyurVision</p>
+      </div>
+      <div class="edu">
+        <b>HSC · Science</b>
+        <p>Ideal College, Dhanmondi · GPA 4.58</p>
+      </div>
+      <div class="edu">
+        <b>SSC · Science</b>
+        <p>BAF Shaheen Hazi Ashraf Ali College · GPA 4.00</p>
+      </div>
+
+      <h2>On the stores</h2>
+      <div class="side-list">
+        <p><b>RUSHD</b> <span class="muted-i">· 5.0 ★ App Store · 100+ Play</span></p>
+        <p><b>Quran Audio</b> <span class="muted-i">· 4.7 ★ Play · 5.0 ★ iOS</span></p>
+        <p><b>Budget Mint</b> <span class="muted-i">· 100+ Play · App Store</span></p>
+      </div>
+
+      <h2>Languages</h2>
+      <p>Bangla <span class="muted-i">(native)</span> · English <span class="muted-i">(professional)</span></p>
+    </aside>
+  </div>
+
 </div>
 </body>
 </html>

@@ -18,7 +18,7 @@ export function About() {
             About
           </Reveal>
         </h2>
-        <p className="eyebrow pt-3 text-on-inverse-muted">01/05</p>
+        <p className="eyebrow pt-3 tabular-nums text-on-inverse-muted">(01)</p>
       </div>
 
       <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1fr_1.6fr] lg:gap-16">

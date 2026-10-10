@@ -14,6 +14,7 @@ const filters = [
   { id: "team", label: "Team projects" },
   { id: "solo", label: "Built solo at Onesttech" },
   { id: "personal", label: "Personal" },
+  { id: "university", label: "University" },
 ] as const;
 
 type Filter = (typeof filters)[number]["id"];
@@ -84,8 +85,8 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
         </div>
         <div className="mt-5 flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="display text-4xl underline-offset-[0.12em] group-hover:underline sm:text-5xl">{p.title}</h3>
-            <p className="mt-2 line-clamp-2 max-w-lg leading-relaxed text-muted">{p.description}</p>
+            <h3 className="text-2xl font-semibold tracking-tight underline-offset-4 group-hover:underline sm:text-3xl">{p.title}</h3>
+            <p className="mt-2 max-w-lg leading-relaxed text-muted">{p.summary}</p>
           </div>
         </div>
         <ul className="mt-4 flex flex-wrap gap-2">
@@ -110,29 +111,14 @@ export function Projects() {
 
   return (
     <Panel id="projects" tone="light" labelledBy="work-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-        <p className="max-w-2xl text-2xl font-medium leading-snug sm:text-3xl">
-          Seven apps across Quran, finance, fuel, health and on-device AI.
-          Four are live on the stores and used every day.
-          <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
-            Two as part of the Onesttech team, three I built solo for Onesttech, and two personal projects.
-          </span>
-        </p>
-        <div className="flex lg:justify-end">
-          <a
-            href="#contact"
-            className="focus-ring flex h-28 w-28 items-center justify-center rounded-full border border-line-strong text-center text-sm font-semibold uppercase leading-tight transition hover:bg-ink hover:text-panel sm:h-32 sm:w-32 sm:text-base"
-          >
-            Get in
-            <br />
-            touch
-          </a>
-        </div>
-      </div>
-
-      <div className="mt-16">
-        <SectionTitle id="work-heading" title="Selected work" counter="02" kicker="Seven apps · four live on the stores" />
-      </div>
+      <SectionTitle id="work-heading" title="Selected work" counter="03" kicker="Seven apps · one web platform" />
+      <p className="mt-8 max-w-3xl text-2xl font-medium leading-snug sm:text-3xl">
+        Seven apps across Quran, finance, fuel, health and on-device AI. Four are live on the stores and used every day.
+        <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
+          Two as part of the Onesttech team, three I built solo for Onesttech, two personal projects, and a
+          Bangla code-learning platform from my university team.
+        </span>
+      </p>
 
       <div role="tablist" aria-label="Filter projects" className="no-scrollbar -mx-5 mt-8 flex gap-1 overflow-x-auto px-5 sm:mx-0 sm:px-0">
         {filters.map((f) => (
@@ -151,7 +137,7 @@ export function Projects() {
         ))}
       </div>
 
-      {/* Two staggered columns; re-mounted on filter change so cards animate in again */}
+      {/* Two staggered columns; re-mounted on filter change so cards animate in again. */}
       <div key={filter} className="mt-10 grid gap-12 md:grid-cols-2 md:gap-10 lg:gap-14">
         {[0, 1].map((col) => (
           <div key={col} className={`flex flex-col gap-12 lg:gap-16 ${col === 1 ? "md:pt-40" : ""}`}>

@@ -96,6 +96,26 @@ export default async function CaseStudyPage({
                     Google Play <ArrowUpRight className="h-4 w-4" />
                   </a>
                 ) : null}
+                {project.web ? (
+                  <a
+                    href={project.web}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-sm font-semibold text-panel transition hover:opacity-85"
+                  >
+                    Visit site <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                ) : null}
+                {project.repo ? (
+                  <a
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-6 text-sm font-semibold transition hover:bg-ink hover:text-panel"
+                  >
+                    Source code <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                ) : null}
                 {project.ios ? (
                   <a
                     href={project.ios}
@@ -123,7 +143,7 @@ export default async function CaseStudyPage({
                 </div>
               ))}
               <div className="col-span-2 sm:col-span-3 lg:col-span-1">
-                <dt className="eyebrow text-muted">App</dt>
+                <dt className="eyebrow text-muted">{project.web ? "Logo" : "App"}</dt>
                 <dd className="mt-2 flex lg:justify-end">
                   <Image src={project.icon} alt={`${project.title} icon`} width={56} height={56} className="h-14 w-14 rounded-2xl border border-line" />
                 </dd>
@@ -176,9 +196,9 @@ export default async function CaseStudyPage({
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
           <SectionTitle
             id="built-heading"
-            title={project.ownership === "team" ? "My contribution" : "What I built"}
+            title={project.ownership === "team" || project.ownership === "university" ? "My contribution" : "What I built"}
             counter="03"
-            kicker={project.ownership === "team" ? "My part of the team’s work" : "Highlights"}
+            kicker={project.ownership === "team" || project.ownership === "university" ? "My part of the team’s work" : "Highlights"}
           />
           <ol className="mt-10 border-t border-inverse-line">
             {project.highlights.map((h, i) => (

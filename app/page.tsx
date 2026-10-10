@@ -3,6 +3,7 @@ import { AppHub } from "@/components/AppHub";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
+import { Journey } from "@/components/Journey";
 import { PageTransition } from "@/components/PageTransition";
 import { Process } from "@/components/Process";
 import { Projects } from "@/components/Projects";
@@ -17,6 +18,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <About />
+        <Journey />
         <Projects />
         <Proof />
         <Process />
