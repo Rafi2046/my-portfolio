@@ -32,7 +32,6 @@ export const stackMarquee = [
   "Firebase",
   "Supabase",
   "ML Kit",
-  "TensorFlow Lite",
   "OpenCV",
   "just_audio",
   "REST APIs",
@@ -67,11 +66,11 @@ export const skillGroups = [
   },
   {
     id: "ml",
-    title: "On-device ML",
+    title: "ML & vision",
     description: "Smart features without a server",
     items: [
       "Google ML Kit OCR & scanning",
-      "TensorFlow Lite classification",
+      "Image classification via a model API",
       "OpenCV edge detection",
       "Passport MRZ parsing",
       "Speech & recitation checking",
@@ -499,12 +498,16 @@ export const timeline: TimelineItem[] = [
         detail: "121 commits · first commit to store growth in six weeks",
       },
       {
-        name: "ESDANA",
-        detail: "49 commits · alumni-network app built in three weeks",
+        name: "Budget Mint",
+        detail: "679 commits · built solo, live on both stores",
       },
       {
-        name: "Website Monitor",
-        detail: "34 commits · on-device uptime, API, SSL & domain checks",
+        name: "FuelSync",
+        detail: "216 commits · built solo, live on Google Play",
+      },
+      {
+        name: "Dosey",
+        detail: "158 commits · built solo, in development",
       },
     ],
   },
@@ -559,9 +562,11 @@ export const storeProof = {
 /** Rows for the experience panel, newest first. */
 export const experienceRows = [
   { org: "Onesttech Software Solutions", role: "Flutter Developer", period: "Present" },
-  { org: "ESDANA", role: "Alumni-network app · built from scratch", period: "Sep – Oct 2026" },
-  { org: "Al Quran Majeed", role: "Quran audio streaming · 121 commits", period: "Aug – Sep 2026" },
-  { org: "Website Monitor", role: "Uptime & domain monitoring · built from scratch", period: "Jun – Sep 2026" },
-  { org: "RUSHD", role: "Islamic lifestyle app · 232 commits, v3.6.0", period: "Apr – Sep 2026" },
-  { org: "Daffodil International University", role: "BSc in Computer Science & Engineering", period: "2022 – 2026" },
+  { org: "Dosey", role: "Medicine reminder · built solo for Onesttech · 158 commits", period: "Oct 2026" },
+  { org: "Docyra", role: "Offline document scanner · personal project · 174 commits", period: "Sep – Oct 2026" },
+  { org: "FuelSync", role: "Fuel & mileage tracker · built solo for Onesttech · 216 commits", period: "Aug – Sep 2026" },
+  { org: "Al Quran Majeed", role: "Quran audio streaming · team project · 121 commits", period: "Aug – Sep 2026" },
+  { org: "Budget Mint", role: "Personal finance · built solo for Onesttech · 679 commits", period: "Jun – Oct 2026" },
+  { org: "RUSHD", role: "Islamic lifestyle app · team project · 232 commits, v3.6.0", period: "Apr – Sep 2026" },
+  { org: "Daffodil International University", role: "BSc in CSE · thesis: AyurVision", period: "2022 – 2026" },
 ] as const;
