@@ -39,6 +39,7 @@
   .skills dd { margin: 0; }
   .proj { margin-top: 6pt; }
   .proj .tag { font-size: 7.6pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #0f766e; border: 1px solid #99d5cd; border-radius: 3pt; padding: 0 4pt; margin-left: 4pt; }
+  .sub { font-weight: 700; font-size: 8.6pt; letter-spacing: 0.04em; color: #3b3f48; margin: 6pt 0 0; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14pt; }
 </style>
 </head>
@@ -58,7 +59,7 @@
   </header>
 
   <h2>Summary</h2>
-  <p>Flutter developer who ships and maintains production apps used every day. Four apps live on Google Play and the App Store — Quran audio streaming, an AI-assisted Islamic lifestyle app, personal finance and fuel tracking. Comfortable owning an app end to end: architecture, offline-first storage, background audio and alarms, English/Bangla localization, testing and store release.</p>
+  <p>Flutter developer who ships and maintains production apps used every day. Four apps live on Google Play and the App Store — two as part of a product team and two I built solo, from design to release. Comfortable owning an app end to end: architecture, offline-first storage, background audio and alarms, English/Bangla localization, testing and store release.</p>
 
   <h2>Skills</h2>
   <dl class="skills">
@@ -71,45 +72,37 @@
   <h2>Experience</h2>
   <div class="row"><b>Flutter Developer — Onesttech Software Solutions</b><span class="date">Apr 2026 – Present · Dhaka</span></div>
   <ul>
-    <li>Delivered <b>436 commits over 78 working days</b> across four production apps, three of them started from scratch.</li>
-    <li><b>RUSHD</b> (232 commits): built the Ask Noor AI assistant with conversation history and voice playback, a live two-player vocabulary game with lobbies and ranks, recitation checking, a Hadith library and tablet layouts; shipped through v3.6.0 on both stores.</li>
-    <li><b>Al Quran Majeed</b> (121 commits): took the app from first commit to store growth in <b>six weeks</b> — streaming from 260+ reciters with background playback, sleep timer, stream caching and a fallback source for weak networks.</li>
-    <li><b>ESDANA</b>: built an alumni-network app from scratch in <b>three weeks</b> (49 commits).</li>
-    <li><b>Website Monitor</b>: on-device uptime, API, SSL and domain-expiry checks (34 commits).</li>
+    <li>Delivered <b>436 commits over 78 working days</b> across team products and three apps I built solo for the company.</li>
+  </ul>
+  <p class="sub">Team projects — my contribution</p>
+  <ul>
+    <li><b>RUSHD</b> (232 commits, live on both stores): built the Ask Noor AI assistant with conversation history and voice playback, a live two-player vocabulary game, recitation checking, the Hadith library and tablet layouts; shipped through v3.6.0.</li>
+    <li><b>Al Quran Majeed</b> (121 commits): part of the team that took it from first commit to store growth in <b>six weeks</b> — background playback, sleep timer, stream caching and a fallback source for weak networks.</li>
+    <li><b>ESDANA</b> alumni-network app (49 commits, built in three weeks) and <b>Website Monitor</b> uptime/SSL/domain checks (34 commits).</li>
+  </ul>
+  <p class="sub">Built solo for Onesttech — design to store release</p>
+  <ul>
+    <li><b>Budget Mint</b> (live, Android &amp; iOS): expenses, trip splitting and shared mess-meal budgets; PDF &amp; Excel reports with correct Bangla rendering; Firebase sync, Google &amp; Apple sign-in, biometric lock.</li>
+    <li><b>FuelSync</b> (live, Android): offline-first fuel log with automatic mileage and cost-per-km, receipt OCR with ML Kit, trip maps and service reminders.</li>
+    <li><b>Dosey</b> (in development): medicine reminders with full-screen alarms that ring even when the app is closed; family sharing on Supabase with row-level security and Realtime.</li>
   </ul>
 
-  <h2>Selected projects</h2>
+  <h2>Personal projects</h2>
   <div class="two">
-    <div class="proj">
-      <div class="row"><b>Budget Mint</b><span class="tag">Live</span></div>
-      <p class="muted">Flutter · Firebase · Personal finance</p>
-      <ul>
-        <li>Expenses, trip splitting with friends and shared mess-meal budgets.</li>
-        <li>PDF &amp; Excel reports with correct Bangla rendering; Google &amp; Apple sign-in, biometric lock, widgets.</li>
-      </ul>
-    </div>
-    <div class="proj">
-      <div class="row"><b>FuelSync</b><span class="tag">Live</span></div>
-      <p class="muted">Flutter · Drift · Maps · ML Kit</p>
-      <ul>
-        <li>Offline-first fuel log, mileage and cost-per-km tracking per vehicle.</li>
-        <li>Receipt OCR, trip maps, service reminders and exportable reports.</li>
-      </ul>
-    </div>
-    <div class="proj">
-      <div class="row"><b>Dosey</b><span class="tag">In development</span></div>
-      <p class="muted">Flutter · Supabase · Drift</p>
-      <ul>
-        <li>Medicine reminders with full-screen alarms that ring even when the app is closed.</li>
-        <li>Family sharing on Supabase with row-level security and Realtime; prescription scanning.</li>
-      </ul>
-    </div>
     <div class="proj">
       <div class="row"><b>Docyra</b><span class="tag">In development</span></div>
       <p class="muted">Flutter · OpenCV · ML Kit · PDF</p>
       <ul>
         <li>Offline document &amp; ID scanner — nothing is uploaded.</li>
-        <li>Live edge detection, OCR, MRZ parsing; merge, sign, watermark and lock PDFs.</li>
+        <li>Live edge detection, OCR, passport MRZ parsing; merge, sign, watermark and lock PDFs.</li>
+      </ul>
+    </div>
+    <div class="proj">
+      <div class="row"><b>AyurVision</b><span class="tag">Prototype</span></div>
+      <p class="muted">Flutter · TensorFlow Lite · Hive</p>
+      <ul>
+        <li>Identifies medicinal herbs from a photo, fully offline.</li>
+        <li>On-device TFLite classification with confidence score and a herb library.</li>
       </ul>
     </div>
   </div>

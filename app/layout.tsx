@@ -41,7 +41,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="flex min-h-full flex-col bg-canvas text-ink">
+      {/* Browser extensions (e.g. ColorZilla) add attributes to body before hydration. */}
+      <body suppressHydrationWarning className="flex min-h-full flex-col bg-canvas text-ink">
         {/* Intro curtain; slides away on its own via CSS. */}
         <div
           aria-hidden

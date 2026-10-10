@@ -8,7 +8,7 @@ import { Walkthrough } from "@/components/Walkthrough";
 import { PageTransition, StageMorph } from "@/components/PageTransition";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
-import { projects, site, statusCopy } from "@/lib/content";
+import { ownershipCopy, projects, site, statusCopy } from "@/lib/content";
 
 export const dynamicParams = false;
 
@@ -79,7 +79,7 @@ export default async function CaseStudyPage({
                   {project.title}
                 </h1>
                 <p className="pb-2 text-lg text-muted">
-                  /{project.ownership === "team" ? "Team product" : "Personal app"}
+                  /{ownershipCopy[project.ownership].long}
                 </p>
               </div>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
@@ -174,7 +174,12 @@ export default async function CaseStudyPage({
         ) : null}
 
         <Panel tone="inverse" labelledBy="built-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-          <SectionTitle id="built-heading" title="What I built" counter="03" kicker="Highlights" />
+          <SectionTitle
+            id="built-heading"
+            title={project.ownership === "team" ? "My contribution" : "What I built"}
+            counter="03"
+            kicker={project.ownership === "team" ? "My part of the team’s work" : "Highlights"}
+          />
           <ol className="mt-10 border-t border-inverse-line">
             {project.highlights.map((h, i) => (
               <li key={h} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-inverse-line py-6 sm:grid-cols-[6rem_1fr] sm:py-8">

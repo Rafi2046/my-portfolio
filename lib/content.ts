@@ -11,7 +11,7 @@ export const site = {
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Al Quran Majeed, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
-    "Outside work I build my own apps — a medicine reminder with family sharing, an offline document scanner, and an on-device herb identifier — to push into areas like ML Kit, TensorFlow Lite and Supabase.",
+    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, an on-device herb identifier — to push into ML Kit, OpenCV and TensorFlow Lite.",
   ],
   journey:
     "Curiosity about how apps are built turned into shipping Flutter products in production, with a lasting interest in clean architecture and the computer-science ideas underneath mobile systems.",
@@ -100,7 +100,8 @@ export type Project = {
   /** Problem → approach → result, told at the top of the case study. */
   story: { problem: string; approach: string; results: string[] };
   tags: string[];
-  ownership: "personal" | "team";
+  /** team = office team project, solo = I built it alone for the office, personal = my own project. */
+  ownership: "team" | "solo" | "personal";
   /** Short line about my part, shown on the card. */
   role: string;
   status: "live" | "building" | "prototype";
@@ -124,6 +125,12 @@ export type Project = {
   ios?: string;
 };
 
+export const ownershipCopy: Record<Project["ownership"], { short: string; long: string }> = {
+  team: { short: "Team project", long: "Team project at Onesttech" },
+  solo: { short: "Solo build", long: "Built solo for Onesttech" },
+  personal: { short: "Personal", long: "Personal project" },
+};
+
 export const statusCopy: Record<Project["status"], string> = {
   live: "Live",
   building: "In development",
@@ -136,7 +143,7 @@ export const projects: Project[] = [
     title: "RUSHD",
     tagline: "Islamic lifestyle app",
     description:
-      "Quran reader, prayer times, Hajj & Umrah guide, an AI assistant and learning games in one app. My largest project of 2026 — I took it to version 3.6.0.",
+      "Quran reader, prayer times, Hajj & Umrah guide, an AI assistant and learning games in one app. Our team's largest project of 2026 — I contributed 232 commits through version 3.6.0.",
     highlights: [
       "Ask Noor AI assistant with conversation history, usage limits and voice playback",
       "Word Battle — a live two-player vocabulary game with lobbies, room codes and ranks",
@@ -147,7 +154,7 @@ export const projects: Project[] = [
       problem:
         "One app had to cover the Quran, prayer times, Hajj & Umrah, an AI assistant and learning games — in English and Bangla, on phones and tablets — without feeling like five apps stitched together.",
       approach:
-        "I built each area as its own feature: the Ask Noor assistant with history and voice playback, a live two-player word game, recitation checking and the Hadith library, all sharing one design system, tablet layouts and full EN/BN localization.",
+        "Working in the team, I built these areas as separate features: the Ask Noor assistant with history and voice playback, a live two-player word game, recitation checking and the Hadith library, all sharing one design system, tablet layouts and full EN/BN localization.",
       results: [
         "232 commits between April and September 2026",
         "Shipped through version 3.6.0",
@@ -156,7 +163,7 @@ export const projects: Project[] = [
     },
     tags: ["Flutter", "AI", "Realtime", "Audio", "EN / BN"],
     ownership: "team",
-    role: "Team project · 232 commits, 10+ modules",
+    role: "Team project · my part: 232 commits",
     status: "live",
     tint: "#1f4d3c",
     icon: "/projects/rushd-icon.png",
@@ -196,14 +203,14 @@ export const projects: Project[] = [
       approach:
         "I put trips, mess meals, savings goals and recurring bills next to everyday expenses, synced through Firebase, with PDF and Excel reports that render Bangla correctly.",
       results: [
-        "Built end to end, from design to store release",
+        "Built solo for Onesttech, from design to store release",
         "Live on Google Play and the App Store",
         "Google & Apple sign-in, biometric lock and home-screen widgets",
       ],
     },
     tags: ["Flutter", "Firebase", "Finance"],
-    ownership: "personal",
-    role: "Built end to end",
+    ownership: "solo",
+    role: "Built solo for Onesttech",
     status: "live",
     tint: "#0f3b2e",
     icon: "/projects/budget-mint-icon.png",
@@ -253,8 +260,8 @@ export const projects: Project[] = [
       ],
     },
     tags: ["Flutter", "Drift", "Maps", "ML Kit"],
-    ownership: "personal",
-    role: "Built end to end",
+    ownership: "solo",
+    role: "Built solo for Onesttech",
     status: "live",
     tint: "#3a1a0c",
     icon: "/projects/fuelsync-icon.png",
@@ -280,7 +287,7 @@ export const projects: Project[] = [
     title: "Al Quran Majeed",
     tagline: "Quran audio & tilawat",
     description:
-      "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Took it from the first commit to its store-growth phase in six weeks.",
+      "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Our team took it from the first commit to its store-growth phase in six weeks; I contributed 121 commits.",
     highlights: [
       "Background playback, sleep timer, Khatam tracking and listening stats",
       "Stream caching and a fallback audio source so playback survives weak networks",
@@ -299,7 +306,7 @@ export const projects: Project[] = [
     },
     tags: ["Flutter", "just_audio", "Streaming", "i18n"],
     ownership: "team",
-    role: "Team project · 121 commits in six weeks",
+    role: "Team project · my part: 121 commits",
     status: "live",
     tint: "#0d1b33",
     icon: "/projects/quran-icon.png",
@@ -344,8 +351,8 @@ export const projects: Project[] = [
       ],
     },
     tags: ["Flutter", "Supabase", "Drift", "Alarms"],
-    ownership: "personal",
-    role: "Built end to end",
+    ownership: "solo",
+    role: "Built solo for Onesttech",
     status: "building",
     tint: "#1d3a35",
     icon: "/projects/dosey-icon.png",
@@ -392,7 +399,7 @@ export const projects: Project[] = [
     },
     tags: ["Flutter", "OpenCV", "ML Kit", "PDF"],
     ownership: "personal",
-    role: "Built end to end",
+    role: "Personal project · built end to end",
     status: "building",
     tint: "#0c1e3d",
     icon: "/projects/docyra-icon.png",
@@ -442,7 +449,7 @@ export const projects: Project[] = [
     },
     tags: ["Flutter", "TensorFlow Lite", "Hive"],
     ownership: "personal",
-    role: "ML project",
+    role: "Personal ML project",
     status: "prototype",
     tint: "#14361f",
     icon: "/projects/ayurvision-icon.png",
@@ -524,7 +531,7 @@ export const process = [
   },
   {
     word: "Ship",
-    text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four of my apps are live on Google Play and the App Store.",
+    text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four apps I worked on are live on Google Play and the App Store.",
     image: "/projects/phones/dosey-home.webp",
   },
 ] as const;

@@ -7,12 +7,13 @@ import { StageMorph } from "@/components/PageTransition";
 import { PhoneVideo } from "@/components/PhoneVideo";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
-import { projects, statusCopy, type Project } from "@/lib/content";
+import { ownershipCopy, projects, statusCopy, type Project } from "@/lib/content";
 
 const filters = [
   { id: "all", label: "All" },
-  { id: "team", label: "Team products" },
-  { id: "personal", label: "My own apps" },
+  { id: "team", label: "Team projects" },
+  { id: "solo", label: "Built solo at Onesttech" },
+  { id: "personal", label: "Personal" },
 ] as const;
 
 type Filter = (typeof filters)[number]["id"];
@@ -78,8 +79,7 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
           </span>
           <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md">
             <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${p.status === "live" ? "bg-live" : "bg-white/60"}`} />
-            {statusCopy[p.status]}
-            {p.ownership === "team" ? " · Team" : ""}
+            {statusCopy[p.status]} · {ownershipCopy[p.ownership].short}
           </span>
         </div>
         <div className="mt-5 flex items-start justify-between gap-4">
@@ -114,6 +114,9 @@ export function Projects() {
         <p className="max-w-2xl text-2xl font-medium leading-snug sm:text-3xl">
           Seven apps across Quran, finance, fuel, health and on-device AI.
           Four are live on the stores and used every day.
+          <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
+            Two as part of the Onesttech team, three I built solo for Onesttech, and two personal projects.
+          </span>
         </p>
         <div className="flex lg:justify-end">
           <a
