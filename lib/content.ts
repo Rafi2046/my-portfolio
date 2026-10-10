@@ -9,7 +9,7 @@ export const site = {
   /** Place a PDF at public/resume.pdf or update this path. */
   resumeHref: "/resume.pdf",
   about: [
-    "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Al Quran Majeed, Budget Mint and FuelSync are all live on the stores.",
+    "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Quran Audio, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
     "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification.",
   ],
@@ -283,7 +283,7 @@ export const projects: Project[] = [
   },
   {
     id: "quran-audio",
-    title: "Al Quran Majeed",
+    title: "Quran Audio",
     tagline: "Quran audio & tilawat",
     description:
       "A Quran audio streaming app with 260+ reciters, playlists, podcasts and Islamic stories. Our team took it from the first commit to its store-growth phase in six weeks; I contributed 121 commits.",
@@ -308,7 +308,7 @@ export const projects: Project[] = [
     role: "Team project · my part: 121 commits",
     status: "live",
     tint: "#0d1b33",
-    icon: "/projects/quran-icon.png",
+    icon: "/projects/quran-audio-icon.png",
     cover: "/projects/cover-quran-audio.jpg",
     stage: "waves",
     cards: [{ src: "/projects/stage/quran-continue.webp", w: 995, h: 260 }],
@@ -494,7 +494,7 @@ export const timeline: TimelineItem[] = [
         detail: "232 commits · AI assistant, games, Hadith library, v3.6.0",
       },
       {
-        name: "Al Quran Majeed",
+        name: "Quran Audio",
         detail: "121 commits · first commit to store growth in six weeks",
       },
       {
@@ -565,7 +565,7 @@ export const experienceRows = [
   { org: "Dosey", role: "Medicine reminder · built solo for Onesttech · 158 commits", period: "Oct 2026" },
   { org: "Docyra", role: "Offline document scanner · personal project · 174 commits", period: "Sep – Oct 2026" },
   { org: "FuelSync", role: "Fuel & mileage tracker · built solo for Onesttech · 216 commits", period: "Aug – Sep 2026" },
-  { org: "Al Quran Majeed", role: "Quran audio streaming · team project · 121 commits", period: "Aug – Sep 2026" },
+  { org: "Quran Audio", role: "Quran audio streaming · team project · 121 commits", period: "Aug – Sep 2026" },
   { org: "Budget Mint", role: "Personal finance · built solo for Onesttech · 679 commits", period: "Jun – Oct 2026" },
   { org: "RUSHD", role: "Islamic lifestyle app · team project · 232 commits, v3.6.0", period: "Apr – Sep 2026" },
   { org: "Daffodil International University", role: "BSc in CSE · thesis: AyurVision", period: "2022 – 2026" },

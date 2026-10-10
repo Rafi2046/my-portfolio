@@ -25,7 +25,7 @@ const anton = Anton({
 export const metadata: Metadata = {
   title: "Ishmak Rahat Rafi — Flutter Developer",
   description:
-    "Portfolio of Ishmak Rahat Rafi, Flutter developer at Onesttech Software Solutions. RUSHD, Al Quran Majeed, Budget Mint, FuelSync, Dosey and more.",
+    "Portfolio of Ishmak Rahat Rafi, Flutter developer at Onesttech Software Solutions. RUSHD, Quran Audio, Budget Mint, FuelSync, Dosey and more.",
 };
 
 /** Applies a saved theme choice before paint so there's no flash. */

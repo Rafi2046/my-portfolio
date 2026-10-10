@@ -40,8 +40,8 @@ export async function Proof() {
 
   const tiles = [
     { value: String(live.length), label: "Apps live on the stores", note: `${platforms} on both Google Play and the App Store` },
-    { value: "5.0", label: "App Store rating", note: "RUSHD and Al Quran Majeed" },
-    { value: "4.7", label: "Google Play rating", note: "Al Quran Majeed" },
+    { value: "5.0", label: "App Store rating", note: "RUSHD and Quran Audio" },
+    { value: "4.7", label: "Google Play rating", note: "Quran Audio" },
     contributions
       ? { value: String(contributions.total), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
       : { value: "436", label: "Commits at Onesttech", note: "April – October 2026" },
