@@ -354,7 +354,7 @@ export function Process() {
   return (
     <Panel tone="inverse" labelledBy="process-heading" className="mt-3">
       <div className="px-5 pt-14 sm:px-10 sm:pt-20">
-        <SectionTitle id="process-heading" title="How I work" counter="03" kicker="Plan · Build · Ship" />
+        <SectionTitle id="process-heading" title="How I work" counter="04" kicker="Plan · Build · Ship" />
       </div>
 
       <ol className="space-y-16 px-5 pb-14 pt-10 sm:px-10 lg:hidden">

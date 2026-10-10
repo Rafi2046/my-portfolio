@@ -4,7 +4,7 @@ import { experienceRows } from "@/lib/content";
 export function Timeline() {
   return (
     <Panel id="experience" tone="inverse" labelledBy="experience-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="experience-heading" title="Experience" counter="05" kicker="Where I have shipped" aside="436 commits in 2026" />
+      <SectionTitle id="experience-heading" title="Experience" counter="06" kicker="Where I have shipped" aside="436 commits in 2026" />
 
       <ul className="mt-12 border-t border-inverse-line">
         {experienceRows.map((row, i) => (

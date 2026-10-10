@@ -11,7 +11,7 @@ export const site = {
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Al Quran Majeed, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
-    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, an on-device herb identifier — to push into ML Kit, OpenCV and TensorFlow Lite.",
+    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification.",
   ],
   journey:
     "Curiosity about how apps are built turned into shipping Flutter products in production, with a lasting interest in clean architecture and the computer-science ideas underneath mobile systems.",
@@ -428,34 +428,43 @@ export const projects: Project[] = [
   {
     id: "ayurvision",
     title: "AyurVision",
-    tagline: "AI medicinal herb identifier",
+    tagline: "AI herb identifier · BSc thesis",
     description:
-      "Point the camera at a leaf and get the herb, its confidence score and its medicinal uses — fully offline with TensorFlow Lite.",
+      "My BSc thesis project at Daffodil International University: point the camera at a leaf and get the herb, a confidence score and its medicinal uses — with a 24-herb library of uses and precautions that works offline.",
     highlights: [
-      "On-device TFLite image classification with confidence scoring",
-      "Herb library with detailed medicinal properties",
-      "Scan history and favourites stored locally with Hive",
+      "Leaf photo sent to a Python /predict model service; results come back with a confidence score",
+      "Offline library of 24 local herbs: description, medicinal uses and precautions",
+      "Scan from camera or gallery, herb of the day, favourites, history and dark mode",
     ],
     story: {
       problem:
-        "Recognising a medicinal herb takes an expert, and in the field there is often no internet.",
+        "Recognising a medicinal herb takes an expert — most people can't tell Tulsi from Pudina, let alone know its precautions.",
       approach:
-        "A TensorFlow Lite model classifies the leaf on the device and shows a confidence score; a local herb library explains its uses, and Hive keeps scan history and favourites.",
+        "The app sends a leaf photo to an image-classification model behind a /predict API and shows the match with its confidence. The herb details live in the app, so the library, uses and precautions are readable without a connection.",
       results: [
-        "Identifies herbs fully offline",
-        "Confidence score on every result",
-        "Prototype, built as an on-device ML project",
+        "24 local herbs with uses, benefits and precautions",
+        "Confidence score on every identification",
+        "Built for and presented at my BSc thesis defense",
       ],
     },
-    tags: ["Flutter", "TensorFlow Lite", "Hive"],
+    tags: ["Flutter", "Dio", "ML API", "Provider"],
     ownership: "personal",
-    role: "Personal ML project",
+    role: "BSc thesis project · Daffodil International University",
     status: "prototype",
     tint: "#14361f",
     icon: "/projects/ayurvision-icon.png",
     cover: "/projects/cover-ayurvision.jpg",
+    stage: "fan",
+    video: {
+      src: "/projects/videos/ayurvision",
+      poster: "/projects/videos/ayurvision-poster.webp",
+      chapters: [{ t: 0, label: "Scan or upload" }, { t: 3, label: "Explore 24 herbs" }, { t: 8, label: "Herb details" }, { t: 11, label: "Uses & precautions" }],
+    },
     gallery: [
-      { src: "/projects/phones/ayurvision-home.webp", width: 560, height: 1143, alt: "Home with scan, upload and herb of the day" },
+      { src: "/projects/phones/ayurvision-home.webp", width: 1144, height: 2392, alt: "Home with scan, upload and herb of the day" },
+      { src: "/projects/phones/ayurvision-explore.webp", width: 1144, height: 2392, alt: "Explore the 24-herb library" },
+      { src: "/projects/phones/ayurvision-details.webp", width: 1144, height: 2392, alt: "Tulsi overview with botanical info" },
+      { src: "/projects/phones/ayurvision-benefits.webp", width: 1144, height: 2392, alt: "Medicinal uses and good sides" },
     ],
     platforms: "Android",
   },
@@ -506,7 +515,7 @@ export const timeline: TimelineItem[] = [
     title: "BSc in Computer Science & Engineering",
     org: "Daffodil International University",
     summary:
-      "Software engineering fundamentals — data structures, algorithms, system design and compiler concepts — that underpin how I structure production Flutter apps.",
+      "Software engineering fundamentals — data structures, algorithms, system design and compiler concepts. Thesis: AyurVision, an AI medicinal-herb identifier.",
   },
 ];
 
@@ -535,6 +544,17 @@ export const process = [
     image: "/projects/phones/dosey-home.webp",
   },
 ] as const;
+
+/** Public store numbers, checked on the listing pages. Update `checked` when refreshing. */
+export const storeProof = {
+  checked: "October 2026",
+  apps: [
+    { id: "rushd", play: { installs: "100+" }, appStore: { rating: 5.0, ratings: 9, version: "3.8.0" } },
+    { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 3, version: "1.0.2" } },
+    { id: "budget-mint", play: { installs: "100+" }, appStore: { version: "1.0.4" } },
+    { id: "fuelsync", play: { installs: "5+" } },
+  ],
+} as const;
 
 /** Rows for the experience panel, newest first. */
 export const experienceRows = [

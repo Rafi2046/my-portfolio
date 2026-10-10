@@ -6,6 +6,7 @@ import { Hero } from "@/components/Hero";
 import { PageTransition } from "@/components/PageTransition";
 import { Process } from "@/components/Process";
 import { Projects } from "@/components/Projects";
+import { Proof } from "@/components/Proof";
 import { Skills } from "@/components/Skills";
 import { Timeline } from "@/components/Timeline";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <About />
         <Projects />
+        <Proof />
         <Process />
         <Skills />
         <Timeline />

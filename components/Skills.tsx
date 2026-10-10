@@ -14,7 +14,7 @@ export function Skills() {
   return (
     <Panel id="skills" tone="light" labelledBy="skills-heading" className="mt-3 py-14 sm:py-20">
       <div className="px-5 sm:px-10">
-        <SectionTitle id="skills-heading" title="Stack" counter="04" kicker="What I build with" />
+        <SectionTitle id="skills-heading" title="Stack" counter="05" kicker="What I build with" />
 
         <ul className="mt-12 grid gap-3 lg:grid-cols-12">
           {skillGroups.map((g, i) => (
