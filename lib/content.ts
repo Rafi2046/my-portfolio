@@ -527,6 +527,9 @@ export const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/ishmakrafi/" },
   { label: "Instagram", href: "https://instagram.com/ishmak_rafi" },
   { label: "Facebook", href: "https://facebook.com/ishmakrafi" },
+  { label: "X", href: "https://x.com/ishmak_rafi47" },
+  { label: "Unsplash", href: "https://unsplash.com/@ishmak_rafi" },
+  { label: "Pinterest", href: "https://www.pinterest.com/ishmakrahat/" },
 ] as const;
 
 /** How I work, shown as the Plan → Build → Ship sequence. */

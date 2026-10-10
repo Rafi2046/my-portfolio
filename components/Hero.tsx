@@ -12,6 +12,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArrowUpRight, Panel, Reveal } from "@/components/Section";
+import { SocialIcon } from "@/components/SocialIcon";
 import { site, socials } from "@/lib/content";
 
 /** Starts after the intro curtain lifts (see globals.css). */
@@ -50,13 +51,14 @@ export function Hero() {
   return (
     <div ref={ref} className="pt-2 sm:pt-3">
       <Panel tone="gray" labelledBy="hero-name" className="flex min-h-[calc(100svh-1rem)] flex-col pt-24 sm:pt-28">
-        <div className="flex items-start justify-between px-5 sm:px-10">
+        <div className="relative flex items-start justify-between px-5 sm:px-10">
           <p className="text-base font-medium leading-snug sm:text-lg">
             <Reveal immediate delay={AFTER_CURTAIN}>Flutter</Reveal>
             <Reveal immediate delay={AFTER_CURTAIN + 0.06}>
               Developer &amp; Builder
             </Reveal>
           </p>
+          <FullName className="absolute left-1/2 top-1 hidden -translate-x-1/2 sm:flex" />
           <p className="text-right text-sm leading-snug text-muted">
             <Reveal immediate delay={AFTER_CURTAIN}>Based in Dhaka</Reveal>
             <Reveal immediate delay={AFTER_CURTAIN + 0.06}>
@@ -143,17 +145,7 @@ export function Hero() {
               </a>
             </div>
             <div className="flex flex-col items-end gap-2">
-              {socials.slice(0, 3).map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="focus-ring inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-panel/70 px-4 py-2 text-sm backdrop-blur transition hover:bg-ink hover:text-panel"
-                >
-                  {s.label} <ArrowUpRight className="h-3.5 w-3.5" />
-                </a>
-              ))}
+              <SocialRow />
               <a href="#about" className="focus-ring mt-4 flex flex-col items-center gap-1 text-sm">
                 Scroll down
                 <svg width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden className="motion-safe:animate-bounce">
@@ -166,30 +158,54 @@ export function Hero() {
 
         {/* Bottom block on phones and tablets */}
         <div className="border-t border-line bg-panel-2 px-5 py-6 sm:px-10 lg:hidden">
+          <FullName className="mb-3 flex sm:hidden" />
           <p className="text-2xl font-semibold leading-tight">
             I build mobile apps people open every day.
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-2">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
             <a
               href="#projects"
               className="focus-ring inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-panel"
             >
               See my work <ArrowUpRight className="h-4 w-4" />
             </a>
-            {socials.slice(0, 2).map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="focus-ring inline-flex h-11 items-center gap-1.5 rounded-full border border-line-strong px-4 text-sm"
-              >
-                {s.label}
-              </a>
-            ))}
           </div>
+          <SocialRow className="mt-4 flex-wrap" />
         </div>
       </Panel>
     </div>
+  );
+}
+
+/** The full name, small, for where the giant display name shortens it. */
+function FullName({ className = "" }: { className?: string }) {
+  return (
+    <p aria-hidden className={`items-center gap-3 whitespace-nowrap text-[13px] font-semibold uppercase tracking-[0.3em] text-ink/80 sm:text-sm ${className}`}>
+      <span className="h-px w-8 bg-ink/40 sm:w-12" />
+      <Reveal immediate delay={AFTER_CURTAIN + 0.03}>{site.fullName}</Reveal>
+      <span className="h-px w-8 bg-ink/40 sm:w-12" />
+    </p>
+  );
+}
+
+/** Every social account as a round icon button; the label shows as a tooltip. */
+function SocialRow({ className = "" }: { className?: string }) {
+  return (
+    <ul className={`flex gap-2 ${className}`}>
+      {socials.map((s) => (
+        <li key={s.label}>
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            title={s.label}
+            className="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-line-strong bg-panel/70 backdrop-blur transition hover:-translate-y-0.5 hover:bg-ink hover:text-panel"
+          >
+            <SocialIcon label={s.label} className="h-4 w-4" />
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }

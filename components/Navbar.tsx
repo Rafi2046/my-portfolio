@@ -2,20 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { navLinks, projects, site } from "@/lib/content";
 
-/** Once the hero is behind you, the bar moves to a floating dock at the bottom (desktop). */
-function useDocked() {
-  const [docked, setDocked] = useState(false);
+/** Once you start scrolling, the bar condenses into a floating pill (desktop). */
+function useScrolled() {
+  const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const onScroll = () => setDocked(window.scrollY > window.innerHeight * 0.85);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  return docked;
+  return scrolled;
 }
 
 /** The section currently under the middle of the viewport. */
@@ -38,56 +38,10 @@ function useActiveSection() {
   return active;
 }
 
-function Dock() {
-  const active = useActiveSection();
-  return (
-    <motion.nav
-      aria-label="Primary (docked)"
-      initial={{ y: 120, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 120, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 260, damping: 28 }}
-      className="fixed inset-x-0 bottom-5 z-50 hidden justify-center lg:flex"
-    >
-      <div className="flex items-center gap-1 rounded-full border border-line bg-panel/85 p-1.5 pl-2 text-ink shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-xl">
-        <Link href="/" aria-label="Home" className="display focus-ring mr-1 flex h-10 w-10 items-center justify-center rounded-full bg-ink text-base text-panel">
-          IR
-        </Link>
-        {navLinks.map((link) => {
-          const isActive = active === link.href.split("#")[1];
-          return (
-            <a
-              key={link.href}
-              href={link.href}
-              aria-current={isActive ? "true" : undefined}
-              className={`focus-ring relative rounded-full px-4 py-2.5 text-sm font-medium transition ${isActive ? "text-panel" : "text-ink/70 hover:text-ink"}`}
-            >
-              {isActive ? (
-                <motion.span layoutId="dock-pill" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
-              ) : null}
-              <span className="relative">{link.label}</span>
-            </a>
-          );
-        })}
-        <span className="mx-1 h-6 w-px bg-line-strong" aria-hidden />
-        <ThemeToggle />
-        <Link
-          href="/#contact"
-          className="focus-ring ml-1 inline-flex h-10 items-center gap-2 rounded-full bg-ink pl-5 pr-1.5 text-xs font-semibold uppercase tracking-wider text-panel transition hover:opacity-90"
-        >
-          Hire me
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-panel text-ink" aria-hidden>
-            ↗
-          </span>
-        </Link>
-      </div>
-    </motion.nav>
-  );
-}
-
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const docked = useDocked();
+  const scrolled = useScrolled();
+  const active = useActiveSection();
 
   useEffect(() => {
     if (!open) return;
@@ -100,13 +54,14 @@ export function Navbar() {
 
   return (
     <>
-      <AnimatePresence>{docked ? <Dock key="dock" /> : null}</AnimatePresence>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 px-4 pt-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-6 sm:pt-5 ${
-          docked ? "lg:pointer-events-none lg:-translate-y-[150%]" : ""
+      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-5">
+      <div
+        className={`mx-auto rounded-2xl border border-line bg-panel/90 text-ink backdrop-blur-xl transition-[max-width,border-radius,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          scrolled
+            ? "max-w-[88rem] shadow-[0_16px_40px_rgba(0,0,0,0.18)] lg:max-w-[60rem] lg:rounded-[1.75rem]"
+            : "max-w-[88rem] shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
         }`}
       >
-      <div className="mx-auto max-w-[88rem] rounded-2xl border border-line bg-panel/90 text-ink shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl">
         <nav
           className="flex h-14 items-center justify-between gap-3 pl-2 pr-2 sm:pl-2.5"
           aria-label="Primary"
@@ -121,26 +76,43 @@ export function Navbar() {
             </span>
           </Link>
 
-          <ul className="hidden items-center gap-7 lg:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="focus-ring text-sm font-medium uppercase tracking-wide text-ink/75 transition hover:text-ink"
-                >
-                  {link.label}
-                  {link.label === "Work" ? (
-                    <sup className="ml-0.5 font-mono text-[10px] text-muted">
-                      ({projects.length})
-                    </sup>
-                  ) : null}
-                </a>
-              </li>
-            ))}
+          <ul className="hidden items-center gap-1 lg:flex">
+            {navLinks.map((link) => {
+              const isActive = active === link.href.split("#")[1];
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`focus-ring relative block rounded-full px-4 py-2 text-sm font-medium uppercase tracking-wide transition ${
+                      isActive ? "text-panel" : "text-ink/75 hover:text-ink"
+                    }`}
+                  >
+                    {isActive ? (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-full bg-ink"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    ) : null}
+                    <span className="relative">
+                      {link.label}
+                      {link.label === "Work" ? (
+                        <sup className={`ml-0.5 font-mono text-[10px] ${isActive ? "text-panel/70" : "text-muted"}`}>
+                          ({projects.length})
+                        </sup>
+                      ) : null}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-2 rounded-full border border-line px-3 py-2 text-xs font-medium xl:inline-flex">
+            <span
+              className={`hidden items-center gap-2 rounded-full border border-line px-3 py-2 text-xs font-medium ${scrolled ? "" : "xl:inline-flex"}`}
+            >
               <span className="h-2 w-2 rounded-full bg-live" aria-hidden />
               Available for new projects
             </span>
