@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, type PointerEvent } from "react";
+import { useEffect, useRef, type PointerEvent } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -31,8 +31,66 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const nameY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const scrollNameY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const scrollPortraitY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
+  // Depth parallax: the cursor (or tilting the phone) shifts the layers by different amounts,
+  // portrait toward you, name and studio light the other way. -1..1 on each axis.
+  const tilt = { stiffness: 70, damping: 18, mass: 0.8 };
+  const tiltX = useSpring(0, tilt);
+  const tiltY = useSpring(0, tilt);
+  const portraitX = useTransform(tiltX, (v) => v * 22);
+  const portraitY = useTransform(() => scrollPortraitY.get() + tiltY.get() * 12);
+  const portraitRotate = useTransform(tiltX, (v) => v * 4);
+  const nameX = useTransform(tiltX, (v) => v * -16);
+  const nameY = useTransform(() => scrollNameY.get() + tiltY.get() * -10);
+  const glowX = useTransform(tiltX, (v) => v * -30);
+  const glowY = useTransform(tiltY, (v) => v * -20);
+
+  const tiltToPointer = (e: PointerEvent<HTMLDivElement>) => {
+    if (reduce || e.pointerType !== "mouse") return;
+    const box = e.currentTarget.getBoundingClientRect();
+    tiltX.set(((e.clientX - box.left) / box.width) * 2 - 1);
+    tiltY.set(((e.clientY - box.top) / box.height) * 2 - 1);
+  };
+  const resetTilt = () => {
+    tiltX.set(0);
+    tiltY.set(0);
+  };
+
+  // On phones and tablets the gyroscope drives the same parallax.
+  useEffect(() => {
+    if (reduce || !window.matchMedia("(pointer: coarse)").matches || !("DeviceOrientationEvent" in window)) return;
+
+    const clamp = (v: number) => Math.max(-1, Math.min(1, v));
+    let restBeta: number | null = null;
+    const onOrient = (e: DeviceOrientationEvent) => {
+      if (e.beta == null || e.gamma == null) return;
+      // Whatever angle the phone is first held at counts as centre.
+      restBeta ??= e.beta;
+      tiltX.set(clamp(e.gamma / 25));
+      tiltY.set(clamp((e.beta - restBeta) / 25));
+    };
+    const listen = () => window.addEventListener("deviceorientation", onOrient);
+
+    // iOS only hands out motion data after a tap asks for it.
+    const Orientation = DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<PermissionState> };
+    if (typeof Orientation.requestPermission !== "function") {
+      listen();
+    } else {
+      const ask = () => {
+        Orientation.requestPermission!()
+          .then((state) => state === "granted" && listen())
+          .catch(() => {});
+      };
+      window.addEventListener("touchend", ask, { once: true });
+      return () => {
+        window.removeEventListener("touchend", ask);
+        window.removeEventListener("deviceorientation", onOrient);
+      };
+    }
+    return () => window.removeEventListener("deviceorientation", onOrient);
+  }, [reduce, tiltX, tiltY]);
 
   // Colour spotlight that follows the cursor over the portrait.
   const spot = { stiffness: 260, damping: 30, mass: 0.6 };
@@ -74,16 +132,21 @@ export function Hero() {
         </div>
 
         {/* Stage: giant name behind, portrait in front */}
-        <div className="relative min-h-[34rem] flex-1 md:min-h-[32rem]">
+        <div
+          className="relative min-h-[34rem] flex-1 md:min-h-[32rem]"
+          onPointerMove={tiltToPointer}
+          onPointerLeave={resetTilt}
+        >
           {/* Soft studio light behind head and shoulders */}
-          <div
+          <motion.div
             aria-hidden
+            style={reduce ? undefined : { x: glowX, y: glowY }}
             className="pointer-events-none absolute bottom-0 left-1/2 aspect-square h-[85%] -translate-x-1/2 translate-y-[12%] rounded-full bg-[radial-gradient(closest-side,var(--spotlight),transparent)]"
           />
 
           <motion.h1
             id="hero-name"
-            style={{ ...(reduce ? {} : { y: nameY }), maskImage: NAME_FADE, WebkitMaskImage: NAME_FADE }}
+            style={{ ...(reduce ? {} : { x: nameX, y: nameY }), maskImage: NAME_FADE, WebkitMaskImage: NAME_FADE }}
             className="display absolute inset-x-0 top-[6%] select-none text-center text-[31vw] sm:top-[8%] md:text-[18.5vw] 2xl:text-[17rem]"
           >
             <span className="sr-only">{site.fullName}</span>
@@ -94,7 +157,7 @@ export function Hero() {
           </motion.h1>
 
           <motion.div
-            style={reduce ? undefined : { y: portraitY }}
+            style={reduce ? undefined : { x: portraitX, y: portraitY, rotateY: portraitRotate, transformPerspective: 1200 }}
             className="absolute inset-x-0 bottom-0 flex h-[60%] justify-center md:h-[92%]"
           >
             <motion.div
