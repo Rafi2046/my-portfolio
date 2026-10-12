@@ -26,6 +26,8 @@
   /* Hero fades read as depth on dark but as wash-out on light, so light keeps them faint */
   --name-fade: 0.85;
   --portrait-fade: 0%;
+  /* Flutter blue for the monogram's blade, tuned to sit on the inverted (ink) tile */
+  --flutter-blade: #54c5f8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,6 +48,7 @@
     --spotlight: rgba(242, 242, 240, 0.13);
     --name-fade: 0.3;
     --portrait-fade: 22%;
+    --flutter-blade: #0175c2;
   }
 }
 
@@ -66,6 +69,7 @@
   --spotlight: rgba(242, 242, 240, 0.13);
   --name-fade: 0.3;
   --portrait-fade: 22%;
+  --flutter-blade: #0175c2;
 }
 
 @theme inline {
@@ -85,7 +89,6 @@
   --font-sans: var(--font-geist);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-anton);
-  --font-serif: var(--font-instrument-serif);
 }
 
 html {

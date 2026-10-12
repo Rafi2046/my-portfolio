@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ResumePreview } from "@/components/ResumePreview";
+import { Monogram } from "@/components/Monogram";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { navLinks, projects, site } from "@/lib/content";
 
@@ -78,8 +79,8 @@ export function Navbar() {
           aria-label="Primary"
         >
           <Link href="/" className="focus-ring flex items-center gap-2.5 rounded-xl">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink pr-0.5 font-serif text-[1.45rem] italic leading-none tracking-[-0.04em] text-panel">
-              IR
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-panel">
+              <Monogram className="h-10 w-10" />
             </span>
             <span className="text-sm font-semibold uppercase tracking-wide">
               {site.fullName.split(" ")[0]}{" "}

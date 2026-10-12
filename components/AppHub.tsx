@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Monogram } from "@/components/Monogram";
 import { ArrowUpRight, Panel, Magnetic } from "@/components/Section";
 import { projects as allProjects } from "@/lib/content";
 
@@ -152,8 +153,8 @@ export function AppHub() {
         >
           <span aria-hidden className="absolute inset-0 rounded-full bg-live/25 motion-safe:animate-ping [animation-duration:2.6s]" />
           <span className="relative flex h-40 w-40 items-center justify-center rounded-full border border-white/10 bg-white/[0.07] shadow-[0_0_120px_rgb(34_197_94/0.35)] xl:h-44 xl:w-44">
-            <span className="flex h-[7.5rem] w-[7.5rem] items-center justify-center rounded-full bg-live pr-1.5 font-serif text-6xl italic leading-none tracking-[-0.04em] text-black shadow-[inset_0_-8px_20px_rgb(0_0_0/0.18),inset_0_6px_14px_rgb(255_255_255/0.35)] xl:h-32 xl:w-32">
-              IR
+            <span className="flex h-[7.5rem] w-[7.5rem] items-center justify-center rounded-full bg-live text-black shadow-[inset_0_-8px_20px_rgb(0_0_0/0.18),inset_0_6px_14px_rgb(255_255_255/0.35)] [--flutter-blade:#02569b] xl:h-32 xl:w-32">
+              <Monogram className="h-24 w-24 xl:h-28 xl:w-28" />
             </span>
           </span>
         </div>
