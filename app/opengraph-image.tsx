@@ -44,9 +44,22 @@ export default async function Image() {
         />
 
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, color: "#a1a1a8" }}>
-            <div style={{ width: 12, height: 12, borderRadius: 9999, background: "#22c55e" }} />
-            Available for new projects
+          <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+            {/* The i-R monogram, same shapes as components/Monogram.tsx */}
+            <svg width="72" height="72" viewBox="0 0 40 40">
+              <rect width="40" height="40" rx="9" fill="#f2f2f0" />
+              <circle cx="14.1" cy="8.6" r="2.5" fill="#0175c2" />
+              <path
+                fillRule="evenodd"
+                d="M12 13h8.4a6.2 6.2 0 0 1 0 12.4h-4.1V32H12Zm4.3 3.8v4.8h4.1a2.4 2.4 0 0 0 0-4.8Z"
+                fill="#0b0b0c"
+              />
+              <path d="M19 25.4h5l6.2 6.6h-5Z" fill="#0175c2" />
+            </svg>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, color: "#a1a1a8" }}>
+              <div style={{ width: 12, height: 12, borderRadius: 9999, background: "#22c55e" }} />
+              Available for new projects
+            </div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
