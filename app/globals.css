@@ -209,15 +209,15 @@ body {
   outline-offset: 3px;
 }
 
-/* App hub: a short glowing dash runs out from the centre to each app. */
-.hub-pulse {
-  stroke-dasharray: 3 200;
-  stroke-dashoffset: -100;
-  animation: hub-pulse 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite both;
+/* App hub: the glow under the centre breathes. Only opacity and transform
+   change, so it stays on the compositor even on tablets. */
+.hub-breathe { animation: hub-breathe 4.8s ease-in-out infinite; }
+@keyframes hub-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
-@keyframes hub-pulse {
-  from { stroke-dashoffset: -100; }
-  to { stroke-dashoffset: 3; }
+@media (prefers-reduced-motion: reduce) {
+  .hub-breathe { animation: none; }
 }
 
 /* Project stages: floating UI cards, a document scan line, and sound rings. */
