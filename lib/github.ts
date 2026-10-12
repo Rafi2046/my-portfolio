@@ -11,7 +11,7 @@ async function fetchCalendar(query = ""): Promise<ContributionDay[] | null> {
   try {
     const res = await fetch(`https://github.com/users/${GITHUB_USER}/contributions${query}`, {
       headers: { "X-Requested-With": "XMLHttpRequest" },
-      next: { revalidate: 86400 },
+      next: { revalidate: 3600 },
     });
     if (!res.ok) return null;
     const html = await res.text();
@@ -40,7 +40,7 @@ const total = (days: ContributionDay[]) => days.reduce((n, d) => n + d.count, 0)
 
 /**
  * Public GitHub contributions for the last 12 months and for every year since
- * the account opened, refreshed once a day. Returns null if GitHub can't be
+ * the account opened, refreshed every hour. Returns null if GitHub can't be
  * reached, so the page still renders; a year that fails is just left out.
  */
 export async function getContributions(): Promise<ContributionRange[] | null> {

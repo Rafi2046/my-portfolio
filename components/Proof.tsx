@@ -40,7 +40,7 @@ export async function Proof() {
     ...(appStoreBest ? [{ value: appStoreBest.value, label: "App Store rating", note: appStoreBest.note }] : []),
     ...(playBest ? [{ value: playBest.value, label: "Google Play rating", note: playBest.note }] : []),
     lastYear
-      ? { value: lastYear.total.toLocaleString("en-US"), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
+      ? { value: lastYear.total.toLocaleString("en-US"), label: "GitHub contributions", note: "in the last 12 months · updated hourly" }
       : { value: "1,541", label: "Commits at Onesttech", note: "Five apps, three built solo" },
   ];
 
