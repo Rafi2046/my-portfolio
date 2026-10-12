@@ -558,14 +558,17 @@ export const process = [
   },
 ] as const;
 
-/** Public store numbers, checked on the listing pages. Update `checked` when refreshing. */
+/**
+ * Hand-checked store numbers. lib/stores.ts refreshes installs and App Store
+ * stats daily and falls back to these; Play ratings only come from here.
+ */
 export const storeProof = {
   checked: "October 2026",
   apps: [
     { id: "rushd", play: { installs: "100+" }, appStore: { rating: 5.0, ratings: 9, version: "3.8.0" } },
-    { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 3, version: "1.0.2" } },
+    { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 4, version: "1.0.2" } },
     { id: "budget-mint", play: { installs: "100+" }, appStore: { version: "1.0.4" } },
-    { id: "fuelsync", play: { installs: "5+" } },
+    { id: "fuelsync", play: { installs: "10+" } },
   ],
 } as const;
 

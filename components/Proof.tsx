@@ -3,6 +3,7 @@ import { ContributionGraph } from "@/components/ContributionGraph";
 import { ArrowUpRight, CountUp, Panel, SectionTitle } from "@/components/Section";
 import { getContributions, GITHUB_USER } from "@/lib/github";
 import { ownershipCopy, projects, storeProof } from "@/lib/content";
+import { getStoreStats, type StoreStats } from "@/lib/stores";
 
 function Stars({ value }: { value: number }) {
   return (
@@ -15,18 +16,29 @@ function Stars({ value }: { value: number }) {
   );
 }
 
+/** The top rating across apps, with the names of every app that holds it. */
+function best(apps: (StoreStats & { project: { title: string } })[], rating: (a: StoreStats) => number | undefined) {
+  const rated = apps.filter((a) => rating(a) !== undefined);
+  if (rated.length === 0) return null;
+  const top = Math.max(...rated.map((a) => rating(a)!));
+  const names = rated.filter((a) => rating(a) === top).map((a) => a.project.title);
+  return { value: top.toFixed(1), note: names.join(" and ") };
+}
+
 /** Live apps, public store ratings and a year of commits — numbers anyone can check. */
 export async function Proof() {
-  const contributions = await getContributions();
-  const live = storeProof.apps.map((s) => ({ ...s, project: projects.find((p) => p.id === s.id)! }));
-  const platforms = live.filter((a) => "appStore" in a).length;
+  const [contributions, stores] = await Promise.all([getContributions(), getStoreStats()]);
+  const live = stores.apps.map((s) => ({ ...s, project: projects.find((p) => p.id === s.id)! }));
+  const platforms = live.filter((a) => a.appStore).length;
+  const appStoreBest = best(live, (a) => a.appStore?.rating);
+  const playBest = best(live, (a) => a.play.rating);
 
   const lastYear = contributions?.[0];
 
   const tiles = [
     { value: String(live.length), label: "Apps live on the stores", note: `${platforms} on both Google Play and the App Store` },
-    { value: "5.0", label: "App Store rating", note: "RUSHD and Quran Audio" },
-    { value: "4.7", label: "Google Play rating", note: "Quran Audio" },
+    ...(appStoreBest ? [{ value: appStoreBest.value, label: "App Store rating", note: appStoreBest.note }] : []),
+    ...(playBest ? [{ value: playBest.value, label: "Google Play rating", note: playBest.note }] : []),
     lastYear
       ? { value: lastYear.total.toLocaleString("en-US"), label: "GitHub contributions", note: "in the last 12 months · updated daily" }
       : { value: "1,541", label: "Commits at Onesttech", note: "Five apps, three built solo" },
@@ -34,7 +46,7 @@ export async function Proof() {
 
   return (
     <Panel id="proof" tone="gray" labelledBy="proof-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="proof-heading" title="Proof" counter="04" kicker="Shipped, rated, still committing" aside={`Store data · ${storeProof.checked}`} />
+      <SectionTitle id="proof-heading" title="Proof" counter="04" kicker="Shipped, rated, still committing" aside={stores.live ? "Store data · updated daily" : `Store data · ${storeProof.checked}`} />
 
       <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-[1.5rem] border border-line-strong bg-line-strong lg:grid-cols-4">
         {tiles.map((t) => (
@@ -52,8 +64,7 @@ export async function Proof() {
       <div className="mt-3 grid min-w-0 gap-3">
         {/* Store listings */}
         <ul className="grid min-w-0 gap-px overflow-hidden rounded-[1.5rem] border border-line-strong bg-line-strong sm:grid-cols-2">
-          {live.map(({ project: p, play, ...rest }) => {
-            const app = "appStore" in rest ? rest.appStore : undefined;
+          {live.map(({ project: p, play, appStore: app }) => {
             return (
               <li key={p.id} data-spotlight className="grid grid-cols-[52px_1fr] content-start items-start gap-x-4 gap-y-3 bg-panel-2 p-5 sm:p-6">
                 <Image src={p.icon} alt="" width={52} height={52} className="h-13 w-13 rounded-2xl" />
@@ -65,7 +76,7 @@ export async function Proof() {
                   {p.android ? (
                     <a href={p.android} target="_blank" rel="noopener noreferrer" className="focus-ring inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1.5 transition hover:border-ink/50">
                       <span className="whitespace-nowrap text-muted">Play</span>
-                      {"rating" in play ? (
+                      {play.rating !== undefined ? (
                         <>
                           <Stars value={play.rating} /> {play.rating.toFixed(1)}
                         </>
@@ -77,7 +88,7 @@ export async function Proof() {
                   {p.ios && app ? (
                     <a href={p.ios} target="_blank" rel="noopener noreferrer" className="focus-ring inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1.5 transition hover:border-ink/50">
                       <span className="whitespace-nowrap text-muted">App Store</span>
-                      {"rating" in app ? (
+                      {app.rating !== undefined ? (
                         <>
                           <Stars value={app.rating} /> {app.rating.toFixed(1)}
                           <span className="text-muted">({app.ratings})</span>
