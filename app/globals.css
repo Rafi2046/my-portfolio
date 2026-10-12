@@ -21,6 +21,11 @@
   --inverse-line: rgba(242, 242, 240, 0.14);
   --live: #22c55e;
   --error: #dc2626;
+  /* Studio light behind the hero portrait */
+  --spotlight: rgba(255, 255, 255, 0.45);
+  /* Hero fades read as depth on dark but as wash-out on light, so light keeps them faint */
+  --name-fade: 0.85;
+  --portrait-fade: 0%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,6 +43,9 @@
     --on-inverse-muted: #5e5e62;
     --inverse-line: rgba(11, 11, 12, 0.14);
     --error: #f87171;
+    --spotlight: rgba(242, 242, 240, 0.13);
+    --name-fade: 0.3;
+    --portrait-fade: 22%;
   }
 }
 
@@ -55,6 +63,9 @@
   --on-inverse-muted: #5e5e62;
   --inverse-line: rgba(11, 11, 12, 0.14);
   --error: #f87171;
+  --spotlight: rgba(242, 242, 240, 0.13);
+  --name-fade: 0.3;
+  --portrait-fade: 22%;
 }
 
 @theme inline {
@@ -74,6 +85,7 @@
   --font-sans: var(--font-geist);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-anton);
+  --font-serif: var(--font-instrument-serif);
 }
 
 html {

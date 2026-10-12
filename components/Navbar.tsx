@@ -78,7 +78,7 @@ export function Navbar() {
           aria-label="Primary"
         >
           <Link href="/" className="focus-ring flex items-center gap-2.5 rounded-xl">
-            <span className="display flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-lg text-panel">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink pr-0.5 font-serif text-[1.45rem] italic leading-none tracking-[-0.04em] text-panel">
               IR
             </span>
             <span className="text-sm font-semibold uppercase tracking-wide">

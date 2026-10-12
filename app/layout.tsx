@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, Geist, Geist_Mono } from "next/font/google";
+import { Anton, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Polish } from "@/components/Polish";
 import "lenis/dist/lenis.css";
@@ -20,6 +20,13 @@ const anton = Anton({
   variable: "--font-anton",
   subsets: ["latin"],
   weight: "400",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
 });
 
 const description =
@@ -63,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geist.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${anton.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

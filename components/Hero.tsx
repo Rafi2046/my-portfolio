@@ -18,6 +18,12 @@ import { site, socials } from "@/lib/content";
 /** Starts after the intro curtain lifts (see globals.css). */
 const AFTER_CURTAIN = 1.25;
 
+/** The name dims toward its baseline so the head reads in front of it, magazine-cover style. */
+const NAME_FADE = "linear-gradient(to bottom, black 35%, rgb(0 0 0 / var(--name-fade)))";
+
+/** Lets the bottom of the portrait melt into the panel instead of ending in a hard crop. */
+const PORTRAIT_FADE = "linear-gradient(to top, transparent, black var(--portrait-fade))";
+
 export function Hero() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -69,17 +75,15 @@ export function Hero() {
 
         {/* Stage: giant name behind, portrait in front */}
         <div className="relative min-h-[34rem] flex-1 md:min-h-[32rem]">
-          <svg
+          {/* Soft studio light behind head and shoulders */}
+          <div
             aria-hidden
-            viewBox="0 0 100 100"
-            className="pointer-events-none absolute left-1/2 top-[6%] h-[115%] -translate-x-[62%] text-ink/20"
-          >
-            <circle cx="50" cy="50" r="49.7" fill="none" stroke="currentColor" strokeWidth="0.15" />
-          </svg>
+            className="pointer-events-none absolute bottom-0 left-1/2 aspect-square h-[85%] -translate-x-1/2 translate-y-[12%] rounded-full bg-[radial-gradient(closest-side,var(--spotlight),transparent)]"
+          />
 
           <motion.h1
             id="hero-name"
-            style={reduce ? undefined : { y: nameY }}
+            style={{ ...(reduce ? {} : { y: nameY }), maskImage: NAME_FADE, WebkitMaskImage: NAME_FADE }}
             className="display absolute inset-x-0 top-[6%] select-none text-center text-[31vw] sm:top-[8%] md:text-[18.5vw] 2xl:text-[17rem]"
           >
             <span className="sr-only">{site.fullName}</span>
@@ -95,6 +99,7 @@ export function Hero() {
           >
             <motion.div
               className="relative h-full"
+              style={{ maskImage: PORTRAIT_FADE, WebkitMaskImage: PORTRAIT_FADE }}
               initial={reduce ? false : { opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, delay: reduce ? 0 : AFTER_CURTAIN + 0.25, ease: [0.22, 1, 0.36, 1] }}
@@ -106,10 +111,10 @@ export function Hero() {
               onPointerLeave={() => spotR.set(0)}
             >
               <Image
-                src="/rafi-portrait.png"
+                src="/rafi-portrait-studio.png"
                 alt={`Portrait of ${site.fullName}`}
-                width={682}
-                height={969}
+                width={542}
+                height={784}
                 preload
                 sizes="(max-width: 768px) 80vw, 560px"
                 className="h-full w-auto object-contain object-bottom grayscale contrast-[1.05]"
@@ -120,10 +125,10 @@ export function Hero() {
                 style={{ maskImage: colorMask, WebkitMaskImage: colorMask }}
               >
                 <Image
-                  src="/rafi-portrait.png"
+                  src="/rafi-portrait-studio.png"
                   alt=""
-                  width={682}
-                  height={969}
+                  width={542}
+                  height={784}
                   sizes="(max-width: 768px) 80vw, 560px"
                   className="h-full w-full object-contain object-bottom saturate-[1.35] contrast-[1.08]"
                 />
