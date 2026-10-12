@@ -24,7 +24,9 @@ export function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [opened, setOpened] = useState(false);
+  // Honeypot: hidden from people, filled in by bots; Web3Forms drops those submissions.
+  const [botcheck, setBotcheck] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   function validate(): FieldErrors {
     const next: FieldErrors = {};
@@ -36,17 +38,36 @@ export function Contact() {
     return next;
   }
 
-  // No backend yet: hand the message to the visitor's email app, addressed to me.
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+    if (Object.keys(nextErrors).length > 0 || status === "sending") return;
 
-    const subject = `Project enquiry from ${name.trim()}`;
-    const body = `${message.trim()}\n\n— ${name.trim()} (${email.trim()})`;
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setOpened(true);
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: site.contactFormKey,
+          subject: `Project enquiry from ${name.trim()}`,
+          from_name: "Portfolio contact form",
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+          botcheck: botcheck,
+        }),
+      });
+      const data: { success?: boolean } = await res.json();
+      if (!res.ok || !data.success) throw new Error("Send failed");
+      setStatus("sent");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setStatus("failed");
+    }
   }
 
   return (
@@ -79,6 +100,16 @@ export function Contact() {
       <ResumeCard />
 
       <form onSubmit={onSubmit} noValidate className="mx-auto mt-12 max-w-3xl space-y-4">
+        <input
+          type="checkbox"
+          name="botcheck"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden
+          className="hidden"
+          checked={Boolean(botcheck)}
+          onChange={(e) => setBotcheck(e.target.checked ? "on" : "")}
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-name" className="mb-2 block text-sm font-medium">
@@ -151,17 +182,25 @@ export function Contact() {
           <Magnetic>
           <button
             type="submit"
-            className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 text-sm font-semibold text-panel transition hover:opacity-85"
+            disabled={status === "sending"}
+            className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 text-sm font-semibold text-panel transition hover:opacity-85 disabled:cursor-wait disabled:opacity-60"
           >
-            Contact me <ArrowUpRight className="h-4 w-4" />
+            {status === "sending" ? "Sending…" : "Contact me"} <ArrowUpRight className="h-4 w-4" />
           </button>
           </Magnetic>
-          {opened ? (
-            <p className="text-center text-sm text-muted" role="status">
-              Your email app should open with the message ready to send. If it
-              didn&apos;t, email me at {site.email}.
-            </p>
-          ) : null}
+          <p className="min-h-5 text-center text-sm" role="status" aria-live="polite">
+            {status === "sent" ? (
+              <span className="text-ink">Thanks, your message is on its way. I&apos;ll reply within a day.</span>
+            ) : status === "failed" ? (
+              <span className="text-error">
+                Couldn&apos;t send that just now. Please email me at{" "}
+                <a href={`mailto:${site.email}`} className="underline underline-offset-4">
+                  {site.email}
+                </a>
+                .
+              </span>
+            ) : null}
+          </p>
         </div>
       </form>
     </Panel>

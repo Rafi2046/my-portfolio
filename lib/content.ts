@@ -10,6 +10,8 @@ export const site = {
   email: "ishmakrahat02@gmail.com",
   phone: "+880 1521-392046",
   phoneHref: "tel:+8801521392046",
+  /** Web3Forms access key for the contact form. Public by design: it can only deliver mail to the inbox above. */
+  contactFormKey: "b186b515-34bf-49c4-8124-3c6e5e08535f",
   /** The CV, built from docs/resume/resume.html. Bump `?v=` and the preview's file name on every update so no cache serves the old one. */
   resumeHref: "/resume.pdf?v=2026-10-11-2",
   resumePreview: "/resume-preview-2026-10-11-2.webp",
