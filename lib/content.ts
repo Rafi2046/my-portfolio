@@ -135,6 +135,8 @@ export type Project = {
   web?: string;
   /** Source code, when it lives outside my own GitHub. */
   repo?: string;
+  /** The app's privacy policy page on this site. */
+  privacy?: string;
 };
 
 export const ownershipCopy: Record<Project["ownership"], { short: string; long: string }> = {
@@ -444,6 +446,7 @@ export const projects: Project[] = [
       { src: "/projects/phones/docyra-account.webp", width: 1144, height: 2392, alt: "Account with storage stats and scanner settings" },
     ],
     platforms: "Android · iOS",
+    privacy: "/docyra/privacy",
   },
   {
     id: "ayurvision",

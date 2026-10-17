@@ -134,6 +134,14 @@ export default async function CaseStudyPage({
                     App Store <ArrowUpRight className="h-4 w-4" />
                   </a>
                 ) : null}
+                {project.privacy ? (
+                  <Link
+                    href={project.privacy}
+                    className="focus-ring inline-flex h-12 items-center rounded-full border border-line-strong px-6 text-sm font-semibold transition hover:bg-ink hover:text-panel"
+                  >
+                    Privacy policy
+                  </Link>
+                ) : null}
                 <Link
                   href="/#contact"
                   className="focus-ring inline-flex h-12 items-center rounded-full border border-line-strong px-6 text-sm font-semibold transition hover:bg-ink hover:text-panel"
