@@ -112,11 +112,45 @@ function Spotlight() {
   return null;
 }
 
+/**
+ * Opens each new page at the top. Next's own scroll-on-navigate picks the first visible
+ * element of the incoming page, which during the view transition turns out to be the footer.
+ * Back/forward keeps the browser's restored position, and links with a #hash keep their anchor.
+ */
+function ScrollReset() {
+  const pathname = usePathname();
+  const first = useRef(true);
+  const popped = useRef(false);
+  useEffect(() => {
+    const onPop = () => (popped.current = true);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (popped.current) {
+      popped.current = false;
+      return;
+    }
+    if (window.location.hash) return;
+    const top = () => window.scrollTo({ top: 0, behavior: "instant" });
+    top();
+    // Next's scroll handler can still fire on the frame after the new page mounts.
+    const id = requestAnimationFrame(top);
+    return () => cancelAnimationFrame(id);
+  }, [pathname]);
+  return null;
+}
+
 /** Site-wide finishing: smooth scroll, film grain, card spotlight and the custom cursor. */
 export function Polish() {
   return (
     <>
       <SmoothScroll />
+      <ScrollReset />
       <Spotlight />
       <div aria-hidden className="grain pointer-events-none fixed inset-0 z-[80]" />
       <Cursor />
