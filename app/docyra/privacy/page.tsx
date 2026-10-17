@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { ArrowUpRight, Panel } from "@/components/Section";
-import { projects, site } from "@/lib/content";
+import { site } from "@/lib/content";
 
 const UPDATED = "October 17, 2026";
 
@@ -28,11 +28,6 @@ const glance = [
   { label: "Account", value: "None required" },
   { label: "Ads", value: "Free plan only, via AdMob" },
 ];
-
-/** Screens that back the policy's claims: on-device tools and a local library. */
-const screens = (projects.find((p) => p.id === "docyra")?.gallery ?? []).filter((g) =>
-  ["docyra-home", "docyra-tools", "docyra-files"].some((name) => g.src.includes(name)),
-);
 
 const linkClass = "underline decoration-line-strong underline-offset-4 transition hover:decoration-ink";
 
@@ -300,28 +295,6 @@ export default function DocyraPrivacyPage() {
                 </li>
               ))}
             </ul>
-
-            {screens.length ? (
-              <figure className="mt-14 sm:mt-20">
-                <ul className="mx-auto grid max-w-3xl grid-cols-3 items-end gap-3 sm:gap-8">
-                  {screens.map((shot, i) => (
-                    <li key={shot.src} className={i === 1 ? "sm:-translate-y-8" : undefined}>
-                      <Image
-                        src={shot.src}
-                        alt={shot.alt}
-                        width={shot.width}
-                        height={shot.height}
-                        quality={90}
-                        sizes="(max-width: 640px) 30vw, 240px"
-                        className="h-auto w-full drop-shadow-[0_24px_30px_rgba(0,0,0,0.3)]"
-                      />
-                      <p className="mt-4 text-center text-xs leading-snug text-muted">{shot.alt}</p>
-                    </li>
-                  ))}
-                </ul>
-                <figcaption className="eyebrow mt-8 text-center text-muted">Everything you see here runs on your phone</figcaption>
-              </figure>
-            ) : null}
           </Panel>
 
           <Panel tone="gray" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
