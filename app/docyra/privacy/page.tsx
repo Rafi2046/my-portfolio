@@ -273,7 +273,15 @@ export default function DocyraPrivacyPage() {
                   <dt className="eyebrow text-muted">Platform</dt>
                   <dd className="mt-1.5 font-medium">Android</dd>
                 </div>
-                <div className="col-span-2 lg:col-span-1">
+                <div>
+                  <dt className="eyebrow text-muted">See also</dt>
+                  <dd className="mt-1.5 font-medium">
+                    <Link href="/docyra/terms" className={linkClass}>
+                      Terms of Use
+                    </Link>
+                  </dd>
+                </div>
+                <div>
                   <dt className="eyebrow text-muted">Support</dt>
                   <dd className="mt-1.5 font-medium">
                     <a href={`mailto:${SUPPORT_EMAIL}`} className={linkClass}>

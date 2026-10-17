@@ -142,6 +142,14 @@ export default async function CaseStudyPage({
                     Privacy policy
                   </Link>
                 ) : null}
+                {project.terms ? (
+                  <Link
+                    href={project.terms}
+                    className="focus-ring inline-flex h-12 items-center rounded-full border border-line-strong px-6 text-sm font-semibold transition hover:bg-ink hover:text-panel"
+                  >
+                    Terms of use
+                  </Link>
+                ) : null}
                 <Link
                   href="/#contact"
                   className="focus-ring inline-flex h-12 items-center rounded-full border border-line-strong px-6 text-sm font-semibold transition hover:bg-ink hover:text-panel"

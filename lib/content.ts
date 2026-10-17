@@ -137,6 +137,8 @@ export type Project = {
   repo?: string;
   /** The app's privacy policy page on this site. */
   privacy?: string;
+  /** The app's terms of use page on this site. */
+  terms?: string;
 };
 
 export const ownershipCopy: Record<Project["ownership"], { short: string; long: string }> = {
@@ -447,6 +449,7 @@ export const projects: Project[] = [
     ],
     platforms: "Android · iOS",
     privacy: "/docyra/privacy",
+    terms: "/docyra/terms",
   },
   {
     id: "ayurvision",
