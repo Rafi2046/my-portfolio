@@ -7,7 +7,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ArrowUpRight, Panel } from "@/components/Section";
 import { site } from "@/lib/content";
 
-const UPDATED = "October 17, 2026";
+const UPDATED = "October 18, 2026";
 
 /** Temporary: swap for Docyra's own support inbox once it exists. */
 const SUPPORT_EMAIL = site.email;
@@ -140,9 +140,38 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
     title: "Internet use",
     body: (
       <p>
-        Scanning, PDF tools and OCR work without an internet connection. The app uses the internet only to load ads and
-        the consent form, and to buy or restore Docyra Pro through Google Play.
+        Scanning, PDF tools and OCR work without an internet connection. The app uses the internet to load ads and the
+        consent form, to buy or restore Docyra Pro through Google Play, and to send anonymous analytics and crash
+        reports (see below).
       </p>
+    ),
+  },
+  {
+    id: "analytics",
+    title: "Analytics and crash reports (Firebase)",
+    body: (
+      <>
+        <p>
+          To understand app usage and fix crashes, Docyra uses Google Firebase Analytics and Firebase Crashlytics.
+          These may collect app activity (for example which screens or features were used, coarse event names and
+          counts such as pages scanned or which PDF tool ran) and device identifiers used by Google’s services.
+        </p>
+        <List
+          items={[
+            "Your documents, scanned images, PDFs, OCR text, ID or passport data, file names and other personal content are never sent to Analytics or Crashlytics.",
+            "Crash reports are collected in release builds to diagnose failures.",
+            <>
+              Analytics and advertising storage follow your consent choice where Google’s UMP consent form applies (for
+              example EEA/UK). You can change ad privacy choices in{" "}
+              <strong className="font-semibold">Account → Ad privacy choices</strong>.
+            </>,
+            "Data is processed by Google under its terms. Your personal data is never sold, and Analytics is not used to identify you as a person.",
+          ]}
+        />
+        <p className="mt-4">
+          Learn more: <Ext href="https://firebase.google.com/support/privacy" />
+        </p>
+      </>
     ),
   },
   {
@@ -154,7 +183,7 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
           "You are never required to create an account",
           "Your documents are never uploaded to any server",
           "Your personal data is never sold",
-          "There is no developer-run analytics or crash-reporting backend for document content",
+          "There is no developer-run analytics or crash-reporting backend that receives document content",
         ]}
       />
     ),
@@ -169,7 +198,7 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
           ["Photos / files", "Import and export"],
           ["Biometric", "Optional app lock (handled by your device OS)"],
           ["Notifications", "Optional trial-end reminder only"],
-          ["Internet & advertising ID", "Google AdMob and Google Play as described above"],
+          ["Internet & advertising ID", "Google AdMob, Google Play and Firebase as described above"],
         ].map(([name, use]) => (
           <div key={name} className="grid gap-1 py-4 sm:grid-cols-[13rem_1fr] sm:gap-6">
             <dt className="font-semibold text-ink">{name}</dt>
