@@ -9,8 +9,7 @@ import { site } from "@/lib/content";
 
 const UPDATED = "October 17, 2026";
 
-/** Temporary: swap for Docyra's own support inbox once it exists. */
-const SUPPORT_EMAIL = site.email;
+const SUPPORT_EMAIL = "irrdevlabs.support@gmail.com";
 
 const title = "Terms of Use — Docyra";
 const description = "Terms of Use for Docyra, an offline-first document scanner for Android by Ishmak Rahat Rafi.";
