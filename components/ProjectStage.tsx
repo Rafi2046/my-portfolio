@@ -178,6 +178,21 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
         </>
       );
 
+    // The club logo's four coloured hands, circling the phone, with real cards floating off it.
+    case "circle":
+      return (
+        <>
+          <span
+            aria-hidden
+            className="stage-spin absolute left-1/2 top-1/2 aspect-square w-[52%] rounded-full opacity-80 [mask:radial-gradient(closest-side,transparent_calc(100%-1cqw),#000_calc(100%-0.9cqw))]"
+            style={{ background: "conic-gradient(#f6c700 0 21%, transparent 0 25%, #219fd9 0 46%, transparent 0 50%, #d9232d 0 71%, transparent 0 75%, #6d9a3a 0 96%, transparent 0)" }}
+          />
+          {a ? <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2" /> : null}
+          {cards[0] ? <Card card={cards[0]} className="left-[5%] top-[24%] w-[30%]" style={{ rotate: "-5deg" }} /> : null}
+          {cards[1] ? <Card card={cards[1]} className="bottom-[14%] right-[5%] w-[30%]" style={{ rotate: "4deg" }} delay={1.2} /> : null}
+        </>
+      );
+
     // A website: the Bangla page behind, the English page in front.
     case "browser": {
       const [front, back] = project.screens ?? [];

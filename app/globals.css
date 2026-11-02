@@ -236,8 +236,12 @@ body {
   from { transform: translate(-50%, -50%) scale(0.6); opacity: 0.7; }
   to { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
 }
+.stage-spin { transform: translate(-50%, -50%); animation: stage-spin 28s linear infinite; }
+@keyframes stage-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .stage-float, .stage-scan, .stage-ring { animation: none; }
+  .stage-float, .stage-scan, .stage-ring, .stage-spin { animation: none; }
   .stage-ring { opacity: 0.25; }
 }
 

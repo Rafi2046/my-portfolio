@@ -18,7 +18,7 @@ export const site = {
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Quran Audio, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
-    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification.",
+    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification. Right now I'm building Ukil Para Sangha, a Bangla club app for my village's sports and welfare association.",
   ],
 } as const;
 
@@ -119,7 +119,7 @@ export type Project = {
   /** Photo of the app on a hand-held phone (transparent PNG/WebP), used as the stage centrepiece. */
   hand?: string;
   /** How the stage presents this app; defaults to fanned phones. */
-  stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "fan" | "browser";
+  stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "circle" | "fan" | "browser";
   /** Cut-out UI pieces or documents floating in the stage. */
   cards?: { src: string; w: number; h: number }[];
   /** Screen recording of the app, with chapter marks in seconds. */
@@ -492,6 +492,57 @@ export const projects: Project[] = [
       { src: "/projects/phones/ayurvision-explore.webp", width: 1144, height: 2392, alt: "Explore the 24-herb library" },
       { src: "/projects/phones/ayurvision-details.webp", width: 1144, height: 2392, alt: "Tulsi overview with botanical info" },
       { src: "/projects/phones/ayurvision-benefits.webp", width: 1144, height: 2392, alt: "Medicinal uses and good sides" },
+    ],
+    platforms: "Android",
+  },
+  {
+    id: "ukilpara",
+    title: "Ukil Para Sangha",
+    tagline: "Club app for a village welfare association",
+    summary: "Dues, fund, members and meetings for my village's sports and welfare club, in Bangla.",
+    description:
+      "A free app I'm building for Ukil Para Sports & Human Welfare Association, my village's club in Shariatpur. It replaces the paper khata, the receipt book and Facebook-only notices: every member sees their dues, the fund and the committee, and the club runs by its own constitution.",
+    highlights: [
+      "Dues worked out in one place on the server: each member sees what they owe and which months are paid, with the 3-month warning from the constitution",
+      "An append-only ledger with a receipt for every taka, rendered as an image so Bangla text survives sharing to WhatsApp",
+      "Members, committee terms and posts, meetings with quorum and resolutions, programmes, blood donors and the constitution in the app",
+      "Supabase with row-level security on every table, Google sign-in, push notifications through FCM, and an offline outbox for entries made without a network",
+    ],
+    story: {
+      problem:
+        "The club's money lived in a paper khata and a receipt book, and news went out only on Facebook. Members argued about who had paid what, and nobody could see the fund.",
+      approach:
+        "I mapped the club's constitution into the app's rules: dues, admission, approvals and who may do what all follow its articles. Supabase keeps the ledger append-only behind row-level security, and the whole app speaks Bangla first.",
+      results: [
+        "61 members, with room for 300–400",
+        "Every taka in or out recorded with a receipt",
+        "Built to the club's constitution, article by article",
+      ],
+    },
+    tags: ["Flutter", "Supabase", "Riverpod", "FCM"],
+    ownership: "personal",
+    role: "Personal project · built end to end",
+    status: "building",
+    tint: "#26330d",
+    icon: "/projects/ukilpara-icon.png",
+    cover: "/projects/cover-ukilpara.jpg",
+    stage: "circle",
+    cards: [
+      { src: "/projects/stage/ukilpara-dues.webp", w: 994, h: 499 },
+      { src: "/projects/stage/ukilpara-term.webp", w: 994, h: 370 },
+    ],
+    video: {
+      src: "/projects/videos/ukilpara",
+      poster: "/projects/videos/ukilpara-poster.webp",
+      chapters: [{ t: 0, label: "Home & dues" }, { t: 6, label: "Month by month" }, { t: 11, label: "Members" }, { t: 16, label: "Committee" }, { t: 20, label: "Constitution" }],
+    },
+    gallery: [
+      { src: "/projects/phones/ukilpara-home.webp", width: 1144, height: 2392, alt: "Home with your dues, upcoming programme and quick actions" },
+      { src: "/projects/phones/ukilpara-mydues.webp", width: 1144, height: 2392, alt: "My dues, month by month" },
+      { src: "/projects/phones/ukilpara-members.webp", width: 1144, height: 2392, alt: "Member directory with posts and member codes" },
+      { src: "/projects/phones/ukilpara-committee.webp", width: 1144, height: 2392, alt: "Advisory council and the current committee's term" },
+      { src: "/projects/phones/ukilpara-event.webp", width: 1144, height: 2392, alt: "Programme page for an iftar mahfil" },
+      { src: "/projects/phones/ukilpara-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
     ],
     platforms: "Android",
   },

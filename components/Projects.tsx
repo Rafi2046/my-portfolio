@@ -111,11 +111,11 @@ export function Projects() {
 
   return (
     <Panel id="projects" tone="light" labelledBy="work-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="work-heading" title="Selected work" counter="03" kicker="Seven apps · one web platform" />
+      <SectionTitle id="work-heading" title="Selected work" counter="03" kicker="Eight apps · one web platform" />
       <p className="mt-8 max-w-3xl text-2xl font-medium leading-snug sm:text-3xl">
-        Seven apps across Quran, finance, fuel, health and on-device AI. Four are live on the stores and used every day.
+        Eight apps across Quran, finance, fuel, health, on-device AI and community. Four are live on the stores and used every day.
         <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
-          Three I built solo for Onesttech, two as part of the Onesttech team, two personal projects, and a
+          Three I built solo for Onesttech, two as part of the Onesttech team, three personal projects, and a
           Bangla code-learning platform from my university team.
         </span>
       </p>
