@@ -118,6 +118,8 @@ export type Project = {
   cover: string;
   /** Photo of the app on a hand-held phone (transparent PNG/WebP), used as the stage centrepiece. */
   hand?: string;
+  /** Photo-real device shot with the app on screen (transparent WebP, 1440×1960), used as the stage centrepiece. */
+  device?: string;
   /** How the stage presents this app; defaults to fanned phones. */
   stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "circle" | "fan" | "browser";
   /** Cut-out UI pieces or documents floating in the stage. */
@@ -526,7 +528,7 @@ export const projects: Project[] = [
     tint: "#26330d",
     icon: "/projects/ukilpara-icon.png",
     cover: "/projects/cover-ukilpara.jpg",
-    hand: "/projects/hands/ukilpara.webp",
+    device: "/projects/devices/ukilpara.webp",
     stage: "circle",
     cards: [
       { src: "/projects/stage/ukilpara-dues.webp", w: 994, h: 499 },
