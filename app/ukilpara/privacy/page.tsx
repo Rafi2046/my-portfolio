@@ -81,8 +81,17 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
               occupation, village/residential area, and postal address.
             </>,
             <>
+              {b("Google account:")} when you sign in with Google, your name, email address and Google profile picture
+              (see Sign-in with Google below).
+            </>,
+            <>
               {b("Contact details:")} primary mobile phone number and optional WhatsApp number used for emergency club
               alerts and membership authentication.
+            </>,
+            <>
+              {b("Optional NID or birth registration number:")} an applicant may give their national ID or birth
+              registration number (numbers only, never an image). It is kept in a separate private record that only the
+              President and the General Secretary can see, and it is never shown in the member directory.
             </>,
             <>
               {b("Voluntary blood donor data:")} blood group (A+, A-, B+, B-, O+, O-, AB+, AB-), donation availability
@@ -123,6 +132,58 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
     ),
   },
   {
+    id: "sign-in",
+    title: "Sign-in with Google",
+    body: (
+      <>
+        <p>
+          Members sign in with their Google account. The app asks Google only for basic sign-in information (the{" "}
+          <code className="text-[0.95em]">openid</code>, <code className="text-[0.95em]">email</code> and{" "}
+          <code className="text-[0.95em]">profile</code> scopes): your name, email address and profile picture. Google
+          confirms who you are to our database provider, Supabase; the app never sees or stores your Google password.
+        </p>
+        <List
+          items={[
+            "Your email address links your Google account to your membership record and is used to recognize you when you sign in again and to verify deletion requests.",
+            "Your email address is not shown to other members.",
+            "We do not read your Gmail, contacts, calendar, Drive or any other Google data.",
+            <>
+              You can remove the app’s access at any time in your Google account under{" "}
+              {b("Security → Third-party apps & services")}.
+            </>,
+          ]}
+        />
+      </>
+    ),
+  },
+  {
+    id: "analytics",
+    title: "Crash reports and analytics (Firebase)",
+    body: (
+      <>
+        <p>
+          To find and fix crashes and to understand how the app is used, the app uses Google Firebase Crashlytics and
+          Firebase Analytics. These may collect crash details (the error, the screen it happened on, the app version),
+          device information (model, Android version, language) and app activity such as which screens and features are
+          used, together with identifiers used by Google’s services.
+        </p>
+        <List
+          items={[
+            "Your phone number, blood group, date of birth, parents’ names, NID or birth registration number, address, money amounts and photos are never sent to Crashlytics or Analytics.",
+            "Crash reports are collected only in the release version of the app.",
+            "This data is used only to keep the app working and improve it. It is not used for advertising, and it is not used to identify you as a person.",
+          ]}
+        />
+        <p className="mt-4">
+          Data is processed by Google under its terms. Learn more:{" "}
+          <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer" className={`${linkClass} break-all`}>
+            https://firebase.google.com/support/privacy
+          </a>
+        </p>
+      </>
+    ),
+  },
+  {
     id: "permissions",
     title: "Device permissions",
     body: (
@@ -133,7 +194,7 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
             ["Camera", "Only if you choose to take a profile picture directly with your device’s camera or capture paper receipts/documents for club verification."],
             ["Photos & storage", "Only to let members select and upload profile photos or event gallery photos from their device."],
             ["Push notifications", "Critical updates, such as emergency blood requests, meeting notices, and official club announcements."],
-            ["Internet", "To communicate securely with our encrypted database servers."],
+            ["Internet", "To sign in with Google, communicate securely with our encrypted database servers, and send crash reports and analytics through Firebase."],
           ].map(([name, use]) => (
             <div key={name} className="grid gap-1 py-4 sm:grid-cols-[13rem_1fr] sm:gap-6">
               <dt className="font-semibold text-ink">{name}</dt>
@@ -165,12 +226,12 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
           </>,
           <>
             {b("Third-party infrastructure:")} data is hosted on enterprise-grade cloud database infrastructure (Supabase
-            PostgreSQL) and notification systems (Google Firebase Cloud Messaging), adhering to global data protection
-            standards (SOC 2, GDPR).
+            PostgreSQL), Google Sign-In, and Google Firebase (Cloud Messaging for notifications, Crashlytics and Analytics
+            as described above), adhering to global data protection standards (SOC 2, GDPR).
           </>,
           <>
-            {b("Zero commercial sharing:")} we do not partner with ad networks, data brokers, or marketing analytics
-            platforms.
+            {b("Zero commercial sharing:")} we do not partner with ad networks, data brokers, or marketing platforms.
+            Firebase Analytics is used only to understand app usage, as described above.
           </>,
         ]}
       />
@@ -238,6 +299,20 @@ const sections: { id: string; title: string; body: ReactNode }[] = [
           {b("7 business days")}, except where limited anonymized transaction logs are legally required for club audit
           archives.
         </p>
+        <List
+          items={[
+            <>
+              {b("Deleted:")} your name, parents’ names, date of birth, phone and WhatsApp numbers, address, occupation,
+              email address and Google sign-in link, profile photo, blood donor details, and your NID or birth
+              registration number.
+            </>,
+            <>
+              {b("Kept, without your name:")} the club’s ledger must stay complete, so your past dues payments and your
+              attendance in meeting records remain, shown only as “সাবেক সদস্য UPS-00NN” (former member and member code).
+              These records can no longer be linked to you by name.
+            </>,
+          ]}
+        />
       </>
     ),
   },
@@ -317,7 +392,7 @@ export default function UkilParaPrivacyPage() {
                     height={56}
                     className="h-12 w-12 rounded-2xl border border-line sm:h-14 sm:w-14"
                   />
-                  <p className="eyebrow text-muted">Ukil Para Sangha · Legal</p>
+                  <p className="eyebrow text-muted">{ORG} · Legal</p>
                 </div>
                 <h1 id="policy-title" className="display mt-6 text-[19vw] sm:text-9xl">
                   Privacy Policy
