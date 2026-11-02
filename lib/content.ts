@@ -118,7 +118,7 @@ export type Project = {
   cover: string;
   /** Photo of the app on a hand-held phone (transparent PNG/WebP), used as the stage centrepiece. */
   hand?: string;
-  /** Photo-real device shot with the app on screen (transparent WebP, 1440×1960), used as the stage centrepiece. */
+  /** Photo-real device shot with the app on screen (transparent WebP), used as the stage centrepiece. */
   device?: string;
   /** How the stage presents this app; defaults to fanned phones. */
   stage?: "hand" | "isometric" | "float" | "scan" | "duo" | "waves" | "circle" | "fan" | "browser";
@@ -199,10 +199,10 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Monthly budget" }, { t: 5, label: "Spending insights" }, { t: 10, label: "Transactions" }, { t: 16, label: "Reports" }],
     },
     gallery: [
-      { src: "/projects/phones/budget-mint-home.webp", width: 1144, height: 2392, alt: "Home with income, expenses, dues and monthly budget" },
-      { src: "/projects/phones/budget-mint-transactions.webp", width: 1144, height: 2392, alt: "Monthly transactions with net balance" },
-      { src: "/projects/phones/budget-mint-insights.webp", width: 1144, height: 2392, alt: "Top spending categories and budget status" },
-      { src: "/projects/phones/budget-mint-reports.webp", width: 1144, height: 2392, alt: "Financial reports and statements" },
+      { src: "/projects/iphone/budget-mint-home.webp", width: 1144, height: 2392, alt: "Home with income, expenses, dues and monthly budget" },
+      { src: "/projects/iphone/budget-mint-transactions.webp", width: 1144, height: 2392, alt: "Monthly transactions with net balance" },
+      { src: "/projects/iphone/budget-mint-insights.webp", width: 1144, height: 2392, alt: "Top spending categories and budget status" },
+      { src: "/projects/iphone/budget-mint-reports.webp", width: 1144, height: 2392, alt: "Financial reports and statements" },
     ],
     platforms: "Android · iOS",
     android:
@@ -247,9 +247,9 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Efficiency" }, { t: 3, label: "Last fill-up" }, { t: 8, label: "Consumption trend" }],
     },
     gallery: [
-      { src: "/projects/phones/fuelsync-home.webp", width: 1144, height: 2392, alt: "Efficiency gauge with mileage, fuel and cost per km" },
-      { src: "/projects/phones/fuelsync-fueling.webp", width: 1144, height: 2392, alt: "Last fill-up, savings and vehicle vitals" },
-      { src: "/projects/phones/fuelsync-stats.webp", width: 1144, height: 2392, alt: "Consumption trend and monthly spending" },
+      { src: "/projects/iphone/fuelsync-home.webp", width: 1144, height: 2392, alt: "Efficiency gauge with mileage, fuel and cost per km" },
+      { src: "/projects/iphone/fuelsync-fueling.webp", width: 1144, height: 2392, alt: "Last fill-up, savings and vehicle vitals" },
+      { src: "/projects/iphone/fuelsync-stats.webp", width: 1144, height: 2392, alt: "Consumption trend and monthly spending" },
     ],
     platforms: "Android",
     android:
@@ -296,10 +296,10 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Today's doses" }, { t: 6, label: "Reminders" }, { t: 11, label: "Medicines & stock" }, { t: 13, label: "Medicine details" }],
     },
     gallery: [
-      { src: "/projects/phones/dosey-home.webp", width: 1144, height: 2392, alt: "Today's medicine reminders" },
-      { src: "/projects/phones/dosey-medicines.webp", width: 1144, height: 2392, alt: "Medicines with stock left and monthly cost" },
-      { src: "/projects/phones/dosey-reminders.webp", width: 1144, height: 2392, alt: "All reminders with on/off toggles" },
-      { src: "/projects/phones/dosey-cost.webp", width: 1144, height: 2392, alt: "Projected monthly medicine cost" },
+      { src: "/projects/iphone/dosey-home.webp", width: 1144, height: 2392, alt: "Today's medicine reminders" },
+      { src: "/projects/iphone/dosey-medicines.webp", width: 1144, height: 2392, alt: "Medicines with stock left and monthly cost" },
+      { src: "/projects/iphone/dosey-reminders.webp", width: 1144, height: 2392, alt: "All reminders with on/off toggles" },
+      { src: "/projects/iphone/dosey-cost.webp", width: 1144, height: 2392, alt: "Projected monthly medicine cost" },
     ],
     platforms: "Android · iOS",
   },
@@ -342,10 +342,10 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Prayer times" }, { t: 2, label: "Quick actions" }, { t: 11, label: "All 114 surahs" }, { t: 16, label: "Word-by-word reader" }],
     },
     gallery: [
-      { src: "/projects/phones/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
-      { src: "/projects/phones/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
-      { src: "/projects/phones/rushd-quran.webp", width: 1144, height: 2392, alt: "All 114 surahs with Meccan and Medinan filters" },
-      { src: "/projects/phones/rushd-hajj.webp", width: 1144, height: 2392, alt: "Hajj & Umrah guide with progress tracking" },
+      { src: "/projects/iphone/rushd-home.webp", width: 1144, height: 2392, alt: "Home with prayer times, Hajj guide and quick actions" },
+      { src: "/projects/iphone/rushd-reader.webp", width: 1144, height: 2392, alt: "Quran reader with word-by-word Bangla and English" },
+      { src: "/projects/iphone/rushd-quran.webp", width: 1144, height: 2392, alt: "All 114 surahs with Meccan and Medinan filters" },
+      { src: "/projects/iphone/rushd-hajj.webp", width: 1144, height: 2392, alt: "Hajj & Umrah guide with progress tracking" },
     ],
     platforms: "Android · iOS · Tablet",
     android:
@@ -391,9 +391,9 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Home & moments" }, { t: 8, label: "Reciters by region" }, { t: 15, label: "Library" }],
     },
     gallery: [
-      { src: "/projects/phones/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
-      { src: "/projects/phones/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
-      { src: "/projects/phones/quran-library.webp", width: 1144, height: 2392, alt: "Library with favourites and collections" },
+      { src: "/projects/iphone/quran-home.webp", width: 1144, height: 2392, alt: "Home with your reciters and continue listening" },
+      { src: "/projects/iphone/quran-reciters.webp", width: 1144, height: 2392, alt: "Reciters by riwayah, region and audio translation" },
+      { src: "/projects/iphone/quran-library.webp", width: 1144, height: 2392, alt: "Library with favourites and collections" },
     ],
     platforms: "Android · iOS",
     android:
@@ -430,6 +430,7 @@ export const projects: Project[] = [
     tint: "#0c1e3d",
     icon: "/projects/docyra-icon.png",
     cover: "/projects/cover-docyra.jpg",
+    device: "/projects/devices/docyra.webp",
     stage: "scan",
     cards: [
       { src: "/projects/stage/doc-invoice.webp", w: 636, h: 900 },
@@ -442,12 +443,12 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Recent files" }, { t: 5, label: "Document pages" }, { t: 7, label: "Page preview" }, { t: 13, label: "Library" }, { t: 15, label: "Offline toolkit" }],
     },
     gallery: [
-      { src: "/projects/phones/docyra-home.webp", width: 1144, height: 2392, alt: "Home with quick tools and recent files" },
-      { src: "/projects/phones/docyra-files.webp", width: 1144, height: 2392, alt: "Library with folders and filters" },
-      { src: "/projects/phones/docyra-tools.webp", width: 1144, height: 2392, alt: "Offline toolkit: scan, OCR, ID cards, PDF edit" },
-      { src: "/projects/phones/docyra-document.webp", width: 1144, height: 2392, alt: "Document pages with edit, PDF and OCR actions" },
-      { src: "/projects/phones/docyra-preview.webp", width: 1144, height: 2392, alt: "Full-page preview of a scanned invoice" },
-      { src: "/projects/phones/docyra-account.webp", width: 1144, height: 2392, alt: "Account with storage stats and scanner settings" },
+      { src: "/projects/iphone/docyra-home.webp", width: 1144, height: 2392, alt: "Home with quick tools and recent files" },
+      { src: "/projects/iphone/docyra-files.webp", width: 1144, height: 2392, alt: "Library with folders and filters" },
+      { src: "/projects/iphone/docyra-tools.webp", width: 1144, height: 2392, alt: "Offline toolkit: scan, OCR, ID cards, PDF edit" },
+      { src: "/projects/iphone/docyra-document.webp", width: 1144, height: 2392, alt: "Document pages with edit, PDF and OCR actions" },
+      { src: "/projects/iphone/docyra-preview.webp", width: 1144, height: 2392, alt: "Full-page preview of a scanned invoice" },
+      { src: "/projects/iphone/docyra-account.webp", width: 1144, height: 2392, alt: "Account with storage stats and scanner settings" },
     ],
     platforms: "Android · iOS",
     privacy: "/docyra/privacy",
@@ -490,10 +491,10 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Scan or upload" }, { t: 3, label: "Explore 24 herbs" }, { t: 8, label: "Herb details" }, { t: 11, label: "Uses & precautions" }],
     },
     gallery: [
-      { src: "/projects/phones/ayurvision-home.webp", width: 1144, height: 2392, alt: "Home with scan, upload and herb of the day" },
-      { src: "/projects/phones/ayurvision-explore.webp", width: 1144, height: 2392, alt: "Explore the 24-herb library" },
-      { src: "/projects/phones/ayurvision-details.webp", width: 1144, height: 2392, alt: "Tulsi overview with botanical info" },
-      { src: "/projects/phones/ayurvision-benefits.webp", width: 1144, height: 2392, alt: "Medicinal uses and good sides" },
+      { src: "/projects/iphone/ayurvision-home.webp", width: 1144, height: 2392, alt: "Home with scan, upload and herb of the day" },
+      { src: "/projects/iphone/ayurvision-explore.webp", width: 1144, height: 2392, alt: "Explore the 24-herb library" },
+      { src: "/projects/iphone/ayurvision-details.webp", width: 1144, height: 2392, alt: "Tulsi overview with botanical info" },
+      { src: "/projects/iphone/ayurvision-benefits.webp", width: 1144, height: 2392, alt: "Medicinal uses and good sides" },
     ],
     platforms: "Android",
   },
@@ -528,7 +529,7 @@ export const projects: Project[] = [
     tint: "#26330d",
     icon: "/projects/ukilpara-icon.png",
     cover: "/projects/cover-ukilpara.jpg",
-    device: "/projects/devices/ukilpara.webp",
+    device: "/projects/devices/ukilpara-pair.webp",
     stage: "circle",
     cards: [
       { src: "/projects/stage/ukilpara-dues.webp", w: 994, h: 499 },
@@ -540,12 +541,12 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Home & dues" }, { t: 6, label: "Month by month" }, { t: 11, label: "Members" }, { t: 16, label: "Committee" }, { t: 20, label: "Constitution" }],
     },
     gallery: [
-      { src: "/projects/phones/ukilpara-ios-home.webp", width: 1144, height: 2392, alt: "Home with your dues, upcoming programme and quick actions" },
-      { src: "/projects/phones/ukilpara-ios-mydues.webp", width: 1144, height: 2392, alt: "My dues, month by month" },
-      { src: "/projects/phones/ukilpara-ios-members.webp", width: 1144, height: 2392, alt: "Member directory with posts and member codes" },
-      { src: "/projects/phones/ukilpara-ios-committee.webp", width: 1144, height: 2392, alt: "Advisory council and the current committee's term" },
-      { src: "/projects/phones/ukilpara-ios-event.webp", width: 1144, height: 2392, alt: "Programme page for an iftar mahfil" },
-      { src: "/projects/phones/ukilpara-ios-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
+      { src: "/projects/iphone/ukilpara-home.webp", width: 1144, height: 2392, alt: "Home with your dues, upcoming programme and quick actions" },
+      { src: "/projects/iphone/ukilpara-mydues.webp", width: 1144, height: 2392, alt: "My dues, month by month" },
+      { src: "/projects/iphone/ukilpara-members.webp", width: 1144, height: 2392, alt: "Member directory with posts and member codes" },
+      { src: "/projects/iphone/ukilpara-committee.webp", width: 1144, height: 2392, alt: "Advisory council and the current committee's term" },
+      { src: "/projects/iphone/ukilpara-event.webp", width: 1144, height: 2392, alt: "Programme page for an iftar mahfil" },
+      { src: "/projects/iphone/ukilpara-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
     ],
     platforms: "Android",
   },
@@ -604,17 +605,17 @@ export const process = [
   {
     word: "Plan",
     text: "I start from the people using the app: the flows they repeat every day, the data that must survive offline, and the languages they read in. Then I set the architecture before writing screens.",
-    image: "/projects/phones/fuelsync-home.webp",
+    image: "/projects/iphone/fuelsync-home.webp",
   },
   {
     word: "Build",
     text: "Feature by feature in Flutter, with Riverpod state, Drift or Firebase storage and tests next to the code. Every screen is checked on real phones and tablets, in English and Bangla.",
-    image: "/projects/phones/rushd-home.webp",
+    image: "/projects/iphone/rushd-home.webp",
   },
   {
     word: "Ship",
     text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four apps I worked on are live on Google Play and the App Store.",
-    image: "/projects/phones/dosey-home.webp",
+    image: "/projects/iphone/dosey-home.webp",
   },
 ] as const;
 
