@@ -550,6 +550,7 @@ export const projects: Project[] = [
       { src: "/projects/screens/ukilpara-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
     ],
     platforms: "Android",
+    privacy: "/ukilpara/privacy",
   },
   {
     id: "ekushey-coding",
