@@ -526,6 +526,7 @@ export const projects: Project[] = [
     tint: "#26330d",
     icon: "/projects/ukilpara-icon.png",
     cover: "/projects/cover-ukilpara.jpg",
+    hand: "/projects/hands/ukilpara.webp",
     stage: "circle",
     cards: [
       { src: "/projects/stage/ukilpara-dues.webp", w: 994, h: 499 },

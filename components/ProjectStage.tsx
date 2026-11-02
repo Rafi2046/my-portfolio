@@ -178,7 +178,7 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
         </>
       );
 
-    // The club logo's four coloured hands, circling the phone, with real cards floating off it.
+    // The club logo's four coloured hands circling the phone (held out to the camera when there's a photo), with real cards floating off it.
     case "circle":
       return (
         <>
@@ -187,9 +187,16 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
             className="stage-spin absolute left-1/2 top-1/2 aspect-square w-[52%] rounded-full opacity-80 [mask:radial-gradient(closest-side,transparent_calc(100%-1cqw),#000_calc(100%-0.9cqw))]"
             style={{ background: "conic-gradient(#f6c700 0 21%, transparent 0 25%, #219fd9 0 46%, transparent 0 50%, #d9232d 0 71%, transparent 0 75%, #6d9a3a 0 96%, transparent 0)" }}
           />
-          {a ? <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2" /> : null}
-          {cards[0] ? <Card card={cards[0]} className="left-[5%] top-[24%] w-[30%]" style={{ rotate: "-5deg" }} /> : null}
-          {cards[1] ? <Card card={cards[1]} className="bottom-[14%] right-[5%] w-[30%]" style={{ rotate: "4deg" }} delay={1.2} /> : null}
+          {project.hand ? (
+            // The phone sits at 36% of the photo's width, so shift it to the centre.
+            <div className="absolute bottom-0 left-1/2 h-full -translate-x-[33%]" style={{ aspectRatio: "1600 / 1440" }}>
+              <Image src={project.hand} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 120vw, 1100px" className="object-contain" />
+            </div>
+          ) : a ? (
+            <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2" />
+          ) : null}
+          {cards[0] ? <Card card={cards[0]} className={`left-[4%] top-[24%] ${project.hand ? "w-[25%]" : "w-[30%]"}`} style={{ rotate: "-5deg" }} /> : null}
+          {cards[1] ? <Card card={cards[1]} className={`bottom-[14%] right-[4%] ${project.hand ? "w-[26%]" : "w-[30%]"}`} style={{ rotate: "4deg" }} delay={1.2} /> : null}
         </>
       );
 
