@@ -43,6 +43,8 @@ export default async function CaseStudyPage({
   const index = projects.findIndex((p) => p.id === slug);
   if (index === -1) notFound();
   const project = projects[index];
+  // A word like "ASSOCIATION" won't fit a phone at the usual size.
+  const longWord = Math.max(...project.title.split(" ").map((w) => w.length)) > 9;
   const next = projects[(index + 1) % projects.length];
 
   const meta = [
@@ -83,7 +85,7 @@ export default async function CaseStudyPage({
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap items-end gap-x-5 gap-y-2">
-                <h1 id="case-title" className="display text-[22vw] sm:text-9xl">
+                <h1 id="case-title" className={`display ${longWord ? "text-[16vw]" : "text-[22vw]"} sm:text-9xl`}>
                   {project.title}
                 </h1>
                 <p className="pb-2 text-lg text-muted">

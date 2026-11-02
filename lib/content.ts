@@ -18,7 +18,7 @@ export const site = {
   about: [
     "I'm a Flutter developer at Onesttech Software Solutions in Dhaka. Most of my day goes into products that are already in people's hands — RUSHD, Quran Audio, Budget Mint and FuelSync are all live on the stores.",
     "I like owning an app end to end: architecture, offline storage, background audio and alarms, localization in English and Bangla, tests, and the store release at the end of it.",
-    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification. Right now I'm building Ukil Para Sangha, a Bangla club app for my village's sports and welfare association.",
+    "At Onesttech I also built Budget Mint, FuelSync and Dosey on my own, end to end. Outside work I build personal projects — Docyra, an offline document scanner, and AyurVision, the AI herb identifier I built for my BSc thesis — to push into ML Kit, OpenCV and image classification. Right now I'm building a Bangla club app for Ukil Para Sports & Human Welfare Association in my village.",
   ],
 } as const;
 
@@ -497,11 +497,11 @@ export const projects: Project[] = [
   },
   {
     id: "ukilpara",
-    title: "Ukil Para Sangha",
+    title: "Ukil Para Sports & Human Welfare Association",
     tagline: "Club app for a village welfare association",
     summary: "Dues, fund, members and meetings for my village's sports and welfare club, in Bangla.",
     description:
-      "A free app I'm building for Ukil Para Sports & Human Welfare Association, my village's club in Shariatpur. It replaces the paper khata, the receipt book and Facebook-only notices: every member sees their dues, the fund and the committee, and the club runs by its own constitution.",
+      "A free app I'm building for my village's sports and welfare club in Shariatpur. It replaces the paper khata, the receipt book and Facebook-only notices: every member sees their dues, the fund and the committee, and the club runs by its own constitution.",
     highlights: [
       "Dues worked out in one place on the server: each member sees what they owe and which months are paid, with the 3-month warning from the constitution",
       "An append-only ledger with a receipt for every taka, rendered as an image so Bangla text survives sharing to WhatsApp",
@@ -537,12 +537,12 @@ export const projects: Project[] = [
       chapters: [{ t: 0, label: "Home & dues" }, { t: 6, label: "Month by month" }, { t: 11, label: "Members" }, { t: 16, label: "Committee" }, { t: 20, label: "Constitution" }],
     },
     gallery: [
-      { src: "/projects/phones/ukilpara-home.webp", width: 1144, height: 2392, alt: "Home with your dues, upcoming programme and quick actions" },
-      { src: "/projects/phones/ukilpara-mydues.webp", width: 1144, height: 2392, alt: "My dues, month by month" },
-      { src: "/projects/phones/ukilpara-members.webp", width: 1144, height: 2392, alt: "Member directory with posts and member codes" },
-      { src: "/projects/phones/ukilpara-committee.webp", width: 1144, height: 2392, alt: "Advisory council and the current committee's term" },
-      { src: "/projects/phones/ukilpara-event.webp", width: 1144, height: 2392, alt: "Programme page for an iftar mahfil" },
-      { src: "/projects/phones/ukilpara-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
+      { src: "/projects/phones/ukilpara-ios-home.webp", width: 1144, height: 2392, alt: "Home with your dues, upcoming programme and quick actions" },
+      { src: "/projects/phones/ukilpara-ios-mydues.webp", width: 1144, height: 2392, alt: "My dues, month by month" },
+      { src: "/projects/phones/ukilpara-ios-members.webp", width: 1144, height: 2392, alt: "Member directory with posts and member codes" },
+      { src: "/projects/phones/ukilpara-ios-committee.webp", width: 1144, height: 2392, alt: "Advisory council and the current committee's term" },
+      { src: "/projects/phones/ukilpara-ios-event.webp", width: 1144, height: 2392, alt: "Programme page for an iftar mahfil" },
+      { src: "/projects/phones/ukilpara-ios-constitution.webp", width: 1144, height: 2392, alt: "The club's constitution, readable in the app" },
     ],
     platforms: "Android",
   },
