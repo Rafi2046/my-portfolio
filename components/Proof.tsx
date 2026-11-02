@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ContributionGraph } from "@/components/ContributionGraph";
 import { ArrowUpRight, CountUp, Panel, SectionTitle } from "@/components/Section";
-import { getContributions, GITHUB_USER } from "@/lib/github";
+import { getContributions, getYearStats, GITHUB_USER } from "@/lib/github";
 import { ownershipCopy, projects, storeProof } from "@/lib/content";
 import { getStoreStats, type StoreStats } from "@/lib/stores";
 
@@ -27,21 +27,20 @@ function best(apps: (StoreStats & { project: { title: string } })[], rating: (a:
 
 /** Live apps, public store ratings and a year of commits — numbers anyone can check. */
 export async function Proof() {
-  const [contributions, stores] = await Promise.all([getContributions(), getStoreStats()]);
+  const [contributions, stores, year] = await Promise.all([getContributions(), getStoreStats(), getYearStats()]);
   const live = stores.apps.map((s) => ({ ...s, project: projects.find((p) => p.id === s.id)! }));
   const platforms = live.filter((a) => a.appStore).length;
   const appStoreBest = best(live, (a) => a.appStore?.rating);
   const playBest = best(live, (a) => a.play.rating);
 
-  const lastYear = contributions?.[0];
+  // When the public calendar falls short of the real count, private repositories are hidden from visitors.
+  const privateHidden = (contributions?.[0]?.total ?? 0) < year.commits;
 
   const tiles = [
     { value: String(live.length), label: "Apps live on the stores", note: `${platforms} on both Google Play and the App Store` },
     ...(appStoreBest ? [{ value: appStoreBest.value, label: "App Store rating", note: appStoreBest.note }] : []),
     ...(playBest ? [{ value: playBest.value, label: "Google Play rating", note: playBest.note }] : []),
-    lastYear
-      ? { value: lastYear.total.toLocaleString("en-US"), label: "GitHub contributions", note: "in the last 12 months · updated hourly" }
-      : { value: "1,541", label: "Commits at Onesttech", note: "Five apps, three built solo" },
+    { value: year.commits.toLocaleString("en-US"), label: "Commits on GitHub", note: "in the last 12 months · updated hourly" },
   ];
 
   return (
@@ -122,7 +121,11 @@ export async function Proof() {
             {contributions ? (
               <ContributionGraph
                 ranges={contributions}
-                note="Public contributions only. Most of my day-to-day work is in Onesttech’s private repositories — 1,500+ commits on five apps in 2026."
+                note={
+                  privateHidden
+                    ? `Public repositories only — ${year.commits.toLocaleString("en-US")} commits in the last 12 months counting private ones.`
+                    : "Includes private repositories, shown as counts only."
+                }
               />
             ) : (
               <p className="text-sm text-muted">GitHub is unreachable right now — see the profile for live activity.</p>

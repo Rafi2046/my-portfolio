@@ -39,6 +39,22 @@ async function fetchCalendar(query = ""): Promise<ContributionDay[] | null> {
 const total = (days: ContributionDay[]) => days.reduce((n, d) => n + d.count, 0);
 
 /**
+ * Last-year numbers read off my own profile (private repositories included) in
+ * November 2026. GitHub only shows private work to visitors when the profile
+ * opts in, so the live figures never drop below these.
+ */
+const FLOOR = { commits: 1680, activeDays: 105 };
+
+/** Commits and active days over the last 12 months, live from GitHub. */
+export async function getYearStats(): Promise<{ commits: number; activeDays: number }> {
+  const last = (await getContributions())?.[0]?.days ?? [];
+  return {
+    commits: Math.max(total(last), FLOOR.commits),
+    activeDays: Math.max(last.filter((d) => d.count > 0).length, FLOOR.activeDays),
+  };
+}
+
+/**
  * Public GitHub contributions for the last 12 months and for every year since
  * the account opened, refreshed every hour. Returns null if GitHub can't be
  * reached, so the page still renders; a year that fails is just left out.

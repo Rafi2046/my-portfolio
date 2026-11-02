@@ -229,7 +229,7 @@ export const projects: Project[] = [
       results: [
         "Mileage and cost per km calculated automatically from each full tank",
         "Works fully offline",
-        "Live on Google Play",
+        "Live on Google Play and the App Store",
       ],
     },
     tags: ["Flutter", "Drift", "Maps", "ML Kit"],
@@ -251,9 +251,10 @@ export const projects: Project[] = [
       { src: "/projects/screens/fuelsync-fueling.webp", width: 1144, height: 2392, alt: "Last fill-up, savings and vehicle vitals" },
       { src: "/projects/screens/fuelsync-stats.webp", width: 1144, height: 2392, alt: "Consumption trend and monthly spending" },
     ],
-    platforms: "Android",
+    platforms: "Android · iOS",
     android:
       "https://play.google.com/store/apps/details?id=com.onesttech.fuelsync",
+    ios: "https://apps.apple.com/us/app/fuelsync-mileage-trip-log/id6813072534",
   },
   {
     id: "dosey",
@@ -624,12 +625,12 @@ export const process = [
  * stats daily and falls back to these; Play ratings only come from here.
  */
 export const storeProof = {
-  checked: "October 2026",
+  checked: "November 2026",
   apps: [
-    { id: "rushd", play: { installs: "100+" }, appStore: { rating: 5.0, ratings: 9, version: "3.8.0" } },
-    { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 4, version: "1.0.2" } },
+    { id: "rushd", play: { installs: "100+" }, appStore: { rating: 5.0, ratings: 9, version: "3.9.0" } },
+    { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 6, version: "1.0.3" } },
     { id: "budget-mint", play: { installs: "100+" }, appStore: { version: "1.0.4" } },
-    { id: "fuelsync", play: { installs: "10+" } },
+    { id: "fuelsync", play: { installs: "10+" }, appStore: { version: "1.0.0" } },
   ],
 } as const;
 
@@ -640,7 +641,7 @@ export const experience = [
     title: "Flutter Developer",
     org: "Onesttech Software Solutions",
     summary:
-      "Building and shipping cross-platform Flutter apps for iOS and Android: 1,541 commits over 105 active days across five apps, three of them built solo from scratch.",
+      "Building and shipping cross-platform Flutter apps for iOS and Android: five apps, three of them built solo from scratch.",
     apps: [
       { name: "Budget Mint", detail: "Solo · 734 commits" },
       { name: "FuelSync", detail: "Solo · 392 commits" },

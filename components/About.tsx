@@ -1,14 +1,16 @@
 import { CountUp, Panel, Reveal, ScrollWords } from "@/components/Section";
 import { site } from "@/lib/content";
+import { getYearStats } from "@/lib/github";
 
-const stats = [
-  { value: "1,541", label: "Commits at Onesttech" },
-  { value: "105", label: "Active days at Onesttech" },
-  { value: "4", label: "Apps live on the stores" },
-  { value: "EN·BN", label: "Every app localized" },
-];
+export async function About() {
+  const year = await getYearStats();
+  const stats = [
+    { value: year.commits.toLocaleString("en-US"), label: "Commits in the last 12 months" },
+    { value: String(year.activeDays), label: "Active days in the last 12 months" },
+    { value: "4", label: "Apps live on the stores" },
+    { value: "EN·BN", label: "Every app localized" },
+  ];
 
-export function About() {
   return (
     <Panel id="about" tone="inverse" labelledBy="about-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
       <div className="flex items-start justify-between">
