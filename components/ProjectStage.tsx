@@ -146,7 +146,7 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
             </div>
           ))}
           {project.device ? (
-            <div className="absolute bottom-[2%] left-1/2 h-[94%] -translate-x-1/2" style={{ aspectRatio: "1459 / 1759" }}>
+            <div className="absolute bottom-[2%] left-1/2 h-[94%] -translate-x-1/2" style={{ aspectRatio: "1459 / 1755" }}>
               <Image src={project.device} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 70vw, 640px" className="object-contain" />
             </div>
           ) : a ? (
