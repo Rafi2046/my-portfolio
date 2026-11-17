@@ -27,6 +27,7 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
   // Hover preview: mounted on first hover (desktop pointers only), so the video never loads otherwise.
   const [preview, setPreview] = useState(false);
   const canPreview = Boolean(p.video) && !reduce;
+  const hasInlineVideo = Boolean(p.video);
 
   return (
     <motion.div
@@ -47,13 +48,13 @@ function ProjectCard({ project: p, reduce }: { project: Project; reduce: boolean
         className="focus-ring group block rounded-[1.25rem]"
       >
         <div className="relative overflow-hidden rounded-[1.25rem] [transform:translateZ(0)]">
-          <motion.div style={reduce ? undefined : { scale }} className="transition-[filter] duration-500 group-hover:brightness-110">
+          <motion.div style={reduce ? undefined : { scale }} className="transition-transform duration-500 ease-out group-hover:scale-[1.012]">
             <StageMorph id={p.id}>
-              <ProjectStage project={p} compact className="aspect-[4/3.4]" />
+              <ProjectStage project={p} compact isHovered={preview} className="aspect-[4/3.4]" />
             </StageMorph>
           </motion.div>
           <AnimatePresence>
-            {preview && p.video ? (
+            {!hasInlineVideo && preview && p.video ? (
               <motion.div
                 key="preview"
                 aria-hidden

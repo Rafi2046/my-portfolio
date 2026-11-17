@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { CSSProperties, PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { motion, useReducedMotion, useSpring } from "framer-motion";
 import type { Project } from "@/lib/content";
 
@@ -13,6 +13,7 @@ type Props = {
   compact?: boolean;
   priority?: boolean;
   className?: string;
+  isHovered?: boolean;
 };
 
 type Shot = NonNullable<Project["gallery"]>[number];
@@ -76,31 +77,204 @@ const SCAN_SPOTS = [
   "right-[14%] bottom-[-8%] w-[22%] -rotate-[4deg]",
 ];
 
+/** Ultra-smooth, lazy-loaded CSS phone mockup with video playback on hover (ANML style). */
+function StagePhoneVideo({
+  video,
+  title,
+  poster,
+  isHovered,
+  className = "",
+  style,
+}: {
+  video: NonNullable<Project["video"]>;
+  title: string;
+  poster: string;
+  isHovered?: boolean;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  useEffect(() => {
+    if (isHovered && !hasInteracted) {
+      setHasInteracted(true);
+    }
+    const v = videoRef.current;
+    if (!v) return;
+    if (isHovered) {
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+    }
+  }, [isHovered, hasInteracted]);
+
+  return (
+    <div className={`absolute select-none pointer-events-none ${className}`} style={{ aspectRatio: "9 / 19.5", ...style }}>
+      {/* Phone chassis: ultra-deep obsidian titanium edge, black bezel, realistic cinematic shadow */}
+      <div className="absolute inset-0 rounded-[15%/7%] bg-[linear-gradient(150deg,#38383c_0%,#141416_30%,#08080a_70%,#26262a_100%)] p-[1.1%] shadow-[0_25px_50px_-10px_rgba(0,0,0,0.7),0_0_25px_rgba(0,0,0,0.35)] drop-shadow-[0_2.5cqw_3.5cqw_rgba(0,0,0,0.55)]">
+        <div className="h-full w-full rounded-[14%/6.5%] bg-black p-[2.3%]">
+          <div className="relative h-full w-full overflow-hidden rounded-[12%/5.6%] bg-black ring-1 ring-inset ring-black/40">
+            {/* Crisp static poster displayed instantly without video decode lag */}
+            <Image
+              src={poster}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 60vw, 420px"
+              quality={90}
+              className={`object-cover object-top transition-opacity duration-300 ${isHovered && hasInteracted ? "opacity-0" : "opacity-100"}`}
+            />
+            {/* Live video mounted on first hover for 120fps performance */}
+            {hasInteracted ? (
+              <video
+                ref={videoRef}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                aria-label={`${title} app preview`}
+                className={`h-full w-full object-cover object-top transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
+              >
+                <source src={`${video.src}.webm`} type="video/webm" />
+                <source src={`${video.src}.mp4`} type="video/mp4" />
+              </video>
+            ) : null}
+            {/* Dynamic island */}
+            <span aria-hidden className="absolute left-1/2 top-[1.6%] h-[3.4%] w-[30%] -translate-x-1/2 rounded-full bg-black z-10" />
+            {/* Soft glass reflection */}
+            <span aria-hidden className="absolute -inset-y-full -left-1/2 w-full rotate-12 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent z-10" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Each app gets the presentation that suits it, not one template for all. */
-function Scene({ project, priority }: { project: Project; priority?: boolean }) {
+function Scene({ project, priority, compact, isHovered }: { project: Project; priority?: boolean; compact?: boolean; isHovered?: boolean }) {
   const shots = project.gallery ?? [];
   const [a, b, c] = shots;
   const cards = project.cards ?? [];
   const variant = project.stage ?? (shots.length ? "fan" : "icon");
 
   switch (variant) {
-    // Phone in hand, flanked by two blurred screens.
+    // Phone in hand fallback or trio fan: elegant center hero phone with video, flanked by companion screens
     case "hand":
+    case "fan": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
       return (
         <>
-          {b ? <Phone shot={b} className="bottom-[10%] left-1/2 h-[70%]" style={{ transform: "translateX(-145%) rotate(-9deg)", transformOrigin: "50% 100%", filter: "brightness(.6) blur(.15cqw)" }} /> : null}
-          {c ? <Phone shot={c} className="bottom-[10%] left-1/2 h-[70%]" style={{ transform: "translateX(45%) rotate(9deg)", transformOrigin: "50% 100%", filter: "brightness(.6) blur(.15cqw)" }} /> : null}
-          {project.hand ? (
-            // The phone sits at 41% of the photo's width, so shift it to the centre.
-            <div className="absolute left-1/2 top-[7%] h-[134%] -translate-x-[41%]" style={{ aspectRatio: "1100 / 1476" }}>
-              <Image src={project.hand} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 80vw, 720px" className="object-contain drop-shadow-[0_3cqw_4cqw_rgba(0,0,0,0.45)]" />
-            </div>
-          ) : null}
+          {[b, c].map((s, i) =>
+            s ? (
+              <motion.div
+                key={s.src}
+                className="absolute bottom-[8%] left-1/2 h-[84%]"
+                style={{
+                  aspectRatio: `${s.width} / ${s.height}`,
+                  transformOrigin: "50% 100%",
+                }}
+                animate={
+                  isHovered
+                    ? {
+                        x: `calc(-50% + ${i === 0 ? -74 : 74}%)`,
+                        rotate: i === 0 ? -12 : 12,
+                        scale: 0.88,
+                        filter: "brightness(0.85)",
+                      }
+                    : {
+                        x: `calc(-50% + ${i === 0 ? -62 : 62}%)`,
+                        rotate: i === 0 ? -8 : 8,
+                        scale: 0.84,
+                        filter: "brightness(0.72)",
+                      }
+                }
+                transition={springTransition}
+              >
+                <Phone shot={s} className="h-full w-full" />
+              </motion.div>
+            ) : null,
+          )}
+          <motion.div
+            className="absolute bottom-[8%] left-1/2 h-[84%]"
+            style={{
+              aspectRatio: a ? `${a.width} / ${a.height}` : "9 / 19.5",
+              x: "-50%",
+            }}
+            animate={isHovered ? { scale: 1.03, y: -6 } : { scale: 1, y: 0 }}
+            transition={springTransition}
+          >
+            {compact && project.video ? (
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            ) : a ? (
+              <Phone shot={a} priority={priority} className="h-full w-full" />
+            ) : null}
+          </motion.div>
         </>
       );
+    }
 
-    // Phones lying on a tilted plane, with the live gauge standing up in front.
-    case "isometric":
+    // FuelSync: automotive dashboard with live phone swap & efficiency gauge
+    case "isometric": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
+      if (compact && project.video) {
+        return (
+          <>
+            {/* Phone B (Stats graph) — supporting phone, stays behind/fans to right on hover */}
+            {b ? (
+              <motion.div
+                className="absolute bottom-[6%] left-1/2 h-[84%]"
+                style={{ aspectRatio: `${b.width} / ${b.height}` }}
+                animate={
+                  isHovered
+                    ? { x: "18%", y: "4%", rotate: 9, scale: 0.88, filter: "brightness(0.62) blur(0.04cqw)", zIndex: 10 }
+                    : { x: "6%", y: "2%", rotate: 6, scale: 0.9, filter: "brightness(0.68) blur(0.06cqw)", zIndex: 10 }
+                }
+                transition={springTransition}
+              >
+                <Image src={b.src} alt="" fill sizes={PHONE_SIZES} quality={90} className="object-contain drop-shadow-[0_2.5cqw_3cqw_rgba(0,0,0,0.55)]" />
+              </motion.div>
+            ) : null}
+
+            {/* Hero Phone (Trip / Fuel Video) — in FRONT and crisp focus playing video */}
+            <motion.div
+              className="absolute bottom-[6%] left-1/2 h-[88%]"
+              style={{ aspectRatio: "9 / 19.5" }}
+              animate={
+                isHovered
+                  ? { x: "-46%", y: "-3%", rotate: 0, scale: 1.05, filter: "brightness(1) blur(0px)", zIndex: 25 }
+                  : { x: "-50%", y: "0%", rotate: -2, scale: 1, filter: "brightness(1) blur(0px)", zIndex: 20 }
+              }
+              transition={springTransition}
+            >
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            </motion.div>
+
+            {/* Automotive Efficiency Circular Gauge (37.8 km/L) */}
+            {cards[0] ? (
+              <motion.div
+                className="absolute bottom-[8%] right-[6%] w-[26%]"
+                animate={isHovered ? { scale: 1.08, rotate: 3, y: "-2%" } : { scale: 1, rotate: 0, y: "0%" }}
+                transition={springTransition}
+              >
+                <Card card={cards[0]} className="w-full" delay={0.4} />
+              </motion.div>
+            ) : null}
+          </>
+        );
+      }
       return (
         <>
           <div className="absolute inset-0 [perspective:2200px]">
@@ -120,69 +294,222 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
           {cards[0] ? <Card card={cards[0]} className="bottom-[8%] right-[7%] w-[24%]" delay={0.4} /> : null}
         </>
       );
+    }
 
     // One phone with its reminder cards pulled out and floating.
-    case "float":
+    case "float": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
       return (
         <>
-          {a ? <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%]" style={{ transform: "translateX(-50%) rotate(-4deg)" }} /> : null}
-          {cards[0] ? <Card card={cards[0]} className="left-[8%] top-[20%] w-[34%]" style={{ rotate: "-5deg" }} /> : null}
-          {cards[1] ? <Card card={cards[1]} className="bottom-[16%] right-[7%] w-[34%]" style={{ rotate: "4deg" }} delay={1.2} /> : null}
+          <motion.div
+            className="absolute bottom-[6%] left-1/2 h-[86%]"
+            style={{ aspectRatio: "9 / 19.5" }}
+            animate={isHovered ? { x: "-50%", y: "-2%", rotate: -2, scale: 1.02 } : { x: "-50%", y: "0%", rotate: -4, scale: 1 }}
+            transition={springTransition}
+          >
+            {compact && project.video ? (
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            ) : a ? (
+              <Phone shot={a} priority={priority} className="h-full w-full" />
+            ) : null}
+          </motion.div>
+          {cards[0] ? (
+            <motion.div
+              className="absolute left-[8%] top-[20%] w-[34%]"
+              animate={isHovered ? { x: "-8%", y: "-4%", rotate: -7 } : { x: "0%", y: "0%", rotate: -5 }}
+              transition={springTransition}
+            >
+              <Card card={cards[0]} className="w-full" />
+            </motion.div>
+          ) : null}
+          {cards[1] ? (
+            <motion.div
+              className="absolute bottom-[16%] right-[7%] w-[34%]"
+              animate={isHovered ? { x: "8%", y: "4%", rotate: 6 } : { x: "0%", y: "0%", rotate: 4 }}
+              transition={springTransition}
+            >
+              <Card card={cards[1]} className="w-full" delay={1.2} />
+            </motion.div>
+          ) : null}
         </>
       );
+    }
 
-    // Paper documents around the phone, with a scan line sweeping the front page.
-    case "scan":
+    // Paper documents around the phone, with smooth document drift and laser sweep on hover
+    case "scan": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
       return (
         <>
           {cards.slice(0, 3).map((d, i) => (
-            <div key={d.src} className={`absolute ${SCAN_SPOTS[i]}`} style={{ aspectRatio: `${d.w} / ${d.h}` }}>
+            <motion.div
+              key={d.src}
+              className={`absolute ${SCAN_SPOTS[i]}`}
+              style={{ aspectRatio: `${d.w} / ${d.h}` }}
+              animate={
+                isHovered
+                  ? i === 0
+                    ? { x: "-6%", y: "-4%", rotate: -13 }
+                    : i === 1
+                    ? { x: "6%", y: "-3%", rotate: 11 }
+                    : { x: "5%", y: "4%", rotate: -2 }
+                  : { x: "0%", y: "0%" }
+              }
+              transition={springTransition}
+            >
               <div className="stage-float relative h-full w-full overflow-hidden rounded-[0.6cqw] shadow-[0_2cqw_4cqw_rgba(0,0,0,0.45)]" style={{ animationDelay: `${i * 0.7}s` }}>
-                <Image src={d.src} alt="" fill quality={85} sizes="(max-width: 768px) 30vw, 280px" className="object-cover" />
+                <Image src={d.src} alt="" fill quality={85} sizes="(max-width: 768px) 30vw, 280px" className="object-cover brightness-[0.97]" />
                 {i === 0 ? (
                   <span aria-hidden className="stage-scan absolute inset-x-0 h-[3%] bg-gradient-to-b from-transparent via-sky-400/80 to-transparent shadow-[0_0_2cqw_0.6cqw_rgba(56,189,248,0.6)]" />
                 ) : null}
               </div>
-            </div>
+            </motion.div>
           ))}
-          {project.device ? (
-            <div className="absolute bottom-[2%] left-1/2 h-[94%] -translate-x-1/2" style={{ aspectRatio: "1459 / 1755" }}>
-              <Image src={project.device} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 70vw, 640px" className="object-contain" />
-            </div>
-          ) : a ? (
-            <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2" />
+          <motion.div
+            className="absolute bottom-[4%] left-1/2 h-[90%]"
+            style={{ aspectRatio: "9 / 19.5" }}
+            animate={isHovered ? { x: "-50%", y: "-2%", scale: 1.02 } : { x: "-50%", y: "0%", scale: 1 }}
+            transition={springTransition}
+          >
+            {compact && project.video ? (
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            ) : project.device ? (
+              <div className="relative h-full w-full" style={{ aspectRatio: "1459 / 1755" }}>
+                <Image src={project.device} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 70vw, 640px" className="object-contain" />
+              </div>
+            ) : a ? (
+              <Phone shot={a} priority={priority} className="h-full w-full" />
+            ) : null}
+          </motion.div>
+        </>
+      );
+    }
+
+    // Two phones overlapping with smooth 3D depth swap on hover
+    case "duo": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
+      return (
+        <>
+          {/* Phone B (Transactions) — supporting phone, stays behind/fans to right on hover */}
+          {b ? (
+            <motion.div
+              className="absolute bottom-[5%] left-1/2 h-[84%]"
+              style={{ aspectRatio: `${b.width} / ${b.height}` }}
+              animate={
+                isHovered
+                  ? { x: "16%", y: "4%", rotate: 9, scale: 0.88, filter: "brightness(0.62) blur(0.04cqw)", zIndex: 10 }
+                  : { x: "6%", y: "2%", rotate: 6, scale: 0.9, filter: "brightness(0.68) blur(0.06cqw)", zIndex: 10 }
+              }
+              transition={springTransition}
+            >
+              <Image src={b.src} alt="" fill sizes={PHONE_SIZES} quality={90} className="object-contain drop-shadow-[0_2.5cqw_3cqw_rgba(0,0,0,0.55)]" />
+            </motion.div>
+          ) : null}
+
+          {/* Phone A (Budget / Live Video) — HERO PHONE in FRONT, in crisp focus playing video */}
+          <motion.div
+            className="absolute bottom-[6%] left-1/2 h-[88%]"
+            style={{ aspectRatio: "9 / 19.5" }}
+            animate={
+              isHovered
+                ? { x: "-46%", y: "-3%", rotate: 0, scale: 1.05, filter: "brightness(1) blur(0px)", zIndex: 25 }
+                : { x: "-50%", y: "0%", rotate: -2, scale: 1, filter: "brightness(1) blur(0px)", zIndex: 20 }
+            }
+            transition={springTransition}
+          >
+            {compact && project.video ? (
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            ) : a ? (
+              <Phone shot={a} priority={priority} className="h-full w-full" />
+            ) : null}
+          </motion.div>
+
+          {/* Floating balance cards with opposing parallax drift */}
+          {cards[0] ? (
+            <motion.div
+              className="absolute left-[5%] top-[22%] w-[22%]"
+              animate={isHovered ? { x: "-6%", y: "-4%", rotate: -4 } : { x: "0%", y: "0%", rotate: 0 }}
+              transition={springTransition}
+            >
+              <Card card={cards[0]} className="w-full" />
+            </motion.div>
+          ) : null}
+
+          {cards[2] ? (
+            <motion.div
+              className="absolute bottom-[10%] right-[5%] w-[29%]"
+              animate={isHovered ? { x: "5%", y: "4%", rotate: 3 } : { x: "0%", y: "0%", rotate: 0 }}
+              transition={springTransition}
+            >
+              <Card card={cards[2]} className="w-full" delay={1.2} />
+            </motion.div>
           ) : null}
         </>
       );
-
-    // Two phones overlapping, with balance tiles floating off the edges.
-    case "duo":
-      return (
-        <>
-          {b ? <Phone shot={b} className="bottom-[4%] left-1/2 h-[80%]" style={{ transform: "translateX(-4%) rotate(7deg)", filter: "brightness(.8)" }} /> : null}
-          {a ? <Phone shot={a} priority={priority} className="bottom-[8%] left-1/2 h-[86%]" style={{ transform: "translateX(-84%) rotate(-3deg)" }} /> : null}
-          {cards[0] ? <Card card={cards[0]} className="left-[6%] top-[22%] w-[21%]" /> : null}
-          {cards[1] ? <Card card={cards[1]} className="left-[9%] top-[40%] w-[21%]" delay={0.8} /> : null}
-          {cards[2] ? <Card card={cards[2]} className="bottom-[10%] right-[5%] w-[31%]" delay={1.6} /> : null}
-        </>
-      );
+    }
 
     // A single phone with sound rings spreading out behind it.
-    case "waves":
+    case "waves": {
+      const springTransition = { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const };
       return (
         <>
           {[0, 1, 2, 3].map((i) => (
-            <span
+            <motion.span
               key={i}
               aria-hidden
               className="stage-ring absolute left-1/2 top-1/2 aspect-square w-[34%] rounded-full border-[0.25cqw] border-amber-200/50"
               style={{ animationDelay: `${i * 1.1}s` }}
+              animate={isHovered ? { scale: 1.15, opacity: 0.9 } : { scale: 1, opacity: 0.65 }}
+              transition={springTransition}
             />
           ))}
-          {a ? <Phone shot={a} priority={priority} className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2" /> : null}
-          {cards[0] ? <Card card={cards[0]} className="bottom-[12%] left-1/2 w-[40%] -translate-x-[10%]" delay={0.5} /> : null}
+          <motion.div
+            className="absolute bottom-[6%] left-1/2 h-[86%]"
+            style={{ aspectRatio: "9 / 19.5", x: "-50%" }}
+            animate={isHovered ? { scale: 1.025, y: -8 } : { scale: 1, y: 0 }}
+            transition={springTransition}
+          >
+            {compact && project.video ? (
+              <StagePhoneVideo
+                video={project.video}
+                title={project.title}
+                poster={project.video.poster}
+                isHovered={isHovered}
+                className="h-full w-full"
+              />
+            ) : a ? (
+              <Phone shot={a} priority={priority} className="h-full w-full" />
+            ) : null}
+          </motion.div>
+          {cards[0] ? (
+            <motion.div
+              className="absolute bottom-[12%] left-1/2 w-[40%]"
+              animate={isHovered ? { x: "-5%", y: -8, scale: 1.04 } : { x: "-10%", y: 0, scale: 1 }}
+              transition={springTransition}
+            >
+              <Card card={cards[0]} className="w-full" delay={0.5} />
+            </motion.div>
+          ) : null}
         </>
       );
+    }
 
     // The club logo's four coloured hands circling the phone (a photo-real pair when there's one), with real cards floating off it.
     case "circle":
@@ -193,7 +520,15 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
             className="stage-spin absolute left-1/2 top-1/2 aspect-square w-[52%] rounded-full opacity-80 [mask:radial-gradient(closest-side,transparent_calc(100%-1cqw),#000_calc(100%-0.9cqw))]"
             style={{ background: "conic-gradient(#f6c700 0 21%, transparent 0 25%, #219fd9 0 46%, transparent 0 50%, #d9232d 0 71%, transparent 0 75%, #6d9a3a 0 96%, transparent 0)" }}
           />
-          {project.device ? (
+          {compact && project.video ? (
+            <StagePhoneVideo
+              video={project.video}
+              title={project.title}
+              poster={project.video.poster}
+              isHovered={isHovered}
+              className="bottom-[6%] left-1/2 h-[86%] -translate-x-1/2"
+            />
+          ) : project.device ? (
             <div className="absolute bottom-[3%] left-1/2 h-[94%] -translate-x-1/2" style={{ aspectRatio: "1440 / 1960" }}>
               <Image src={project.device} alt="" fill preload={priority} quality={90} sizes="(max-width: 768px) 60vw, 560px" className="object-contain drop-shadow-[0_3cqw_4cqw_rgba(0,0,0,0.45)]" />
             </div>
@@ -217,23 +552,6 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
       );
     }
 
-    case "fan":
-      return (
-        <>
-          {[b, c].map((s, i) =>
-            s ? (
-              <Phone
-                key={s.src}
-                shot={s}
-                className="bottom-[8%] left-1/2 h-[84%]"
-                style={{ transform: `translateX(calc(-50% + ${i === 0 ? -62 : 62}%)) rotate(${i === 0 ? -8 : 8}deg) scale(.84)`, transformOrigin: "50% 100%", filter: "brightness(.72)" }}
-              />
-            ) : null,
-          )}
-          {a ? <Phone shot={a} priority={priority} className="bottom-[8%] left-1/2 h-[84%] -translate-x-1/2" /> : null}
-        </>
-      );
-
     default:
       return (
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -245,7 +563,7 @@ function Scene({ project, priority }: { project: Project; priority?: boolean }) 
 }
 
 /** Tinted showcase of an app, staged in the style that fits it. */
-export function ProjectStage({ project, interactive, compact, priority, className = "" }: Props) {
+export function ProjectStage({ project, interactive, compact, priority, className = "", isHovered }: Props) {
   const reduce = useReducedMotion();
   const tiltX = useSpring(0, { stiffness: 120, damping: 18 });
   const tiltY = useSpring(0, { stiffness: 120, damping: 18 });
@@ -288,7 +606,7 @@ export function ProjectStage({ project, interactive, compact, priority, classNam
       <div aria-hidden className="absolute bottom-[5%] left-1/2 h-[6%] w-[48%] -translate-x-1/2 rounded-[50%] bg-black/55 blur-[2.5cqw]" />
 
       <motion.div className="absolute inset-0 [perspective:1400px]" style={{ rotateX: tiltX, rotateY: tiltY }}>
-        <Scene project={project} priority={priority} />
+        <Scene project={project} priority={priority} compact={compact} isHovered={isHovered} />
       </motion.div>
 
       {/* Inner edge highlight */}

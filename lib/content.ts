@@ -335,8 +335,7 @@ export const projects: Project[] = [
     tint: "#1f4d3c",
     icon: "/projects/rushd-icon.png",
     cover: "/projects/cover-rushd.jpg",
-    hand: "/projects/hands/rushd.webp",
-    stage: "hand",
+    stage: "fan",
     video: {
       src: "/projects/videos/rushd",
       poster: "/projects/videos/rushd-poster.webp",
