@@ -228,7 +228,7 @@ function BuildScene({ p }: { p: MotionValue<number> }) {
         <div className="relative hidden overflow-hidden border-l border-white/10 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(91,140,255,0.18),transparent)] sm:block">
           <motion.div style={{ opacity: phone, y: phoneY }} className="absolute inset-x-0 bottom-[-8%] top-[8%] flex justify-center">
             <div className="relative h-full" style={{ aspectRatio: "1144 / 2392" }}>
-              <Image src="/projects/phones/dosey-home.webp" alt="" fill quality={90} sizes="260px" className="object-contain" />
+              <Image src="/projects/screens/dosey-home.webp" alt="Dosey app preview" fill quality={90} sizes="260px" className="object-contain" />
             </div>
           </motion.div>
         </div>
