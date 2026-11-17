@@ -427,7 +427,7 @@ export const projects: Project[] = [
     tags: ["Flutter", "OpenCV", "ML Kit", "PDF"],
     ownership: "personal",
     role: "Personal project · built end to end",
-    status: "building",
+    status: "live",
     tint: "#0c1e3d",
     icon: "/projects/docyra-icon.png",
     cover: "/projects/cover-docyra.jpg",
@@ -451,7 +451,8 @@ export const projects: Project[] = [
       { src: "/projects/screens/docyra-preview.webp", width: 1144, height: 2392, alt: "Full-page preview of a scanned invoice" },
       { src: "/projects/screens/docyra-account.webp", width: 1144, height: 2392, alt: "Account with storage stats and scanner settings" },
     ],
-    platforms: "Android · iOS",
+    platforms: "Android",
+    android: "https://play.google.com/store/apps/details?id=com.rafi.docyra",
     privacy: "/docyra/privacy",
     terms: "/docyra/terms",
   },
@@ -616,7 +617,7 @@ export const process = [
   },
   {
     word: "Ship",
-    text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Four apps I worked on are live on Google Play and the App Store.",
+    text: "Store listings, release builds and a growth phase after launch: crash reports, rating prompts, faster start-up. Five apps I worked on are live on Google Play and the App Store.",
     image: "/projects/screens/dosey-home.webp",
   },
 ] as const;
@@ -632,6 +633,7 @@ export const storeProof = {
     { id: "quran-audio", play: { installs: "100+", rating: 4.7 }, appStore: { rating: 5.0, ratings: 6, version: "1.0.3" } },
     { id: "budget-mint", play: { installs: "100+" }, appStore: { version: "1.0.4" } },
     { id: "fuelsync", play: { installs: "10+" }, appStore: { version: "1.0.0" } },
+    { id: "docyra", play: { installs: "10+" } },
   ],
 } as const;
 

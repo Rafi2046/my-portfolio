@@ -274,14 +274,14 @@ function PipelineStep({ p, i, label, last }: { p: MotionValue<number>; i: number
 }
 
 function LiveApp({ p, i, app }: { p: MotionValue<number>; i: number; app: (typeof projects)[number] }) {
-  const t = useStage(p, 0.58 + i * 0.07, 0.68 + i * 0.07);
+  const t = useStage(p, 0.56 + i * 0.06, 0.64 + i * 0.06);
   const scale = useTransform(t, [0, 1], [0.92, 1]);
   const opacity = useTransform(t, [0, 1], [0.22, 1]);
   return (
-    <motion.li style={{ opacity, scale }} className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-[#161a21] p-2 text-center sm:gap-2 sm:rounded-2xl sm:p-3 xl:p-4">
-      <Image src={app.icon} alt="" width={56} height={56} className="h-9 w-9 rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl xl:h-14 xl:w-14" />
-      <span className="line-clamp-1 text-[11px] font-semibold sm:text-sm">{app.title}</span>
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#22c55e]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#4ade80]">
+    <motion.li style={{ opacity, scale }} className="flex flex-col items-center gap-1.5 rounded-xl border border-white/10 bg-[#161a21] p-2 text-center sm:gap-2 sm:rounded-2xl sm:p-2.5 xl:p-3">
+      <Image src={app.icon} alt="" width={56} height={56} className="h-9 w-9 rounded-xl sm:h-11 sm:w-11 sm:rounded-2xl xl:h-12 xl:w-12" />
+      <span className="line-clamp-1 text-[11px] font-semibold sm:text-xs xl:text-sm">{app.title}</span>
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#22c55e]/15 px-2 py-0.5 text-[10px] font-medium text-[#4ade80] sm:text-[11px]">
         <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" /> Live
       </span>
     </motion.li>
@@ -305,7 +305,7 @@ function ShipScene({ p }: { p: MotionValue<number> }) {
         </div>
         <div className="flex min-h-0 flex-col">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">On the stores</p>
-          <ul className="mt-4 grid grid-cols-4 gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3">
+          <ul className="mt-4 grid grid-cols-3 gap-2 sm:mt-5 sm:grid-cols-3 sm:gap-2.5 xl:gap-3">
             {LIVE.map((app, i) => (
               <LiveApp key={app.id} p={p} i={i} app={app} />
             ))}
