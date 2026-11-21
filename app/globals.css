@@ -327,3 +327,150 @@ body {
     opacity: 1;
   }
 }
+
+/*
+ * Work globe: app screens that re-form on scroll (globe, cloud, scanned wall, case-study ring).
+ * --r is the sphere radius and the unit every card position is written in; WorkGlobe sets the rest from scroll.
+ */
+.work-globe-stage {
+  --r: min(36vw, 23svh);
+}
+@media (min-width: 768px) {
+  .work-globe-stage {
+    --r: min(19vw, 31svh);
+  }
+}
+.work-globe-anchor {
+  left: 50%;
+  top: 73%;
+  width: 0;
+  height: 0;
+}
+@media (min-width: 768px) {
+  .work-globe-anchor {
+    left: 73%;
+    top: 57%;
+  }
+}
+.work-globe-glow {
+  width: calc(var(--r) * 4);
+  height: calc(var(--r) * 4);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--ink) 9%, transparent), transparent);
+}
+/* Cards are laid out at their largest (wall) size and scaled down elsewhere, so they stay sharp. */
+.work-globe-card {
+  width: calc(var(--r) * 0.36);
+  margin-left: calc(var(--r) * -0.18);
+  margin-top: calc(var(--r) * -0.3764);
+  will-change: transform, opacity;
+}
+.work-globe-chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.3em 0.75em;
+  border-radius: 999px;
+  font-size: max(8px, calc(var(--r) * 0.042));
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+.work-globe-brief {
+  width: calc(var(--r) * 1.5);
+  translate: -50% -50%;
+  font-size: max(7px, calc(var(--r) * 0.05));
+  opacity: var(--ring);
+  scale: calc(0.9 + var(--ring) * 0.1);
+}
+.work-globe-scan {
+  width: calc(var(--r) * 2.2);
+  height: calc(var(--r) * 0.66);
+  /* Centred on the wall's scan row, which sits half a row above the middle. */
+  translate: -50% calc(-50% - var(--r) * 0.305);
+  border-bottom: 2px solid var(--live);
+  border-radius: calc(var(--r) * 0.04);
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--live) 18%, transparent));
+  animation: globe-scan 2.4s ease-in-out infinite alternate;
+}
+@keyframes globe-scan {
+  from {
+    filter: brightness(0.75);
+  }
+  to {
+    filter: brightness(1.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-globe-scan {
+    animation: none;
+  }
+}
+
+/* Case-study card filling in: --p is each piece's own 0–1 progress, eased here. */
+.work-globe-fly,
+.work-globe-fill {
+  --e: calc(var(--p) * var(--p) * (3 - 2 * var(--p)));
+}
+.work-globe-fly {
+  opacity: var(--e);
+  transform: translateX(calc((1 - var(--e)) * var(--from))) scale(calc(0.6 + var(--e) * 0.4));
+}
+.work-globe-fill {
+  transform: scaleX(var(--e));
+}
+/* The line waits until its label has nearly landed. */
+.work-globe-fill-late {
+  --e: clamp(0, calc((var(--p) - 0.6) * 2.5), 1);
+}
+
+/*
+ * Journey keys: chunky keycaps. Every few seconds they press one after another, like something being typed.
+ * The press shortens the cap's side (the 12px offset shadow) as it sinks.
+ */
+.journey-key {
+  --key-up:
+    0 2px 0 #fff inset, 0 -6px 14px rgba(0, 0, 0, 0.08) inset, 0 12px 0 #c9c9c5, 0 30px 50px rgba(0, 0, 0, 0.35);
+  --key-down:
+    0 2px 0 #fff inset, 0 -6px 14px rgba(0, 0, 0, 0.08) inset, 0 3px 0 #c9c9c5, 0 12px 22px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--key-up);
+  animation: journey-key-press 5.4s ease-in-out infinite;
+}
+@keyframes journey-key-press {
+  0%, 7%, 100% {
+    translate: 0 0;
+    box-shadow: var(--key-up);
+  }
+  3.5% {
+    translate: 0 9px;
+    box-shadow: var(--key-down);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-key {
+    animation: none;
+  }
+}
+
+/* Dust specks behind and between the screens; each sheet drifts slowly on its own. */
+.work-globe-dust {
+  width: 2px;
+  height: 2px;
+  margin: -1px;
+  border-radius: 50%;
+  opacity: var(--dust);
+  animation: globe-dust 21s ease-in-out infinite alternate;
+}
+@keyframes globe-dust {
+  to {
+    translate: calc(var(--r) * 0.12) calc(var(--r) * -0.09);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-globe-dust {
+    animation: none;
+  }
+}

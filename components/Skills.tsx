@@ -8,6 +8,12 @@ import { skillGroups, stackMarquee, toolGroups } from "@/lib/content";
 // Bento layout: the first and last cards are wide on large screens.
 const SPAN = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
 
+/** Each tool row rises in on its own, one after another down the column. */
+const toolRow = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
+};
+
 export function Skills() {
   const reduce = useReducedMotion();
   const row = [...stackMarquee, ...stackMarquee];
@@ -53,24 +59,37 @@ export function Skills() {
             {toolGroups.map((g, gi) => (
               <motion.div
                 key={g.title}
-                initial={reduce ? false : { opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={reduce ? false : "hidden"}
+                whileInView="show"
                 viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-                transition={{ duration: 0.7, delay: gi * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: gi * 0.08 } } }}
               >
-                <p className="eyebrow text-muted">{g.title}</p>
+                <motion.p className="eyebrow text-muted" variants={toolRow}>
+                  {g.title}
+                </motion.p>
                 <ul className="mt-4">
                   {g.items.map((t) => (
-                    <li key={t.name} className="flex items-center gap-3 border-b border-line py-2.5">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08)]">
+                    <motion.li
+                      key={t.name}
+                      variants={toolRow}
+                      className="group/tool relative flex items-center gap-3 border-b border-line py-2.5"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition duration-300 ease-out group-hover/tool:-translate-y-0.5 group-hover/tool:scale-110 group-hover/tool:-rotate-3 group-hover/tool:shadow-[0_8px_18px_rgba(0,0,0,0.22)] motion-reduce:transform-none">
                         {t.icon ? (
                           <BrandIcon name={t.icon} color className="h-[18px] w-[18px]" />
                         ) : (
                           <span className="text-sm font-bold text-black/70">{t.name[0]}</span>
                         )}
                       </span>
-                      <span className="text-[15px] font-medium">{t.name}</span>
-                    </li>
+                      <span className="text-[15px] font-medium transition-transform duration-300 ease-out group-hover/tool:translate-x-1 motion-reduce:transform-none">
+                        {t.name}
+                      </span>
+                      {/* The hairline under the row draws in solid on hover. */}
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-ink transition-transform duration-500 ease-out group-hover/tool:scale-x-100"
+                      />
+                    </motion.li>
                   ))}
                 </ul>
               </motion.div>

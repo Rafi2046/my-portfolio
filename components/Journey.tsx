@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { BrandIcon } from "@/components/BrandIcon";
 import { CountUp, Panel, SectionTitle } from "@/components/Section";
 import { journey } from "@/lib/content";
@@ -16,19 +16,49 @@ const TILES = [
   { name: "GitHub", className: "left-[42%] bottom-[0%] h-20 w-20", tilt: "rotateX(24deg) rotateY(8deg) rotateZ(12deg)", depth: 30, delay: "-5.2s" },
 ];
 
-function Tile({ tile, progress, reduce }: { tile: (typeof TILES)[number]; progress: ReturnType<typeof useScroll>["scrollYProgress"]; reduce: boolean }) {
+type Pointer = { x: MotionValue<number>; y: MotionValue<number> };
+
+function Tile({
+  tile,
+  index,
+  progress,
+  pointer,
+  reduce,
+}: {
+  tile: (typeof TILES)[number];
+  index: number;
+  progress: MotionValue<number>;
+  pointer: Pointer;
+  reduce: boolean;
+}) {
   // Nearer tiles drift further as the section scrolls by.
   const y = useTransform(progress, [0, 1], [tile.depth, -tile.depth]);
+  // Each key leans towards the pointer and slides with it; nearer keys move more, which reads as depth.
+  const rotateY = useTransform(pointer.x, [-0.5, 0.5], [-16, 16]);
+  const rotateX = useTransform(pointer.y, [-0.5, 0.5], [12, -12]);
+  const x = useTransform(pointer.x, [-0.5, 0.5], [-tile.depth * 0.22, tile.depth * 0.22]);
   return (
     <motion.div style={reduce ? undefined : { y }} className={`absolute [perspective:700px] ${tile.className}`}>
-      <div className="stage-float h-full w-full" style={{ animationDelay: tile.delay }}>
-        <div
-          className="flex h-full w-full items-center justify-center rounded-[28%] border border-white/70 bg-gradient-to-br from-white to-[#e6e6e3] shadow-[0_2px_0_#fff_inset,0_-6px_14px_rgba(0,0,0,0.08)_inset,0_12px_0_#c9c9c5,0_30px_50px_rgba(0,0,0,0.35)]"
-          style={{ transform: tile.tilt }}
-        >
-          <BrandIcon name={tile.name} color className="h-1/2 w-1/2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.18)]" />
+      {/* Drops in with a bounce, then presses like a key under the pointer. */}
+      <motion.div
+        className="pointer-events-auto h-full w-full cursor-pointer"
+        style={reduce ? undefined : { x, rotateX, rotateY }}
+        initial={reduce ? false : { opacity: 0, scale: 0.3, y: 90 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+        whileHover={reduce ? undefined : { y: 7, scale: 0.95 }}
+        whileTap={reduce ? undefined : { y: 13, scale: 0.9 }}
+        transition={{ type: "spring", stiffness: 260, damping: 15, delay: reduce ? 0 : index * 0.09 }}
+      >
+        <div className="stage-float h-full w-full" style={{ animationDelay: tile.delay }}>
+          <div
+            className="journey-key flex h-full w-full items-center justify-center rounded-[28%] border border-white/70 bg-gradient-to-br from-white to-[#e6e6e3]"
+            style={{ transform: tile.tilt, animationDelay: `${1.5 + index * 0.45}s` }}
+          >
+            <BrandIcon name={tile.name} color className="h-1/2 w-1/2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.18)]" />
+          </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -38,6 +68,9 @@ export function Journey() {
   const reduce = !!useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  // Pointer position over the keys, from -0.5 to 0.5 on each axis, eased so the keys swing rather than snap.
+  const pointerX = useSpring(0, { stiffness: 90, damping: 16 });
+  const pointerY = useSpring(0, { stiffness: 90, damping: 16 });
   const line = useRef<HTMLOListElement>(null);
   const { scrollYProgress: lineProgress } = useScroll({ target: line, offset: ["start 85%", "end 60%"] });
 
@@ -69,9 +102,22 @@ export function Journey() {
           </dl>
         </motion.div>
 
-        <div aria-hidden className="relative hidden h-[30rem] lg:block">
-          {TILES.map((t) => (
-            <Tile key={t.name} tile={t} progress={scrollYProgress} reduce={reduce} />
+        <div
+          aria-hidden
+          className="relative hidden h-[30rem] lg:block"
+          onPointerMove={(e) => {
+            if (reduce || e.pointerType !== "mouse") return;
+            const box = e.currentTarget.getBoundingClientRect();
+            pointerX.set((e.clientX - box.left) / box.width - 0.5);
+            pointerY.set((e.clientY - box.top) / box.height - 0.5);
+          }}
+          onPointerLeave={() => {
+            pointerX.set(0);
+            pointerY.set(0);
+          }}
+        >
+          {TILES.map((t, i) => (
+            <Tile key={t.name} tile={t} index={i} progress={scrollYProgress} pointer={{ x: pointerX, y: pointerY }} reduce={reduce} />
           ))}
         </div>
       </div>

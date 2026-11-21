@@ -7,6 +7,7 @@ import { StageMorph } from "@/components/PageTransition";
 import { PhoneVideo } from "@/components/PhoneVideo";
 import { ProjectStage } from "@/components/ProjectStage";
 import { ArrowUpRight, Panel, SectionTitle } from "@/components/Section";
+import { WorkGlobe } from "@/components/WorkGlobe";
 import { ownershipCopy, projects, statusCopy, type Project } from "@/lib/content";
 
 const filters = [
@@ -111,14 +112,18 @@ export function Projects() {
   );
 
   return (
-    <Panel id="projects" tone="light" labelledBy="work-heading" className="mt-3 px-5 py-14 sm:px-10 sm:py-20">
-      <SectionTitle id="work-heading" title="Selected work" counter="03" kicker="Eight apps · one web platform" />
-      <p className="mt-8 max-w-3xl text-2xl font-medium leading-snug sm:text-3xl">
-        Eight apps across Quran, finance, fuel, health, on-device AI and community. Four are live on the stores and used every day.
-        <span className="mt-4 block text-base font-normal leading-relaxed text-muted sm:text-lg">
-          Three I built solo for Onesttech, two as part of the Onesttech team, three personal projects, and a
-          Bangla code-learning platform from my university team.
-        </span>
+    <Panel id="projects" tone="light" labelledBy="work-heading" className="mt-3">
+      <WorkGlobe>
+        <SectionTitle id="work-heading" title="Selected work" counter="03" kicker="Eight apps · one web platform" />
+        <p className="mt-6 max-w-3xl text-2xl font-medium leading-snug sm:mt-8 sm:text-3xl md:max-w-[46%]">
+          Eight apps across Quran, finance, fuel, health, on-device AI and community. Five are live on the stores and used every day.
+        </p>
+      </WorkGlobe>
+
+      <div className="px-5 pb-14 pt-10 sm:px-10 sm:pb-20">
+      <p className="max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
+        Three I built solo for Onesttech, two as part of the Onesttech team, three personal projects, and a
+        Bangla code-learning platform from my university team.
       </p>
 
       <div role="tablist" aria-label="Filter projects" className="no-scrollbar -mx-5 mt-8 flex gap-1 overflow-x-auto px-5 sm:mx-0 sm:px-0">
@@ -149,6 +154,7 @@ export function Projects() {
               ))}
           </div>
         ))}
+      </div>
       </div>
     </Panel>
   );
